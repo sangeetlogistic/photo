@@ -1,0 +1,2 @@
+(this.webpackJsonpp2p=this.webpackJsonpp2p||[]).push([[24],{1153:function(e,n,t){"use strict";t.r(n),t.d(n,"default",(function(){return r}));t(0);var p=t(1),r=function(){return Object(p.jsx)("div",{children:"GalleryTheme"})}}}]);
+//# sourceMappingURL=24.732c4b00.chunk.js.map

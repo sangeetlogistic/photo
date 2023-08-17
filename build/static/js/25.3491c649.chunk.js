@@ -1,0 +1,2 @@
+(this.webpackJsonpp2p=this.webpackJsonpp2p||[]).push([[25],{1146:function(t,n,c){"use strict";c.r(n),c.d(n,"default",(function(){return r}));var e=c(0),u=c(55),o=c(106),i=c(12),p=c(1),r=function(){var t=Object(u.a)();return Object(e.useEffect)((function(){t(Object(o.f)(i.a.notFound))}),[]),Object(p.jsx)("div",{children:"NotFound"})}}}]);
+//# sourceMappingURL=25.3491c649.chunk.js.map

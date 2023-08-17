@@ -1,0 +1,10 @@
+export const API_SERVER = process.env.REACT_APP_CORE_API_SERVER || '';
+export const STRIPE_PUBLIC_KEY = process.env.REACT_APP_STRIPE_PUBLIC_KEY || '';
+export const ACCESS_ID = process.env.REACT_APP_ACCESS_ID || '';
+export const ACCESS_KEY = process.env.REACT_APP_ACCESS_KEY || '';
+export const REGION = process.env.REACT_APP_REGION || '';
+export const PUBLIC_URL = process.env.REACT_APP_PUBLIC_URL || '';
+export const AWS_UPLOAD_URL = process.env.REACT_APP_AWS_UPLOAD_URL || '';
+export const AWS_UPLOAD_PATH = process.env.REACT_APP_AWS_UPLOAD_PATH || '';
+export const PAYPAL_CLIENT_KEY = process.env.REACT_APP_PAYPAL_CLIENT_KEY || '';
+export const GOOGLE_AUTOCOMPLETE_KEY = process.env.REACT_APP_GOOGLE_AUTOCOMPLETE_KEY || '';

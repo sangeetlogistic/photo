@@ -1,0 +1,2 @@
+(this.webpackJsonpp2p=this.webpackJsonpp2p||[]).push([[26],{1152:function(n,t,c){"use strict";c.r(t),c.d(t,"default",(function(){return i}));c(0);var e=c(1),i=function(){return Object(e.jsxs)("div",{children:[Object(e.jsx)("div",{children:"PRICE LIST"}),Object(e.jsx)("div",{children:"SERVICE & SHIPPING"})]})}}}]);
+//# sourceMappingURL=26.65906658.chunk.js.map

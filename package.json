@@ -76,7 +76,7 @@
     },
     "scripts": {
         "start": "nodemon -w ./src/style/AntDesign/customTheme.less ./src/style/*.scss --exec \"craco start\"",
-        "build": "craco --max_old_space_size=4096 openssl-legacy-provider build",
+        "build": "craco --max_old_space_size=4096 build",
         "prod": "serve -s build",
         "test": "craco test --watchAll=false",
         "eject": "craco eject"

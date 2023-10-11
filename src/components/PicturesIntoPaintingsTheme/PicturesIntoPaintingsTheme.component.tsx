@@ -4,8 +4,11 @@ import styled from 'styled-components';
 import { Colors, Fonts, MediaBreakpoints } from '../../theme';
 
 export const PictureThemeSliderRow = styled(Row)`
-    @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-        margin-bottom: 32px;
+    margin-bottom: 32px;
+    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+        margin-bottom: 2.206vw;
+    }
+    @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
         margin-bottom: 5.206vw;
     }
     .slider-btn {
@@ -55,9 +58,12 @@ export const PictureThemeSliderBlock = styled.div`
         @media (min-width: ${`${MediaBreakpoints.upSm}px`}) {
             min-height: 74vw;
         }
-        @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-            padding: 2.604vw 0 !important;
+        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+            padding: 4.604vw 0 !important;
             min-height: unset;
+        }
+        @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
+            padding: 2.604vw 0 !important;
         }
     }
     .slick-slide {
@@ -87,7 +93,7 @@ export const PictureThemeSliderBlock = styled.div`
                     margin: 0;
                     overflow: hidden;
                     transition: all 0.5s ease;
-                    @media (max-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                    @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
                         height: 180px;
                     }
                     @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {

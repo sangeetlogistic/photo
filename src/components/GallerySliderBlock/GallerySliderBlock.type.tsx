@@ -5,4 +5,5 @@ export interface IGallerySliderBlock {
     mediumsTitle?: string;
     themeDetail?: any;
     mediumDetail?: any;
+    className?: string;
 }

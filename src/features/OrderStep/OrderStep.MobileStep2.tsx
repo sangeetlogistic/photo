@@ -129,13 +129,14 @@ const MobileStep2 = ({
                     <div className="content d-flex">
                         <div>
                             Combine multiple photos to create one Painting &nbsp;
-                            <span className="text-primary fw-bold">(+ $ {`${multipleCombinePhotosPrice}`})</span>
+                            <span className="text-primary fw-bold">(+ ${`${multipleCombinePhotosPrice}`})</span>
                         </div>
                         <Popover
-                            trigger="hover"
+                            trigger="click"
                             content={contentCombinePhotos}
                             arrowPointAtCenter={false}
-                            overlayClassName="order-step-tooltip tooltip-combine-photo"
+                            overlayClassName="order-step-tooltip"
+                            showArrow={false}
                         >
                             <span className="que-icon">?</span>
                         </Popover>
@@ -146,7 +147,13 @@ const MobileStep2 = ({
                     <Checkbox id="ImgUploadCheckBox2" onChange={handleArtistAdvice} checked={artistAdvice}></Checkbox>
                     <div className="content d-flex">
                         The Artist’s advice on which photo(s) will be best for my painting
-                        <Popover content={contentArtistAdvice} arrowPointAtCenter={false} overlayClassName="order-step-tooltip tooltip-artist-advice">
+                        <Popover
+                            trigger="click"
+                            content={contentArtistAdvice}
+                            arrowPointAtCenter={false}
+                            overlayClassName="order-step-tooltip tooltip-artist-advice"
+                            showArrow={false}
+                        >
                             <span className="que-icon">?</span>
                         </Popover>
                     </div>
@@ -169,13 +176,11 @@ const MobileStep2 = ({
             </div>
         </div>
 
-        {savedCardPopup && (
-            <SavedCardPopup
-                savedCardPopup={savedCardPopup}
-                setSavedCardPopup={setSavedCardPopup}
-                setSavedCardProccessComplete={setSavedCardProccessComplete}
-            />
-        )}
+        <SavedCardPopup
+            savedCardPopup={savedCardPopup}
+            setSavedCardPopup={setSavedCardPopup}
+            setSavedCardProccessComplete={setSavedCardProccessComplete}
+        />
     </OrderStep2Cmp>
 );
 

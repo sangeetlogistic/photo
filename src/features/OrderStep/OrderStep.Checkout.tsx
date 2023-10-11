@@ -1,19 +1,18 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable complexity */
 /* eslint-disable max-lines-per-function */
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Col, Row, Card, Input, Form } from 'antd';
-import { useHistory } from 'react-router-dom';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import moment from 'moment';
 import { LoadingOutlined, CloseOutlined } from '@ant-design/icons';
 import { getCountries, getCountryCallingCode } from 'react-phone-number-input';
-
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js/pure';
 import '@stripe/stripe-js';
+
 import { Images } from '../../theme';
 import { OrderCheckOutCmp, OrderSummaryBlockCmp } from './OrderPage.component';
 import CheckboxGroup from '../../components/CheckboxGroup';
@@ -25,7 +24,9 @@ import {
     maxLengthForComments,
     expressServiceChargePer,
     CouponCodeDiscount,
-    normalDebounce,
+    estimatedDaysWithExpress,
+    estimatedDays,
+    sperationDays,
 } from './OrderStep.constants';
 import ContactDetails from './OrderStep.Checkout.ContactDetails';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -36,14 +37,13 @@ import {
     saveOrderAction,
     selectedCouponLoading,
     selectMediumItems,
-    selectSaveOrderError,
     selectThemesItems,
 } from './OrderStep.slice';
 import { Routes } from '../../navigation/Routes';
 import { STRIPE_PUBLIC_KEY } from '../../constants/predicates';
 import { ICheckout } from './OrderStep.types';
-import { dateFormat } from '../../constants/general';
-import { calculateFun, convertBrToN } from '../../utils/func';
+import { dateFormat, monthDayFormat } from '../../constants/general';
+import { calculateFun, convertBrToN, dateSeparation } from '../../utils/func';
 import { LocalStorageKeys } from '../../constants/keys';
 import { useDeviceDetect, useLocalStorage } from '../../hooks';
 import FilledButton from '../../components/FilledButton';
@@ -51,6 +51,7 @@ import { MobileOrderPageMainCmp } from './OrderPage.MobileComponent';
 import MobileHeader from './OrderStep.MobileHeader';
 import MobileCheckout from './OrderStep.MobileCheckout';
 import MobileFooter from './OrderStep.MobileFooter';
+import { useRouter } from 'next/router';
 
 const { TextArea } = Input;
 
@@ -95,12 +96,14 @@ const Checkout = ({
     savedCardProccessComplete,
     setSavedCardPopup,
     clearOrderData,
+    imagePerviewName,
+    setImagePerviewName,
 }: ICheckout) => {
-    const [form] = Form.useForm();
-    const history = useHistory();
+    const [formIns] = Form.useForm();
+
+    const history = useRouter();
     const dispatch = useAppDispatch();
     const localStorage = useLocalStorage();
-    const fillingFormRef = useRef(fillingForm);
     const { isMobile } = useDeviceDetect();
 
     const orderPageDetailStorage = localStorage.getItem(LocalStorageKeys.orderPageDetail)
@@ -113,19 +116,32 @@ const Checkout = ({
     const themesItems = useAppSelector(selectThemesItems);
     const mediumItems = useAppSelector(selectMediumItems);
     const couponLoading = useAppSelector(selectedCouponLoading);
-    const saveOrderErrorError = useAppSelector(selectSaveOrderError);
 
-    const [imagePerviewName, setImagePerviewName] = useState<string[]>([]);
     const [isValidCoupon, setIsValidCoupon] = useState<string>('');
     const [advancedPaymentAmount, setAdvancedPaymentAmount] = useState<null | number>(null);
+    const [estimatedDeliveryDays, setEstimatedDeliveryDays] = useState<{ formattedFutureDate: string; formattedFuture4Date: string }>({
+        formattedFutureDate: '',
+        formattedFuture4Date: '',
+    });
+    const [validPhoneNumber, setValidPhoneNumber] = useState(false);
+
+    const { firstName, lastName, email, phoneNumber, countryCode } = formIns.getFieldsValue();
 
     useEffect(() => {
         setComplateStep4(true);
+        setValidPhoneNumber(true);
+
         return () => {
             dispatch(clearError());
             dispatch(clearSaveOrderError());
         };
     }, []);
+
+    useEffect(() => {
+        const dateRange = dateSeparation(expressService ? estimatedDaysWithExpress : estimatedDays, sperationDays);
+        setEstimatedDeliveryDays(dateRange);
+        localStorage.setItem(LocalStorageKeys.estimatedDeliveryDays, JSON.stringify(dateRange));
+    }, [expressService]);
 
     useEffect(() => {
         const array: string[] = [];
@@ -140,16 +156,6 @@ const Checkout = ({
             setSuccessCouponCode?.('');
         }
     }, [couponLoading]);
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            if (saveOrderErrorError) {
-                dispatch(clearSaveOrderError());
-            }
-        }, normalDebounce);
-
-        return () => clearTimeout(timer);
-    }, [saveOrderErrorError]);
 
     useEffect(() => {
         if (selectPaintingSizeAndPrice && selectedFrame) {
@@ -178,10 +184,6 @@ const Checkout = ({
         setArtistSign(e.target.checked);
     };
 
-    useEffect(() => {
-        fillingFormRef.current = fillingForm;
-    }, [fillingForm]);
-
     const handleSubmitCheckOut = async (
         paymentId: string | undefined,
         paymentMethod: string,
@@ -192,27 +194,17 @@ const Checkout = ({
         let payload: any = {};
 
         const data: any = {
-            firstName:
-                contectDetail?.firstName ||
-                orderPageDetailStorage?.data.fillingForm.firstName ||
-                fillingForm.firstName ||
-                fillingFormRef.current?.firstName,
-            lastName:
-                contectDetail?.surName ||
-                orderPageDetailStorage?.data.fillingForm.lastName ||
-                fillingForm.lastName ||
-                fillingFormRef.current?.lastName,
-            email: contectDetail?.email || orderPageDetailStorage?.data.fillingForm.email || fillingForm.email || fillingFormRef.current?.email,
-            phoneNumber:
-                contectDetail?.phoneNumber ||
-                orderPageDetailStorage?.data.fillingForm.phoneNumber ||
-                fillingForm.phoneNumber ||
-                fillingFormRef.current?.phoneNumber,
+            firstName: firstName || fillingForm.firstName || contectDetail?.firstName || orderPageDetailStorage?.data.fillingForm.firstName,
+            lastName: lastName || fillingForm.lastName || contectDetail?.surName || orderPageDetailStorage?.data.fillingForm.lastName,
+            email: email || fillingForm.email || contectDetail?.email || orderPageDetailStorage?.data.fillingForm.email,
+            phoneNumber: phoneNumber || fillingForm.phoneNumber || contectDetail?.phoneNumber || orderPageDetailStorage?.data.fillingForm.phoneNumber,
             countryCode:
-                getCountryCallingCode(fillingForm.countryCode) ||
-                getCountryCallingCode(orderPageDetailStorage?.data.fillingForm?.countryCode) ||
+                getCountryCallingCode(countryCode) ||
                 getCountryCallingCode(contectDetail?.countryCode) ||
-                fillingFormRef.current?.countryCode,
+                getCountryCallingCode(orderPageDetailStorage?.data.fillingForm?.countryCode) ||
+                getCountryCallingCode(fillingForm.countryCode),
+            countryName:
+                countryCode || contectDetail?.countryCode || orderPageDetailStorage?.data.fillingForm?.countryCode || fillingForm.countryCode,
             paymentMethod_id: paymentId,
             medium_id: mediumItems?.id,
             mediumName: mediumItems?.title,
@@ -228,8 +220,8 @@ const Checkout = ({
             how_my_video_created: videoCreated === videoCreatedPrice,
             how_my_video_created_price: videoCreated,
             estimated_delivery_date: '2023-06-16',
-            estimated_delivery_startDate: moment('August 15', 'MMMM D').year(2023).format('YYYY-MM-DD'),
-            estimated_delivery_endDate: moment('August 19', 'MMMM D').year(2023).format('YYYY-MM-DD'),
+            estimated_delivery_startDate: moment(estimatedDeliveryDays.formattedFutureDate, monthDayFormat).format('YYYY-MM-DD'),
+            estimated_delivery_endDate: moment(estimatedDeliveryDays.formattedFuture4Date, monthDayFormat).format('YYYY-MM-DD'),
             is_rush_delivery: expressService,
             special_note: comments,
             shipping_method: 'Free shipping', // temp
@@ -261,8 +253,8 @@ const Checkout = ({
                 theme_object_id_2: petTheme?.id,
                 themeName1: personTheme?.thmObj,
                 themeName2: petTheme?.thmObj,
-                theme_object_id_1_total: personsCount,
-                theme_object_id_2_total: petsCount,
+                theme_object_id_1_total: personsCount || 0,
+                theme_object_id_2_total: petsCount || 0,
             };
         } else {
             payload = {
@@ -278,12 +270,12 @@ const Checkout = ({
         if (result.type === saveOrderAction.fulfilled.toString()) {
             localStorage.setItem(LocalStorageKeys.authUser, result.payload.token);
             clearOrderData();
-            await history.replace(Routes.thankYou);
+            await history.push(Routes.thankYou);
             await localStorage.removeItem(LocalStorageKeys.orderPageDetail);
             const contectPayload = {
                 firstName: result?.payload?.user?.user?.name || '',
                 surName: result?.payload?.user?.user?.surname || '',
-                countryCode: getCountries().find((item: any) => getCountryCallingCode(item) === result?.payload?.user?.user?.countryCode) || 'US',
+                countryCode: getCountries().find((item: any) => item === result?.payload?.user?.user?.countryName) || 'US',
                 phoneNumber: result?.payload?.user?.user?.phoneNumber || '',
                 email: result?.payload?.user?.user?.email || '',
             };
@@ -306,18 +298,13 @@ const Checkout = ({
                 setSuccessCouponId?.(result.payload);
             } else if (result.type === isValidCouponCodeAction.rejected.toString()) {
                 await setCouponCode?.('');
-
-                if (result?.payload?.code === 404) {
-                    setIsValidCoupon('Woops! Wrong Code');
-                } else if (result?.payload?.code === 409) {
-                    setIsValidCoupon('Woops! This promo code has reached its limit.');
-                }
+                setIsValidCoupon('Woops! Wrong Code');
             }
         }
     };
 
     const calculateTotal = useCallback(
-        (couponCodeAmount) =>
+        (couponCodeAmount: any) =>
             selectPaintingSizeAndPrice &&
             selectedFrame &&
             calculateFun(
@@ -360,8 +347,8 @@ const Checkout = ({
                                                         <img src={themesItems?.image} alt="" className="" />
                                                         {themesItems?.theme === SelectThemes.custom && (
                                                             <div className="d-flex justify-center">
-                                                                <output className="mx-3">{personsCount}</output>
-                                                                <output className="mx-3">{petsCount}</output>
+                                                                <output className="mx-3">{personsCount || 0}</output>
+                                                                <output className="mx-3">{petsCount || 0}</output>
                                                             </div>
                                                         )}
                                                     </figure>
@@ -574,7 +561,14 @@ const Checkout = ({
                                                 <Input
                                                     placeholder={isValidCoupon || 'Enter Discount Code'}
                                                     className="checkoutCoupon_input"
-                                                    onChange={(e: any) => setCouponCode?.(e.target.value)}
+                                                    onChange={(e: any) => {
+                                                        if (!e.target.value && e.target.value === '') {
+                                                            setCouponCode?.('');
+                                                            setSuccessCouponCode?.('');
+                                                            setSuccessCouponId?.(null);
+                                                        }
+                                                        setCouponCode?.(e.target.value);
+                                                    }}
                                                     onPressEnter={handleApplyCouponCode}
                                                     value={couponCode}
                                                 />
@@ -641,14 +635,33 @@ const Checkout = ({
                                     setFillingForm={setFillingForm}
                                     setExpressService={setExpressService}
                                     expressService={expressService}
-                                    form={form}
+                                    formIns={formIns}
+                                    Form={Form}
+                                    estimatedDeliveryDays={estimatedDeliveryDays}
+                                    setValidPhoneNumber={setValidPhoneNumber}
                                 />
                                 {stripePromise && (
                                     <Elements stripe={stripePromise}>
                                         <PaymentMod
                                             handleSubmitCheckOut={handleSubmitCheckOut}
                                             advancedPaymentAmount={advancedPaymentAmount}
-                                            form={form}
+                                            form={formIns}
+                                            firstName={
+                                                firstName ||
+                                                fillingForm?.firstName ||
+                                                contectDetail?.firstName ||
+                                                orderPageDetailStorage?.data?.fillingForm?.firstName
+                                            }
+                                            lastName={
+                                                lastName ||
+                                                fillingForm?.lastName ||
+                                                contectDetail?.surName ||
+                                                orderPageDetailStorage?.data?.fillingForm?.lastName
+                                            }
+                                            email={
+                                                email || fillingForm?.email || contectDetail?.email || orderPageDetailStorage?.data?.fillingForm.email
+                                            }
+                                            validPhoneNumber={validPhoneNumber}
                                         />
                                     </Elements>
                                 )}
@@ -696,9 +709,18 @@ const Checkout = ({
                         fillingForm={fillingForm}
                         setFillingForm={setFillingForm}
                         setExpressService={setExpressService}
-                        form={form}
+                        formIns={formIns}
                         handleSubmitCheckOut={handleSubmitCheckOut}
                         advancedPaymentAmount={advancedPaymentAmount}
+                        estimatedDeliveryDays={estimatedDeliveryDays}
+                        Form={Form}
+                        firstName={
+                            firstName || fillingForm?.firstName || contectDetail?.firstName || orderPageDetailStorage?.data?.fillingForm?.firstName
+                        }
+                        lastName={lastName || fillingForm?.lastName || contectDetail?.surName || orderPageDetailStorage?.data?.fillingForm?.lastName}
+                        email={email || fillingForm?.email || contectDetail?.email || orderPageDetailStorage?.data?.fillingForm.email}
+                        validPhoneNumber={validPhoneNumber}
+                        setValidPhoneNumber={setValidPhoneNumber}
                     />
                     <MobileFooter
                         showProgressBar={showProgressBar}

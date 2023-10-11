@@ -73,6 +73,9 @@ export const loginSlice = createSlice({
         setLoginPopup: (state, action) => {
             state.loginPopup = action.payload;
         },
+        clearError: (state) => {
+            state.error = null;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -112,7 +115,7 @@ export const loginSlice = createSlice({
     },
 });
 
-export const { setLoginPopup } = loginSlice.actions;
+export const { setLoginPopup, clearError } = loginSlice.actions;
 
 export const selectedLoading = (state: RootState) => state.login.loading;
 export const selectedError = (state: RootState) => state.login.error;

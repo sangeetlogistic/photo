@@ -139,6 +139,27 @@ export const googleApplePayAction = createAsyncThunk('orderStep/googleApplePayAc
         } as ErrorType);
     }
 });
+export const zipPayAction = createAsyncThunk('orderStep/ZipPayAction', async (payload: any, { rejectWithValue }) => {
+    try {
+        const response: any = await OrderStepServices.zipPayment(payload);
+        if (response.status === statusCode.success) {
+            return response.data;
+        }
+
+        return rejectWithValue({
+            message: response.message,
+            code: response.code,
+        } as ErrorType);
+    } catch (err: any) {
+        if (!err.response) {
+            throw err;
+        }
+        return rejectWithValue({
+            message: err.response.data.message,
+            code: err.response.data.code,
+        } as ErrorType);
+    }
+});
 
 export interface OrderStepState {
     loading: boolean;
@@ -208,6 +229,9 @@ export const OrderStepSlice = createSlice({
     name: 'orderStep',
     initialState,
     reducers: {
+        setLoading: (state, action) => {
+            state.loading = action.payload;
+        },
         setSelectSize: (state, action) => {
             state.selectSize = action.payload;
         },
@@ -327,6 +351,20 @@ export const OrderStepSlice = createSlice({
                 } else {
                     state.error = action.error as ErrorType;
                 }
+            })
+            .addCase(googleApplePayAction.pending, (state, action: any) => {
+                state.loading = true;
+            })
+            .addCase(googleApplePayAction.fulfilled, (state, action: any) => {
+                state.loading = false;
+            })
+            .addCase(googleApplePayAction.rejected, (state, action: any) => {
+                state.loading = false;
+                if (action.payload) {
+                    state.error = action.payload;
+                } else {
+                    state.error = action.error as ErrorType;
+                }
             });
     },
 });
@@ -345,6 +383,7 @@ export const {
     clearThemeAndMedium,
     setSelectSize,
     clearSaveOrderError,
+    setLoading,
 } = OrderStepSlice.actions;
 
 export const selectLoading = (state: RootState) => state.orderStep.loading;

@@ -1,7 +1,6 @@
 /* eslint-disable max-lines-per-function */
 /* eslint-disable complexity */
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import FilledButton from '../../components/FilledButton';
 import { Routes } from '../../navigation/Routes';
@@ -12,6 +11,7 @@ import { selectedSize, selectMediumItems, selectOrderStep, selectThemesItems, se
 import { IOrderStepFooter } from './OrderStep.types';
 import { LocalStorageKeys } from '../../constants/keys';
 import { useLocalStorage } from '../../hooks';
+import { useRouter } from 'next/router';
 
 const OrderStepFooter = ({
     complateStep2,
@@ -29,7 +29,7 @@ const OrderStepFooter = ({
     setSavedCardPopup,
     savedCardProccessComplete,
 }: IOrderStepFooter) => {
-    const history = useHistory();
+    const history = useRouter();
     const dispatch = useAppDispatch();
     const localStorage = useLocalStorage();
     const authUser = localStorage.getItem(LocalStorageKeys.authUser);
@@ -104,8 +104,8 @@ const OrderStepFooter = ({
                                     <img src={themesItems?.image} alt="" className="" />
                                     {themesItems?.theme === SelectThemes.custom && (
                                         <div className="d-flex">
-                                            <output className="mx-3 pb-2">{personsCount}</output>
-                                            <output className="mx-3 pb-2">{petsCount}</output>
+                                            <output className="mx-3 pb-2">{personsCount || 0}</output>
+                                            <output className="mx-3 pb-2">{petsCount || 0}</output>
                                         </div>
                                     )}
                                 </span>
@@ -127,7 +127,9 @@ const OrderStepFooter = ({
                     )}
                 </div>
                 <div
-                    className={`order-nav-item ${step === OrderSteps.step2 ? 'active' : ''} ${complateStep2 ? 'selected' : ''}`}
+                    className={`order-nav-item ${step === OrderSteps.step2 ? 'active' : ''} ${complateStep2 ? 'selected' : ''} ${
+                        themesItems && mediumItems ? '' : 'pointer-none'
+                    }`}
                     onClick={() => complateStep2 && handleOrderFooter(OrderSteps.step2)}
                     tabIndex={0}
                     role="button"
@@ -155,7 +157,9 @@ const OrderStepFooter = ({
                     )}
                 </div>
                 <div
-                    className={`order-nav-item ${step === OrderSteps.step3 ? 'active' : ''} ${complateStep3 ? 'selected' : ''}`}
+                    className={`order-nav-item ${step === OrderSteps.step3 ? 'active' : ''} ${complateStep3 ? 'selected' : ''} ${
+                        themesItems && mediumItems ? '' : 'pointer-none'
+                    }`}
                     onClick={() => complateStep3 && handleOrderFooter(OrderSteps.step3)}
                     tabIndex={0}
                     role="button"
@@ -184,7 +188,9 @@ const OrderStepFooter = ({
                     )}
                 </div>
                 <div
-                    className={`order-nav-item order-nav-attributes ${step === OrderSteps.step4 ? 'active' : ''} ${complateStep4 ? 'selected' : ''}`}
+                    className={`order-nav-item order-nav-attributes ${step === OrderSteps.step4 ? 'active' : ''} ${complateStep4 ? 'selected' : ''} ${
+                        themesItems && mediumItems ? '' : 'pointer-none'
+                    }`}
                     onClick={() => complateStep4 && handleOrderFooter(OrderSteps.step4)}
                     tabIndex={0}
                     role="button"

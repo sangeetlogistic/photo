@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Checkbox, Col, Form, Input, Row } from 'antd';
 import { getCountries, getCountryCallingCode } from 'react-phone-number-input';
-import { useHistory } from 'react-router-dom';
 
 import { UserLoginPopupCmp } from './OrderPage.component';
 import { LocalStorageKeys } from '../../constants/keys';
@@ -12,11 +11,12 @@ import { useAppDispatch } from '../../app/hooks';
 import FilledButton from '../../components/FilledButton/FilledButton';
 import { Routes } from '../../navigation/Routes';
 import { addMemberDebounce } from './OrderStep.constants';
+import { useRouter } from 'next/router';
 
 const SavedCardPopup = ({ savedCardPopup, setSavedCardPopup, setSavedCardProccessComplete }: any) => {
     const localStorage = useLocalStorage();
     const dispatch = useAppDispatch();
-    const history = useHistory();
+    const history = useRouter();
 
     const [isAgreeInformation, setIsAgreeInformation] = useState(true);
     const [country, setCountry] = useState('US');
@@ -99,7 +99,7 @@ const SavedCardPopup = ({ savedCardPopup, setSavedCardPopup, setSavedCardProcces
                         <PhoneNumber required={false} countryValue={country} handleCountryCode={handleCountryCode} />
                     </Col>
                     <Col>
-                        <div className="d-flex items-center">
+                        <div className="d-flex items-center mt-2">
                             <Form.Item name="contactInformation" valuePropName="checked">
                                 <Checkbox />
                             </Form.Item>
@@ -119,8 +119,8 @@ const SavedCardPopup = ({ savedCardPopup, setSavedCardPopup, setSavedCardProcces
             </Form>
             <div
                 className="link_skip"
-                onClick={() => {
-                    setSavedCardPopup?.(false);
+                onClick={async () => {
+                    await setSavedCardPopup(false);
                     history.push(Routes.orderStep.replace(':id', '3'));
                 }}
                 role="button"
@@ -132,12 +132,13 @@ const SavedCardPopup = ({ savedCardPopup, setSavedCardPopup, setSavedCardProcces
     );
 
     return (
-        <div>
-            {' '}
-            {savedCardPopup && (
-                <UserLoginPopupCmp open={savedCardPopup} closable={false} content={savedCardPopupContent} className="provide_email_popup" />
-            )}
-        </div>
+        <UserLoginPopupCmp
+            open={savedCardPopup}
+            closable={false}
+            onCancel={() => setSavedCardPopup(false)}
+            content={savedCardPopupContent}
+            className="provide_email_popup"
+        />
     );
 };
 

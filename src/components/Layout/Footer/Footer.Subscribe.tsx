@@ -1,7 +1,6 @@
 import { Form, Input, Row, Col } from 'antd';
 import React from 'react';
 import { Images } from '../../../theme';
-import LazyImage from '../../LazyImage';
 
 const Subscribe = () => {
     const onFinish = (values: any) => {
@@ -42,7 +41,7 @@ const Subscribe = () => {
                             <Input placeholder="Enter your email here ..." />
                         </Form.Item>
                         <button className="f-subscription-btn" type="submit">
-                            <LazyImage effect="opacity" src={Images.FooterBtnArrow} alt="" />
+                            <img src={Images.FooterBtnArrow?.src} alt="" />
                         </button>
                     </Col>
                 </Row>

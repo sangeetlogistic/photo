@@ -32,7 +32,7 @@ const MobileStep4 = ({
                 <div className="select-attrs">
                     <Row gutter={{ md: 24 }}>
                         <Col className="gutter-row" span={24}>
-                            {paintingProcess && <BannerVideo bannerVideo={paintingProcess} poster={Images.TourPaintingVideoThumb} />}
+                            {paintingProcess && <BannerVideo bannerVideo={paintingProcess} poster={Images.TourPaintingVideoThumb?.src} />}
                         </Col>
                         <Col className="gutter-row" span={24}>
                             <div className="select-attrs--info">

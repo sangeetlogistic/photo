@@ -30,6 +30,14 @@ export interface IStep1 extends IMobileHeader, IMobileFooter {
             sizeInText: string;
         } | null>
     >;
+    selectPaintingSizeAndPrice: {
+        id: number;
+        price: number;
+        framingServiceAvailable: boolean;
+        title: string;
+        sizeid: number;
+        sizeInText: string;
+    } | null;
     setInitLoad?: React.Dispatch<React.SetStateAction<boolean>>;
     setPersonTheme?: any;
     setPetTheme?: any;
@@ -45,9 +53,7 @@ export interface IStep2 extends IMobileHeader, IMobileFooter {
     showProgressBar: boolean;
     setShowProgressBar: React.Dispatch<React.SetStateAction<boolean>>;
     preview: { url: string; name: string }[];
-    setPreview: React.Dispatch<
-        React.SetStateAction<{ url: string; name: string }[]>
-    >;
+    setPreview: React.Dispatch<React.SetStateAction<{ url: string; name: string }[]>>;
     setRepeatStep2: React.Dispatch<React.SetStateAction<boolean>>;
     setCombinePhotoPrice: (value: React.SetStateAction<undefined>) => void;
     combinePhotoPrice: number | undefined;
@@ -58,9 +64,7 @@ export interface IStep2 extends IMobileHeader, IMobileFooter {
     comments?: string;
     savedCardPopup?: boolean;
     setSavedCardPopup?: React.Dispatch<React.SetStateAction<boolean>>;
-    setSavedCardProccessComplete?: React.Dispatch<
-        React.SetStateAction<boolean>
-    >;
+    setSavedCardProccessComplete?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface IStep3 extends IMobileHeader, IMobileFooter {
@@ -218,6 +222,8 @@ export interface ICheckout extends IMobileHeader, IMobileFooter {
         message: string;
     } | null;
     clearOrderData: () => void;
+    imagePerviewName: string[];
+    setImagePerviewName: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 export interface IOrderStepFooter {

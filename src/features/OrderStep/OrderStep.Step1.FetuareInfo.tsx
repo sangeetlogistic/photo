@@ -1,7 +1,6 @@
 import React from 'react';
 import { Col, Row } from 'antd';
 
-import LazyImage from '../../components/LazyImage';
 import { Images } from '../../theme';
 
 const feture = [
@@ -29,7 +28,7 @@ const FetuareInfo = () => (
             <Col span={4} key={index}>
                 <div className="feature-inner-block">
                     <figure className="">
-                        <LazyImage effect="opacity" src={obj.image} alt="" />
+                        <img src={obj.image?.src} alt="" />
                     </figure>
                     <span>{obj.info}</span>
                 </div>

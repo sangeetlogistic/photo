@@ -2,15 +2,24 @@ import { rgba } from 'polished';
 import styled from 'styled-components';
 
 import Popup from '../../components/Popup';
-import { Colors, Fonts } from '../../theme';
+import { Colors, Fonts, MediaBreakpoints } from '../../theme';
 import { convertPxToVw } from '../../utils/func';
 
 export const LoginPopUpCmp = styled(Popup)`
-    width: 100% !important;
-    max-width: ${convertPxToVw('1005')}vw;
+    max-width: 100%;
+    @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+        padding-bottom: 0;
+        top: unset;
+        margin-top: 3rem;
+        position: fixed;
+        bottom: 0;
+    }
+    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+        max-width: ${convertPxToVw('1005')}vw;
+    }
     .ant-modal-content {
         .ant-modal-body {
-            min-height: 85vh;
+            /* min-height: 85vh; */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -43,23 +52,35 @@ export const LoginPopUpCmp = styled(Popup)`
                 margin-bottom: ${convertPxToVw('27')}vw;
             }
             .login-form {
-                padding: 0 55px;
+                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                    padding: 0 55px;
+                }
                 > .ant-form-item {
-                    margin-bottom: 16px;
+                    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                        margin-bottom: 16px;
+                    }
                     .ant-input {
                         font-family: ${Fonts.titleFont};
                         height: 40px;
                         background: ${rgba(Colors.pageContetBg, 1)};
                         border: 1px solid ${rgba(Colors.reviewCardbrd, 0.5)};
                         border-radius: 8px;
+                        @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+                            font-size: 14px;
+                        }
                     }
+                }
+                .ant-form-item-explain-error {
+                    bottom: -10px;
                 }
                 .ant-bnt {
                     font-family: ${Fonts.titleFont};
                 }
                 .login-btn {
                     height: 48px;
-                    margin-bottom: 27px;
+                    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                        margin-bottom: 27px;
+                    }
                 }
             }
         }

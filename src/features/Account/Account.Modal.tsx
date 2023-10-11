@@ -6,7 +6,7 @@ import { Images } from '../../theme';
 
 import FilledButton from '../../components/FilledButton';
 import { AccountReviewModalCmp } from './Account.component';
-import LazyImage from '../../components/LazyImage';
+import Image from 'next/image';
 
 const AccoutReviewModal = ({
     onCancel,
@@ -27,6 +27,8 @@ const AccoutReviewModal = ({
     const [originalViewImg, setOriginalViewImg] = useState(false);
     const [openMagnifire, setOpenMagnifire] = useState(false);
 
+    const statusWiseContent = useMemo(() => (openPopup <= 3 ? 'Photo' : 'Paiting'), [openPopup?.status]);
+
     const approvePhotoPopupContent = useMemo(
         () => (
             <div className={`account-review-modal-data-block ${className || ''}`}>
@@ -36,19 +38,24 @@ const AccoutReviewModal = ({
                             {openMagnifire ? (
                                 <Magnifier src={openPopup.editedImage} mgShape="square" />
                             ) : (
-                                <div className="magnifier">
-                                    <LazyImage src={openPopup.editedImage} alt="" effect="opacity" />
+                                <div className="magnifier img-length">
+                                    <span className="lazy-load-image-loaded ">
+                                        <Image fill src={openPopup.editedImage} alt="" className=''/>
+                                    </span>
                                 </div>
                             )}
                         </>
                     ) : (
-                        <div className="magnifier">
-                            <LazyImage src={openPopup.originalImage} alt="" effect="opacity" />
+                        <div className="magnifier img-length">
+                            <span className="lazy-load-image-loaded ">
+                                <Image fill src={openPopup.originalImage} alt="" className=''/>
+                            </span>
                         </div>
                     )}
                     <div className="buttons_bottom">
                         <FilledButton className="btn_view_photo" onClick={() => setOriginalViewImg(!originalViewImg)}>
-                            {!originalViewImg ? 'View Original Photo' : 'View The Photo Edit'} <img src={Images.EyeIcon} alt="eyicon" />{' '}
+                            {!originalViewImg ? `View Original ${statusWiseContent}` : `View The ${statusWiseContent} Edit`}{' '}
+                            <img src={Images.EyeIcon} alt="eyicon" />{' '}
                         </FilledButton>
                         {!originalViewImg && (
                             <FilledButton className="btn_view_photo" onClick={() => setOpenMagnifire(!openMagnifire)}>
@@ -68,8 +75,8 @@ const AccoutReviewModal = ({
                                 <FilledButton onClick={approveBtnAction}>{approveBtn}</FilledButton>
                             </div>
                         ) : (
-                            <Row gutter={34} className="account-edit-comment-row">
-                                <Col xs={24} md={14} className="gutter-row">
+                            <Row gutter={{ md: 20 }} className="account-edit-comment-row">
+                                <Col xs={24} md={13} className="gutter-row">
                                     <p className="label-text">Add your comments for editing</p>
                                     <Input.TextArea
                                         className="form-control-area"
@@ -77,14 +84,14 @@ const AccoutReviewModal = ({
                                         onChange={(e) => handleCustomerNote(e.target.value)}
                                     />
                                 </Col>
-                                <Col xs={24} md={10} className="gutter-row btn-row">
-                                    <Row gutter={16} wrap={false} className="account-edit-comment-row">
-                                        <Col className="gutter-row">
+                                <Col xs={24} md={11} className="gutter-row btn-row px-0">
+                                    <Row gutter={{ md: 10 }}>
+                                        <Col xs={24} md={8} className="gutter-row button-top">
                                             <FilledButton color="grayLight" onClick={modificationBtnClick} block>
                                                 Back
                                             </FilledButton>
                                         </Col>
-                                        <Col className="gutter-row">
+                                        <Col xs={24} md={16} className="gutter-row button-top">
                                             <FilledButton onClick={modificationBtnAction} block>
                                                 {modificationBtn}
                                             </FilledButton>
@@ -111,11 +118,7 @@ const AccoutReviewModal = ({
         [openPopup, originalViewImg, openMagnifire],
     );
 
-    return (
-        <>
-            <AccountReviewModalCmp onCancel={onCancel} open={openPopup.open} closable={false} content={approvePhotoPopupContent} />
-        </>
-    );
+    return <AccountReviewModalCmp onCancel={onCancel} open={openPopup.open} closable={false} content={approvePhotoPopupContent} />;
 };
 
 export default AccoutReviewModal;

@@ -5,4 +5,8 @@ export const LocalStorageKeys = {
     expireOrder: 'expireOrder',
     savedCardDetail: 'savedCardDetail',
     savedCardProccessComplete: 'savedCardProccessComplete',
+    paymentID: 'paymentID',
+    estimatedDeliveryDays: 'estimatedDeliveryDays',
+    remainingOrderDetail: 'remainingOrderDetail',
+    giftCardPayload: 'giftCardPayload',
 };

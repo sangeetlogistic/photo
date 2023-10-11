@@ -24,7 +24,7 @@ const OrderSummary = ({
     const themesItems = useAppSelector(selectThemesItems);
 
     const calculateTotal = useCallback(
-        (couponCodeAmount) =>
+        (couponCodeAmount: any) =>
             selectPaintingSizeAndPrice &&
             selectedFrame &&
             calculateFun(
@@ -48,7 +48,7 @@ const OrderSummary = ({
                         <p className="select-summery-text">Theme</p>
                         <p className="select-summery-text">
                             {themesItems?.theme === SelectThemes.custom
-                                ? `${_.startCase(_.camelCase(themesItems?.theme))} ${personsCount} ${petsCount}`
+                                ? `${_.startCase(_.camelCase(themesItems?.theme))} ${personsCount || 0} ${petsCount || 0}`
                                 : themesItems?.title}
                         </p>
                     </div>

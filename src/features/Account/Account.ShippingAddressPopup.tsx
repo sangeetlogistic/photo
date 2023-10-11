@@ -1,10 +1,10 @@
 /* eslint-disable max-lines-per-function */
 import React, { useEffect, useState } from 'react';
-import { Col, Form, Input, message, Row } from 'antd';
+import { Col, Form, Input, Row } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { getCountries, getCountryCallingCode } from 'react-phone-number-input';
-import ReactGoogleAutocomplete from 'react-google-autocomplete';
+import moment from 'moment';
 
 import PhoneNumber from '../../components/PhoneNumber';
 import FilledButton from '../../components/FilledButton';
@@ -12,16 +12,23 @@ import { ShippingAddressPopupCmp, ShippingAddressCmp } from './Account.component
 import ShippingAddressDetails from './Account.ShippingDetails';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { getMyOrderAction, remainingPaymentCardAction, saveAddressAction, selectedUserData } from './Account.slice';
-import { GOOGLE_AUTOCOMPLETE_KEY } from '../../constants/predicates';
+import GoogleAutocomplete from '../../components/GoogleAutocomplete/GoogleAutocomplete';
+import { useDeviceDetect } from '../../hooks';
+import { dateSeparation } from '../../utils/func';
+import { estimatedAccountDeliveryDays, estimatedAccountExpressDeliveryDays } from './Accout.constants';
+import { monthDayFormat } from '../../constants/general';
+import Toast from '../../components/Toast';
+import { LocalStorageKeys } from '../../constants/keys';
 
-const ShippingAddressPopup = ({ setPaymentPopup, paymentPopup, setThankyouPopup }: any) => {
+const ShippingAddressPopup = ({ setPaymentPopup, paymentPopup, setThankyouPopup, status }: any) => {
     const [form] = Form.useForm();
     const dispatch = useAppDispatch();
 
     const userData = useAppSelector(selectedUserData);
+    const { isMobile } = useDeviceDetect();
 
     const [shippingAddressDetail, setShippingAddressDetail] = useState(false);
-    const [country, setCountry] = useState('');
+    const [country, setCountry] = useState('US');
     const [selectShippingData, setSelectShippingData] = useState<any>({
         address: null,
         validate: false,
@@ -30,20 +37,48 @@ const ShippingAddressPopup = ({ setPaymentPopup, paymentPopup, setThankyouPopup 
     const [shippingValue, setShippingValue] = useState(0);
     const [activeButton, setActiveButton] = useState<null | number>(0);
     const [amountToShow, setAmountToShow] = useState<number | string | null>(null);
+    const [initialValues, setInitialValues] = useState({});
+    const [showError, setShowError] = useState(false);
+    const [estimatedDeliveryDays, setEstimatedDeliveryDays] = useState<{ formattedFutureDate: string; formattedFuture4Date: string }>({
+        formattedFutureDate: '',
+        formattedFuture4Date: '',
+    });
 
-    const initialValues = {
-        firstName: userData?.name || '',
-        surName: userData?.surname || '',
-        country: userData?.adress?.country || '',
-        state: userData?.adress?.state || '',
-        address: userData?.adress?.address || '',
-        additionalAddress: userData?.adress?.additionalAddress || '',
-        city: userData?.adress?.city || '',
-        zipCode: userData?.adress?.zipCode || '',
-        countryCode: getCountries().find((item: any) => item === userData?.countryCode) || 'IN',
-        phoneNumber: userData?.phoneNumber || '',
-        email: userData?.email || '',
-    };
+    useEffect(() => {
+        const cName: any = getCountries().find((item: any) => item === userData?.countryName);
+        setCountry(cName);
+
+        const values = {
+            firstName: userData?.name || '',
+            surName: userData?.surname || '',
+            country: userData?.adress?.country || '',
+            state: userData?.adress?.state || '',
+            address: userData?.adress?.address || '',
+            additionalAddress: userData?.adress?.additionalAddress || '',
+            city: userData?.adress?.city || '',
+            zipCode: userData?.adress?.zipCode || '',
+            countryCode: getCountries().find((item: any) => item === userData?.countryName) || 'US',
+            phoneNumber: userData?.phoneNumber || '',
+            email: userData?.email || '',
+        };
+
+        setInitialValues(values);
+    }, [userData]);
+
+    useEffect(() => {
+        const payload = { activeButton, shippingValue, estimatedDeliveryDays, adressId: userData?.adress?.id };
+        localStorage.setItem(LocalStorageKeys.remainingOrderDetail, JSON.stringify(payload));
+    }, [activeButton, shippingValue, estimatedDeliveryDays, userData?.adress?.id]);
+
+    useEffect(() => {
+        const data: any = localStorage.getItem(LocalStorageKeys.remainingOrderDetail)
+            ? JSON.parse(localStorage.getItem(LocalStorageKeys.remainingOrderDetail) || '')
+            : '';
+        if (data) {
+            setShippingValue(data?.shippingValue);
+            setActiveButton(data?.activeButton);
+        }
+    }, []);
 
     useEffect(() => {
         if (userData && userData?.name && userData?.surname && userData?.adress?.address && userData?.adress?.city && userData?.adress?.country) {
@@ -58,6 +93,14 @@ const ShippingAddressPopup = ({ setPaymentPopup, paymentPopup, setThankyouPopup 
             }));
         }
     }, [userData]);
+
+    useEffect(() => {
+        const dateRange = dateSeparation(
+            shippingValue === 15 ? estimatedAccountExpressDeliveryDays : estimatedAccountDeliveryDays,
+            shippingValue === 15 ? 3 : 2,
+        );
+        setEstimatedDeliveryDays(dateRange);
+    }, [shippingValue]);
 
     const handleCountryCode = (selectValue: any) => {
         setCountry(selectValue || undefined);
@@ -77,6 +120,8 @@ const ShippingAddressPopup = ({ setPaymentPopup, paymentPopup, setThankyouPopup 
                 payment_method: paymentMethod,
                 payment_mode: paymentMode || paymentMethod,
                 paymentIntent,
+                estimated_delivery_startDate: moment(estimatedDeliveryDays.formattedFutureDate, monthDayFormat).format('YYYY-MM-DD'),
+                estimated_delivery_endDate: moment(estimatedDeliveryDays.formattedFuture4Date, monthDayFormat).format('YYYY-MM-DD'),
             };
 
             if (shippingValue === 15) {
@@ -97,10 +142,7 @@ const ShippingAddressPopup = ({ setPaymentPopup, paymentPopup, setThankyouPopup 
                 setThankyouPopup(true);
             }
         } else {
-            message.error({
-                content: 'Select Shipping Address',
-                style: { margin: '12px' },
-            });
+            setShowError(true);
         }
     };
 
@@ -115,6 +157,7 @@ const ShippingAddressPopup = ({ setPaymentPopup, paymentPopup, setThankyouPopup 
             city: values.city,
             country: values.country,
             countryCode: getCountryCallingCode(values.countryCode),
+            countryName: values.countryCode,
             email: values.email,
             phoneNumber: values.phoneNumber,
             state: values.state,
@@ -135,34 +178,11 @@ const ShippingAddressPopup = ({ setPaymentPopup, paymentPopup, setThankyouPopup 
             validate: false,
         }));
     };
-
-    const handlePlaceSelected = (placed: any) => {
+    const handleSetAddress = (data: any) => {
         // Extracting country, state, and city from the placed object
-        const { address_components: addressComponents } = placed;
-        let countrySelcet = '';
-        let state = '';
-        let city = '';
-        let zipCode = '';
+        const { countrySelect, state, city, zipCode, streetAddress } = data;
 
-        addressComponents.forEach((component: any) => {
-            if (component.types.includes('country')) {
-                countrySelcet = component.long_name;
-            }
-
-            if (component.types.includes('administrative_area_level_1')) {
-                state = component.long_name;
-            }
-
-            if (component.types.includes('locality')) {
-                city = component.long_name;
-            }
-
-            if (component.types.includes('postal_code')) {
-                zipCode = component.long_name;
-            }
-        });
-
-        form.setFieldsValue({ country: countrySelcet, state, city, zipCode });
+        form.setFieldsValue({ country: countrySelect, state, city, zipCode, address: streetAddress });
     };
 
     const ShippingAddressPopupContent = (
@@ -171,7 +191,9 @@ const ShippingAddressPopup = ({ setPaymentPopup, paymentPopup, setThankyouPopup 
                 <ShippingAddressCmp className="shipping_address_form popup_padding">
                     <div className="d-flex justify-between">
                         <h3 className="title-font">SHIPPING ADDRESS</h3>
-                        <FontAwesomeIcon icon={faXmark} size="xl" className="icon-red" onClick={() => setShippingAddressDetail(false)} />
+                        {!isMobile && (
+                            <FontAwesomeIcon icon={faXmark} size="xl" className="icon-red" onClick={() => setShippingAddressDetail(false)} />
+                        )}
                     </div>
                     <Form
                         form={form}
@@ -212,22 +234,7 @@ const ShippingAddressPopup = ({ setPaymentPopup, paymentPopup, setThankyouPopup 
                                 </Form.Item>
                             </Col>
                             <Col xs={24} md={12}>
-                                <Form.Item
-                                    label="Address"
-                                    name="address"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: 'Please input your Address!',
-                                        },
-                                    ]}
-                                >
-                                    <ReactGoogleAutocomplete
-                                        apiKey={GOOGLE_AUTOCOMPLETE_KEY}
-                                        onPlaceSelected={handlePlaceSelected}
-                                        className="ant-input"
-                                    />
-                                </Form.Item>
+                                <GoogleAutocomplete Form={Form} handleSetAddress={handleSetAddress} label="Address" name="address" status={status} />
                             </Col>
                             <Col xs={24} md={12}>
                                 <Form.Item
@@ -344,13 +351,18 @@ const ShippingAddressPopup = ({ setPaymentPopup, paymentPopup, setThankyouPopup 
 
     return (
         <>
+            {showError && <Toast show={showError} setShow={setShowError} message="Select Shipping Address" type="error" showIcon />}
             <ShippingAddressPopupCmp
-                onCancel={() =>
-                    setPaymentPopup?.((prevState: any) => ({
-                        ...prevState,
-                        open: false,
-                    }))
-                }
+                onCancel={() => {
+                    if (shippingAddressDetail) {
+                        setShippingAddressDetail(false);
+                    } else {
+                        setPaymentPopup?.((prevState: any) => ({
+                            ...prevState,
+                            open: false,
+                        }));
+                    }
+                }}
                 open={paymentPopup.open}
                 closable={false}
                 content={ShippingAddressPopupContent}

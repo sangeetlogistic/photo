@@ -1,16 +1,15 @@
-import React, { useEffect, useMemo } from 'react';
+/* eslint-disable no-nested-ternary */
+import React, { useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useHistory, useLocation } from 'react-router-dom';
 import { FadeIn } from 'react-slide-fade-in';
-import { message } from 'antd';
 
 import AfterBefore from '../../components/AfterBefore';
-import FetureInfo from '../../components/FetureInfo';
 import GallerySliderBlock from '../../components/GallerySliderBlock';
 import HowItWoks from '../../components/HowItWoks';
+import PaintingRevealProcess from '../../components/PaintingRevealProcess';
+import FetureInfo from '../../components/FetureInfo';
 import IndividualReviewSlider from '../../components/IndividualReviewSlider';
 import PageContentWrapper from '../../components/PageContentWrapper';
-import PaintingRevealProcess from '../../components/PaintingRevealProcess';
 import ParallaxTranslate from '../../components/ParallaxTranslate';
 import ProfessionalPainters from '../../components/ProfessionalPainters';
 import TourPaintings from '../../components/TourPaintings';
@@ -19,32 +18,48 @@ import PortraitsHeroSectionContent from './Paintings.HeroSectionContent';
 import PaintingsFAQ from './Paintings.FAQ';
 import { sketchTitle } from './Paintings.constants';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { clearMediumDetail, getMediumDetailAction, selectError, selectLoading, selectMediumDetail } from './Paintings.slice';
-import LoadingCover from '../../components/LoadingCover';
+import { clearMediumDetail, getMediumDetailAction, selectError, selectLoading, selectMediumDetail, selectRecentBlog } from './Paintings.slice';
 import { statusCode } from '../../constants/statusCode';
 import { Routes } from '../../navigation/Routes';
 import { useDeviceDetect, useRedirectOrder } from '../../hooks';
+import Toast from '../../components/Toast';
+import { checkForDevice, roundOff } from '../../utils/func';
+import { windowSize } from '../../constants/general';
+import { setHeaderFAQs, setRecentBlogs, setTotalRating } from '../../services/API/GeneralSettings/GeneralSettings.slice';
+import LoadingCover from '../../components/LoadingCover';
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 const Paintings = () => {
-    const { pathname } = useLocation();
-    const history = useHistory();
+    const pathname = usePathname();
+    const history = useRouter();
     const dispatch = useAppDispatch();
     const { isMobile } = useDeviceDetect();
     const mediumDetail = useAppSelector(selectMediumDetail);
+    const recentBlog = useAppSelector(selectRecentBlog);
     const error = useAppSelector(selectError);
     const loading = useAppSelector(selectLoading);
     const redirect = useRedirectOrder();
 
+    const [show, setShow] = useState(false);
+
     useEffect(() => {
         const mediumName = pathname.split('/')[1];
         dispatch(getMediumDetailAction({ mediumName }));
-    }, []);
+    }, [pathname]);
+
+    useEffect(() => {
+        const rate = roundOff(mediumDetail?.trustPilotTotalRating);
+        dispatch(setTotalRating(rate));
+        dispatch(setRecentBlogs(recentBlog));
+        dispatch(setHeaderFAQs(mediumDetail?.faqs));
+    }, [mediumDetail?.trustPilotTotalRating, recentBlog, mediumDetail?.faqs]);
 
     useEffect(() => {
         if (error) {
-            if (error.code === statusCode.notFound) history.replace(Routes.notFound);
+            if (error.code === statusCode.notFound) history.push(Routes.notFound);
             else {
-                message.error(error.message);
+                setShow(true);
             }
         }
 
@@ -64,6 +79,7 @@ const Paintings = () => {
             <Helmet>
                 <title>{pageTitle}</title>
             </Helmet>
+            {show && <Toast show={show} setShow={setShow} message={error?.message} type="error" showIcon />}
             <Background backgroundRepeatImage={mediumDetail?.backgroundRepeatImageUrl} />
             <PortraitsHeroSectionContent
                 detailPageCoverImage={mediumDetail?.detailPageCoverImageUrl}
@@ -75,8 +91,10 @@ const Paintings = () => {
 
             <PageContentWrapper className="top-content-wrap">
                 <IndividualReviewSlider
-                    title="Inside our customers' mind"
-                    subTitle="Our customers enjoy communicating with us and sharing their insights about custom oil paintings from photos!"
+                    trustPilots={mediumDetail?.trustPilots}
+                    title={mediumDetail?.trustPilotTitle}
+                    subTitle={mediumDetail?.trustPilotDescription}
+                    totalRating={roundOff(mediumDetail?.trustPilotTotalRating)}
                 />
                 <GallerySliderBlock
                     heading="OIL GALLERY"
@@ -94,7 +112,7 @@ const Paintings = () => {
                     />
                 </FadeIn>
             ) : (
-                <ParallaxTranslate speed={loading ? 0 : 4}>
+                <ParallaxTranslate speed={loading ? 0 : checkForDevice(windowSize) ? 2 : 4}>
                     <HowItWoks
                         detail={mediumDetail?.howItWorkRecords}
                         info="Start your order, upload a photo, select theme & medium, and pay only 20% of the full amount, approve your painting and receive your precious artwork"
@@ -106,13 +124,8 @@ const Paintings = () => {
                     title={mediumDetail?.turnPhotoToPaintingTitle}
                     content={mediumDetail?.turnPhotoToPaintingDiscription}
                     btnTitle={mediumDetail?.turnPhotoToPaintingButtonTitle}
-                    reviewTitle={
-                        <div>
-                            Customer review - <span className="text-success">Excellent</span>
-                        </div>
-                    }
-                    rate={4.9}
-                    totalReviews={356}
+                    reviewTitle="Excellent Customer Reviews"
+                    rate={roundOff(mediumDetail?.trustPilotTotalRating)}
                     bannerVideo={mediumDetail?.turnPhotoToPaintingVideoUrl}
                     poster={mediumDetail?.videoThumbnailUrl}
                     onClick={redireactOrderPage}
@@ -132,7 +145,7 @@ const Paintings = () => {
                     />
                 </FadeIn>
             ) : (
-                <ParallaxTranslate speed={loading ? 0 : 4}>
+                <ParallaxTranslate speed={loading ? 0 : checkForDevice(windowSize) ? 2 : 4}>
                     <AfterBefore
                         leftImage={mediumDetail?.makePhotoAliveOriginalImageUrl}
                         rightImage={mediumDetail?.makePhotoAlivePaintedImageUrl}

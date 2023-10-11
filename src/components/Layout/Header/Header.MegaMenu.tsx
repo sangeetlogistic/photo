@@ -4,7 +4,6 @@ import GalleryMenu from './Header.GalleryMenu';
 import { Images } from '../../../theme';
 import PriceAndTimingMenu from './Header.PriceAndTimingMenu';
 import FAQ from './Header.FAQ';
-import LazyImage from '../../LazyImage';
 
 interface IMegaMenu {
     openMenu: string[];
@@ -24,7 +23,7 @@ const MegaMenu = forwardRef((props: IMegaMenu, ref: any) => {
         if (openMenu.includes(MenuType.FAQ)) {
             return <FAQ />;
         }
-        return undefined;
+        return <GalleryMenu />;
     }, []);
 
     const closeMenu = () => {
@@ -35,7 +34,7 @@ const MegaMenu = forwardRef((props: IMegaMenu, ref: any) => {
         <div ref={ref}>
             {menuItems}
             <div className="menu-close-btn" onClick={closeMenu} role="button" tabIndex={0}>
-                <LazyImage src={Images.MenuCloseIcon} alt="" className="" effect="opacity" width="" />
+                <img src={Images.MenuCloseIcon?.src} alt="" className="" width="" />
             </div>
         </div>
     );

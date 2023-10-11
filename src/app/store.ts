@@ -1,9 +1,8 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
-import history from '../utils/history';
 import createRootReducer from './reducers';
 
 export const store = configureStore({
-    reducer: createRootReducer(history),
+    reducer: createRootReducer(),
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: false,

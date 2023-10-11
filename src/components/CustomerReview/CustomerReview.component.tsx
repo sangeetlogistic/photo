@@ -1,57 +1,62 @@
 import { Card } from 'antd';
 import styled from 'styled-components';
 import { Colors, Fonts, MediaBreakpoints } from '../../theme';
+import { convertPxToVw } from '../../utils/func';
 
 export const CustomerReviewCardCmp = styled(Card)`
     border: 0 !important;
     position: relative;
     border-radius: 20px !important;
     width: 100%;
-    /* background-image: linear-gradient(
-    to bottom,
-    #d9e0f2 0%,
-    rgba(217, 224, 242, 0) 148.26%
-    ); */
     @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
         border-radius: 1.042vw !important;
     }
     .ant-card-body {
         background-color: ${Colors.pageContetBg};
         display: flex;
-        justify-content: space-between;
         border-radius: 20px !important;
-        padding: 16px 25px;
+        padding: 16px 20px;
         height: 100%;
+        border: 1px solid #d9e0f2;
+        margin-bottom: 1.5rem;
+        @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+            flex-wrap: wrap;
+        }
         @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
             border: 0.078vw solid #d9e0f2;
+            justify-content: space-between;
             /* min-height: 15vw; */
             flex-direction: column;
-            padding: 1.301vw 2.9vw !important;
+            padding: ${convertPxToVw('16')}vw ${convertPxToVw('30')}vw !important;
             border-radius: 1.042vw !important;
         }
     }
     .single-review-wrapper {
+        @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+            width: 100%;
+            text-align: center;
+        }
         .single-reviwe-title {
-            font-family: ${Fonts.primaryFont};
-            font-weight: 700;
-            font-size: 12px;
-            line-height: 16px;
-            margin: 0 0 1.041vw;
+            font-size: 18px;
+            display: none;
             @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-                font-size: 1.25vw;
+                display: block;
+                font-family: ${Fonts.titleFont};
+                margin: ${convertPxToVw('8')}vw 0 ${convertPxToVw('8')}vw;
+                font-size: ${convertPxToVw('24')}vw;
                 line-height: 1.354vw;
-            }
-            .text-success {
-                color: ${Colors.success};
             }
         }
         .customer-review-and-rate {
-            display: inline-block;
+            @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                display: inline-block;
+            }
             .review-and-rate-wrap {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                @media (max-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                margin-top: ${convertPxToVw('6')}vw;
+                @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
                     margin-bottom: 10px;
                 }
                 .customer-rating {
@@ -59,58 +64,47 @@ export const CustomerReviewCardCmp = styled(Card)`
                     font-size: 24px;
                     line-height: 25px;
                     color: ${Colors.gray120};
+                    font-family: ${Fonts.titleFont};
                     margin-right: 10px;
                     @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-                        font-size: 2.5vw;
-                        line-height: 1.823vw;
+                        font-size: ${convertPxToVw('32')}vw;
+                        line-height: normal;
                         margin-right: 0.625vw;
                     }
                 }
                 .ant-rate {
-                    font-size: 15px;
+                    font-size: 18px;
                     display: flex;
                     flex-wrap: nowrap;
                     @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
                         font-size: 1.667vw;
                     }
-                }
-            }
-            .total-review {
-                font-size: 12px;
-                line-height: 15px;
-                margin-top: 0.781vw;
-                margin-bottom: 0;
-                font-weight: 600;
-                text-align: left;
-                @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-                    font-size: 0.625vw;
-                    line-height: 0.781vw;
-                }
-                .total-review-label {
-                    color: ${Colors.gray40};
-                    margin-right: 0.625vw;
-                    font-weight: 400;
+                    .ant-rate-star svg {
+                        width: 1.5em;
+                        height: 1.5em;
+                        @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                            width: ${convertPxToVw('32')}vw;
+                            height: ${convertPxToVw('32')}vw;
+                        }
+                    }
                 }
             }
         }
     }
     .single-review-btm-logo {
         text-align: center;
-        margin-left: auto;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
         @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
             margin-left: unset;
+            margin-top: ${convertPxToVw('36')}vw;
+            margin-bottom: ${convertPxToVw('30')}vw;
         }
-        .lazy-load-image-loaded {
-            width: 26vw;
+        .lazy-load-image-loaded img {
+            height: 28px;
             @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-                width: 7.808vw;
-            }
-            img {
-                width: 100%;
-                height: auto;
-                @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-                    margin-top: 1.822vw;
-                }
+                height: 1.75vw;
             }
         }
     }

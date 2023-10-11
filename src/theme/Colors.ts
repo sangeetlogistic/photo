@@ -18,7 +18,7 @@ const Colors = {
     gray10: '#DEDEE0',
     gray08: '#f7f7f7',
     gray05: '#F5F5F5',
-
+    pureBlack: '#18181A',
     primary: '#EE4266',
     primaryLight: '#F25C7B',
     primaryLighter: '#F78199',
@@ -42,7 +42,7 @@ const Colors = {
     footerBg: '#0C0B0B',
     footerLink: '#C4C4C4',
 
-    reviewRating: '#97E56C',
+    reviewRating: '#EE4266',
 
     couponBg: '#fef4f6',
 };

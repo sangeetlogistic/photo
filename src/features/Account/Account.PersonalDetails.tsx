@@ -1,22 +1,21 @@
-import { Button, Card, Col, Form, Input, Row, Space } from 'antd';
 import React, { useState } from 'react';
+import { Button, Card, Col, Form, Input, Row, Space } from 'antd';
 import { getCountries, getCountryCallingCode } from 'react-phone-number-input';
-// import { getNames } from 'country-list';
-import ReactGoogleAutocomplete from 'react-google-autocomplete';
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { ShippingAddressCmp } from './Account.component';
 import { getMyOrderAction, selectedUserData, updateUserAction } from './Account.slice';
 import PhoneNumber from '../../components/PhoneNumber';
-import { GOOGLE_AUTOCOMPLETE_KEY } from '../../constants/predicates';
 import { TabActiveKey } from './Accout.constants';
+import GoogleAutocomplete from '../../components/GoogleAutocomplete/GoogleAutocomplete';
 
-const PersonalDetails = ({ handleChangeKey }: { handleChangeKey: (key: TabActiveKey) => void }) => {
+const PersonalDetails = ({ handleChangeKey, status }: { handleChangeKey: (key: TabActiveKey) => void; status: boolean }) => {
     const [form] = Form.useForm();
     const dispatch = useAppDispatch();
-    const [country, setCountry] = useState('');
 
     const userData = useAppSelector(selectedUserData);
+
+    const [country, setCountry] = useState(getCountries().find((item: any) => item === userData?.countryName) || 'US');
 
     const handleCountryCode = (selectValue: any) => {
         setCountry(selectValue || undefined);
@@ -31,7 +30,7 @@ const PersonalDetails = ({ handleChangeKey }: { handleChangeKey: (key: TabActive
         additionalAddress: userData?.additionalAddress || '',
         city: userData?.city || '',
         zipCode: userData?.zipCode || '',
-        countryCode: getCountries().find((item: any) => getCountryCallingCode(item) === userData?.countryCode),
+        countryCode: getCountries().find((item: any) => item === userData?.countryName) || 'US',
         phoneNumber: userData?.phoneNumber || '',
         email: userData?.email || '',
     };
@@ -40,6 +39,7 @@ const PersonalDetails = ({ handleChangeKey }: { handleChangeKey: (key: TabActive
         const payload = {
             ...values,
             countryCode: getCountryCallingCode(values.countryCode),
+            countryName: values.countryCode,
             id: userData.id,
         };
 
@@ -50,33 +50,11 @@ const PersonalDetails = ({ handleChangeKey }: { handleChangeKey: (key: TabActive
         }
     };
 
-    const handlePlaceSelected = (placed: any) => {
+    const handleSetAddress = (data: any) => {
         // Extracting country, state, and city from the placed object
-        const { address_components: addressComponents } = placed;
-        let countrySelcet = '';
-        let state = '';
-        let city = '';
-        let zipCode = '';
+        const { countrySelect, state, city, zipCode, streetAddress } = data;
 
-        addressComponents.forEach((component: any) => {
-            if (component.types.includes('country')) {
-                countrySelcet = component.long_name;
-            }
-
-            if (component.types.includes('administrative_area_level_1')) {
-                state = component.long_name;
-            }
-
-            if (component.types.includes('locality')) {
-                city = component.long_name;
-            }
-
-            if (component.types.includes('postal_code')) {
-                zipCode = component.long_name;
-            }
-        });
-
-        form.setFieldsValue({ country: countrySelcet, state, city, zipCode });
+        form.setFieldsValue({ country: countrySelect, state, city, zipCode, streetAddress });
     };
 
     return (
@@ -95,7 +73,7 @@ const PersonalDetails = ({ handleChangeKey }: { handleChangeKey: (key: TabActive
                                             rules={[
                                                 {
                                                     required: true,
-                                                    message: 'Please input your Firstname!',
+                                                    message: 'Please input your FirstName!',
                                                 },
                                             ]}
                                         >
@@ -144,22 +122,13 @@ const PersonalDetails = ({ handleChangeKey }: { handleChangeKey: (key: TabActive
                                         >
                                             <Input />
                                         </Form.Item>
-                                        <Form.Item
+                                        <GoogleAutocomplete
+                                            Form={Form}
+                                            handleSetAddress={handleSetAddress}
                                             label="Address"
                                             name="streetAddress"
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: 'Please input your Address!',
-                                                },
-                                            ]}
-                                        >
-                                            <ReactGoogleAutocomplete
-                                                apiKey={GOOGLE_AUTOCOMPLETE_KEY}
-                                                onPlaceSelected={handlePlaceSelected}
-                                                className="ant-input"
-                                            />
-                                        </Form.Item>
+                                            status={status}
+                                        />
                                         <Row gutter={16}>
                                             <Col span={14} className="gutter-row">
                                                 <Form.Item

@@ -1,10 +1,8 @@
 import styled from 'styled-components';
 import { rgba } from 'polished';
 
-import { Colors, Fonts, MediaBreakpoints } from '../../../theme';
+import { Colors, MediaBreakpoints } from '../../../theme';
 import { MobileHeaderHeight, PagePdngTopEqualHeaderHeight } from '../../../constants/general';
-import Popup from '../../Popup';
-import { convertPxToVw } from '../../../utils/func';
 
 export const MainHeader = styled.header`
     &.header-top {
@@ -89,7 +87,7 @@ export const MainHeader = styled.header`
                 margin-left: auto;
                 align-items: center;
                 height: 100%;
-                justify-content: end;
+                justify-content: flex-end;
                 &::after,
                 &::before {
                     display: none;
@@ -135,7 +133,6 @@ export const MainHeader = styled.header`
                         right: 0;
                         transition-delay: 0.1s;
                     }
-                    /* &.ant-menu-item-selected, */
                     &.ant-menu-submenu-open,
                     &.ant-menu-submenu-active,
                     &.ant-menu-item-active,
@@ -314,62 +311,6 @@ export const MainHeader = styled.header`
                 }
                 .mobile-menu-back-btn {
                     display: flex;
-                }
-            }
-        }
-    }
-`;
-
-export const LoginPopUpCmp = styled(Popup)`
-    width: 100% !important;
-    max-width: ${convertPxToVw('1005')}vw;
-    .ant-modal-content {
-        .ant-modal-body {
-            min-height: 85vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .login-popup-content {
-            text-align: center;
-            .login-popup-img {
-                max-width: 100%;
-            }
-            .login-popup-wrap-block {
-                width: 100%;
-                max-width: 426px;
-                margin: ${convertPxToVw('48')}vw auto 0 auto;
-            }
-            h4 {
-                font-size: 14px;
-                line-height: normal;
-                color: ${Colors.black};
-                margin-bottom: 16px;
-            }
-            p {
-                font-size: 16px;
-                text-align: left;
-                color: ${Colors.gray80};
-                margin-bottom: ${convertPxToVw('27')}vw;
-            }
-            .login-form {
-                padding: 0 55px;
-                > .ant-form-item {
-                    margin-bottom: 16px;
-                    .ant-input {
-                        font-family: ${Fonts.titleFont};
-                        height: 40px;
-                        background: ${rgba(Colors.pageContetBg, 1)};
-                        border: 1px solid ${rgba(Colors.reviewCardbrd, 0.5)};
-                        border-radius: 8px;
-                    }
-                }
-                .ant-bnt {
-                    font-family: ${Fonts.titleFont};
-                }
-                .login-btn {
-                    height: 48px;
-                    margin-bottom: 27px;
                 }
             }
         }

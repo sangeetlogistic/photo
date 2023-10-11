@@ -74,7 +74,7 @@ const Step4 = ({
                             <div className="select-attrs">
                                 <Row gutter={{ md: 24 }}>
                                     <Col className="gutter-row" md={10} xxl={12}>
-                                        {paintingProcess && <BannerVideo bannerVideo={paintingProcess} poster={Images.TourPaintingVideoThumb} />}
+                                        {paintingProcess && <BannerVideo bannerVideo={paintingProcess} poster={Images.TourPaintingVideoThumb?.src} />}
                                     </Col>
                                     <Col className="gutter-row" md={14} xxl={12}>
                                         <div className="select-attrs--info">
@@ -154,6 +154,8 @@ const Step4 = ({
                         videoCreated={videoCreated}
                         viewOrderSummary={viewOrderSummary}
                         setViewOrderSummary={setViewOrderSummary}
+                        personsCount={personsCount}
+                        petsCount={petsCount}
                     />
                     <MobileFooter
                         showProgressBar={showProgressBar}

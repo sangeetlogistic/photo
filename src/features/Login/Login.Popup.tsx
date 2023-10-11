@@ -1,19 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, Form, Input } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import FilledButton from '../../components/FilledButton';
-import LazyImage from '../../components/LazyImage';
 import { Images } from '../../theme';
 import { LoginPopUpCmp } from './Login.components';
-import { getLoginLinkAction, selectedLoginPopup, selectedSuccessEmailSend, setLoginPopup, selectedLoading } from './Login.slice';
+import {
+    getLoginLinkAction,
+    selectedLoginPopup,
+    selectedSuccessEmailSend,
+    setLoginPopup,
+    selectedLoading,
+    selectedError,
+    clearError,
+} from './Login.slice';
 import LoadingCover from '../../components/LoadingCover';
+import Toast from '../../components/Toast';
 
 const LoginPopup = () => {
     const dispatch = useAppDispatch();
 
+    const [show, setShow] = useState(false);
+
     const loginPopup = useAppSelector(selectedLoginPopup);
     const successEmailSend = useAppSelector(selectedSuccessEmailSend);
     const loading = useAppSelector(selectedLoading);
+    const error = useAppSelector(selectedError);
+
+    useEffect(() => {
+        if (error) setShow(true);
+    }, [error]);
 
     const onFinish = async (values: { email: string }) => {
         await dispatch(getLoginLinkAction({ email: values.email }));
@@ -21,7 +36,7 @@ const LoginPopup = () => {
 
     const loginPopupContent = (
         <div className="login-popup-content">
-            <LazyImage src={Images.LoginPopupImg} alt="" className="login-popup-img" />
+            <img src={Images.LoginPopupImg?.src} alt="" className="login-popup-img" />
             <div className="login-popup-wrap-block">
                 <h4>Your Login email is on the way!</h4>
                 <p>it can take a moment to arrive, please check your spam folder, before contacting support for additional assistance</p>
@@ -61,8 +76,13 @@ const LoginPopup = () => {
 
     return (
         <>
+            {show && <Toast show={show} setShow={setShow} message={error?.message} type="error" showIcon />}
             <LoginPopUpCmp
-                onCancel={() => dispatch(setLoginPopup(false))}
+                onCancel={() => {
+                    dispatch(setLoginPopup(false));
+                    dispatch(clearError());
+                    setShow(false);
+                }}
                 open={loginPopup}
                 closable={false}
                 content={loginPopupContent}

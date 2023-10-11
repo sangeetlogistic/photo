@@ -9,7 +9,7 @@ import { ITourPaintings } from './TourPaintings.types';
 import BannerVideo from '../BannerVideo';
 
 const TourPaintings = (props: ITourPaintings) => {
-    const { title, content, btnTitle, reviewTitle, rate, totalReviews, bannerVideo, poster, onClick } = props;
+    const { title, content, btnTitle, reviewTitle, rate, bannerVideo, poster, onClick } = props;
 
     return (
         <TourPaintingsBlock>
@@ -26,7 +26,7 @@ const TourPaintings = (props: ITourPaintings) => {
                                 {btnTitle}
                             </FilledButton>
                         </div>
-                        <CustomerReview title={reviewTitle} rate={rate} className="tour-class-review" totalReviews={totalReviews} />
+                        <CustomerReview title={reviewTitle} rate={rate} className="tour-class-review" />
                     </div>
                 </Col>
             </Row>

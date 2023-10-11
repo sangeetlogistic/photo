@@ -1,11 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Routes } from '../../../navigation/Routes';
+import Link from 'next/link';
 
 const helpContent = [
     { id: 1, path: Routes.aboutUs, name: 'About Us' },
     { id: 2, path: Routes.privacy, name: 'Privacy Policy' },
-    { id: 3, path: Routes.drawingsPictures, name: 'Drawings of Pictures' },
+    { id: 3, path: Routes.drawingPortrait, name: 'Drawings of Pictures' },
     { id: 4, path: Routes.ccpa, name: 'CCPA Privacy Notice' },
     { id: 5, path: Routes.cookiePolicy, name: 'Cookies Policy' },
     { id: 6, path: Routes.blog.replace(':id', ''), name: 'Blog' },
@@ -19,7 +19,7 @@ const HelpContent = () => (
             <ul className="footer-link-list">
                 {helpContent.map((obj) => (
                     <li key={obj.id}>
-                        <Link className="footer-link" to={obj.path}>
+                        <Link className="footer-link" href={obj.path}>
                             {obj.name}
                         </Link>
                     </li>

@@ -56,7 +56,7 @@ export const TourPaintingsBlock = styled.div`
             .tour-text {
                 color: #807e8c;
                 margin-bottom: 24px;
-                @media (max-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
                     font-weight: 600;
                     line-height: 18px;
                     font-size: 14px;
@@ -73,13 +73,13 @@ export const TourPaintingsBlock = styled.div`
                 margin: 0 auto;
                 display: block;
                 box-shadow: 0 2vw 7vw rgb(238 66 102 / 40%), 0 2vw 7vw rgb(238 66 102 / 40%);
-                @media (max-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
                     &:hover {
                         box-shadow: none;
                     }
                 }
                 @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-                    font-weight: 200;
+                    font-weight: 400;
                     box-shadow: 0 0.26vw 1.041vw -0.781vw rgb(238 66 102 / 40%), 0 0.26vw 1.041vw -0.26vw rgb(250 94 126 / 40%);
                     min-width: 18.75vw;
                 }
@@ -95,6 +95,12 @@ export const TourPaintingsBlock = styled.div`
             .ant-card-body {
                 min-height: unset;
                 border: 0.078vw solid #d9e0f2;
+                margin-bottom: 0;
+                .single-review-wrapper {
+                    .single-reviwe-title {
+                        display: block;
+                    }
+                }
             }
         }
         .lazy-load-image-loaded img {

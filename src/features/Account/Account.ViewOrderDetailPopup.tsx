@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable max-lines-per-function */
 import React from 'react';
@@ -9,7 +10,7 @@ import { Images } from '../../theme';
 import { dateMonthFormat } from '../../constants/general';
 import { useAppSelector } from '../../app/hooks';
 import { selectedUserData } from './Account.slice';
-import { CouponCodeDiscount } from '../OrderStep/OrderStep.constants';
+import { CouponCodeDiscount, PaymentWays } from '../OrderStep/OrderStep.constants';
 
 interface IViewOrderDetailPopup {
     viewOrderDetailPopup: {
@@ -131,10 +132,22 @@ const ViewOrderDetailPopup = ({ viewOrderDetailPopup, setViewOrderDetailPopup }:
                                             <>
                                                 <span className="discount-price">
                                                     $
-                                                    {(
-                                                        Number(viewOrderDetailPopup.individualOrderData?.total_payment) +
-                                                        Number(viewOrderDetailPopup.individualOrderData?.discountedAmount)
-                                                    ).toFixed(2)}
+                                                    {viewOrderDetailPopup.individualOrderData?.total_payment <= 0
+                                                        ? (
+                                                              Number(viewOrderDetailPopup.individualOrderData?.size_price || 0) +
+                                                              Number(viewOrderDetailPopup.individualOrderData?.frame_price || 0) +
+                                                              Number(viewOrderDetailPopup.individualOrderData?.how_my_video_created_price || 0) +
+                                                              Number(viewOrderDetailPopup.individualOrderData?.service_type_price || 0) +
+                                                              Number(viewOrderDetailPopup.individualOrderData?.shipping_method_price || 0) +
+                                                              Number(
+                                                                  viewOrderDetailPopup.individualOrderData
+                                                                      ?.combine_multiple_image_to_create_one_price || 0,
+                                                              )
+                                                          ).toFixed(2)
+                                                        : (
+                                                              Number(viewOrderDetailPopup.individualOrderData?.total_payment) +
+                                                              Number(viewOrderDetailPopup.individualOrderData?.discountedAmount)
+                                                          ).toFixed(2)}
                                                 </span>
                                                 ${viewOrderDetailPopup.individualOrderData?.total_payment} (-
                                                 {viewOrderDetailPopup.individualOrderData?.couponType === CouponCodeDiscount.PRICE
@@ -162,18 +175,34 @@ const ViewOrderDetailPopup = ({ viewOrderDetailPopup, setViewOrderDetailPopup }:
                                 </tr>
                                 <tr>
                                     <th>you paid</th>
-                                    <td className="text-dark-gray">${viewOrderDetailPopup.individualOrderData?.initial_payment_amount}</td>
+                                    <td className="text-dark-gray">
+                                        $
+                                        {viewOrderDetailPopup.individualOrderData?.status > 8
+                                            ? viewOrderDetailPopup.individualOrderData?.total_payment
+                                            : viewOrderDetailPopup.individualOrderData?.initial_payment_amount}
+                                    </td>
                                 </tr>
-                                <tr>
-                                    <th>
-                                        outstanding balance
-                                        <span className="note">(to be paid after your portrait is completed and approved by you)</span>
-                                    </th>
-                                    <td className="text-dark-gray">${viewOrderDetailPopup.individualOrderData?.remaining_amount}</td>
-                                </tr>
+                                {viewOrderDetailPopup.individualOrderData?.status <= 8 && (
+                                    <tr>
+                                        <th>
+                                            outstanding balance
+                                            <span className="note">(to be paid after your portrait is completed and approved by you)</span>
+                                        </th>
+                                        <td className="text-dark-gray">
+                                            $
+                                            {viewOrderDetailPopup.individualOrderData?.status > 8
+                                                ? 0
+                                                : viewOrderDetailPopup.individualOrderData?.remaining_amount}
+                                        </td>
+                                    </tr>
+                                )}
                                 <tr>
                                     <th>Payment Method</th>
-                                    <td className="text-dark-gray">{viewOrderDetailPopup.individualOrderData?.payment_method}</td>
+                                    <td className="text-dark-gray" style={{ width: '105px' }}>
+                                        {viewOrderDetailPopup.individualOrderData?.payment_method === PaymentWays.stripe
+                                            ? viewOrderDetailPopup.individualOrderData?.payment_mode
+                                            : viewOrderDetailPopup.individualOrderData?.payment_method}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>promo Code applied</th>
@@ -196,23 +225,27 @@ const ViewOrderDetailPopup = ({ viewOrderDetailPopup, setViewOrderDetailPopup }:
                             </tbody>
                         </table>
                     </div>
-                    <div className="account-order-card estimated-delivery-card">
-                        <i className="icon">
-                            <img src={Images.IconEstimateDelivery} alt="" className="" width="53" height="53" />
-                        </i>
-                        <div className="estimated-delivery-data">
-                            <h4 className="">estimated delivery</h4>
-                            <p className="">
-                                The painting will be at your door approximately on{' '}
-                                <span className="">
-                                    {moment.utc(viewOrderDetailPopup.individualOrderData?.estimated_delivery_endDate).format(dateMonthFormat)}.
-                                </span>
-                            </p>
-                            <p>
-                                allow us extra time for delivery during high-volume order periods <span className="">(2-4 days).</span>
-                            </p>
+                    {viewOrderDetailPopup.individualOrderData?.status < 11 && (
+                        <div className="account-order-card estimated-delivery-card">
+                            <i className="icon">
+                                <img src={Images.IconEstimateDelivery} alt="" className="" width="53" height="53" />
+                            </i>
+
+                            <div className="estimated-delivery-data">
+                                <h4 className="">estimated delivery</h4>
+                                <p className="">
+                                    The painting will be at your door approximately on{' '}
+                                    <span className="d-block-date">
+                                        {moment.utc(viewOrderDetailPopup.individualOrderData?.estimated_delivery_startDate).format(dateMonthFormat)} -{' '}
+                                        {moment.utc(viewOrderDetailPopup.individualOrderData?.estimated_delivery_endDate).format(dateMonthFormat)}.
+                                    </span>
+                                </p>
+                                <p>
+                                    allow us extra time for delivery during high-volume order periods <span className="">(2-4 days).</span>
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </Col>
             </Row>
             <div className="account-order-card shipping-info-detail">
@@ -237,7 +270,7 @@ const ViewOrderDetailPopup = ({ viewOrderDetailPopup, setViewOrderDetailPopup }:
                             <span className="label">Email:</span>
                             <span className="info">{userData?.email}</span>
                         </div>
-                        {viewOrderDetailPopup.individualOrderData?.status >= '9' && (
+                        {viewOrderDetailPopup.individualOrderData?.status >= 9 && (
                             <div className="shipping-detail-row">
                                 <span className="label">Address:</span>
                                 <span className="info">
@@ -255,19 +288,19 @@ const ViewOrderDetailPopup = ({ viewOrderDetailPopup, setViewOrderDetailPopup }:
 
     return (
         <div>
-            {viewOrderDetailPopup.open && (
-                <ViewOrderDetailPopupCmp
-                    onCancel={() =>
-                        setViewOrderDetailPopup((prevState) => ({
-                            ...prevState,
-                            open: false,
-                        }))
-                    }
-                    open={viewOrderDetailPopup.open}
-                    closable={false}
-                    content={viewOrderDetailPopupContent}
-                />
-            )}
+            {/* {viewOrderDetailPopup.open && ( */}
+            <ViewOrderDetailPopupCmp
+                onCancel={() =>
+                    setViewOrderDetailPopup((prevState) => ({
+                        ...prevState,
+                        open: false,
+                    }))
+                }
+                open={viewOrderDetailPopup.open}
+                closable={false}
+                content={viewOrderDetailPopupContent}
+            />
+            {/* )} */}
         </div>
     );
 };

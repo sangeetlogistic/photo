@@ -1,18 +1,20 @@
 import React, { useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-
 import { Col } from 'antd';
+import { usePathname } from 'next/navigation';
+
 import { PictureThemeSliderBlock, PictureThemeSliderRow } from './PicturesIntoPaintingsTheme.component';
 import FilledButton from '../FilledButton';
 import { Images } from '../../theme';
 import { NextBtn, PrevBtn } from '../PrevNextBtn';
 import SliderCarousel from '../SliderCarousel';
-import LazyImage from '../LazyImage';
+import { Routes } from '../../navigation/Routes';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 const PicturesIntoPaintingsTheme = ({ detail }: any) => {
+    const pathname = usePathname();
     const sliderRef = useRef<any>(null);
-    const history = useHistory();
-
+    const history = useRouter();
     const [currentSlide, setCurrentSlide] = useState(0);
 
     const settings = {
@@ -40,9 +42,7 @@ const PicturesIntoPaintingsTheme = ({ detail }: any) => {
                 },
             },
         ],
-        beforeChange: (current: number, next: number) => {
-            setCurrentSlide(next);
-        },
+        beforeChange: (current: number, next: number) => setCurrentSlide(next),
     };
 
     const handlePrevious = () => sliderRef?.current?.slickPrev();
@@ -74,7 +74,15 @@ const PicturesIntoPaintingsTheme = ({ detail }: any) => {
                                 {detail.map((obj: any, index: number) => (
                                     <div key={index} onClick={() => handleSlideClick(index)} tabIndex={0} role="button">
                                         <figure className="">
-                                            <LazyImage src={obj.sliderImageUrl} alt="" width="100%" effect="opacity" />
+                                            <span className="lazy-load-image-loaded ">
+                                                <Image
+                                                    src={obj.sliderImageUrl}
+                                                    alt=""
+                                                    //  width="100%"
+                                                    fill
+                                                    className=''
+                                                />
+                                            </span>
                                         </figure>
                                         <div className="slider-text-wrap">
                                             <p className="title-font title-color">{obj.name}</p>
@@ -82,11 +90,19 @@ const PicturesIntoPaintingsTheme = ({ detail }: any) => {
                                                 className="link-btn-blue link-btn-height-auto link-btn-no-pdng link-btn-icon-append"
                                                 type="link"
                                                 size="small"
-                                                onClick={() => history.replace('gallery/theme/custom-landscape-paintings/medium/all')}
+                                                onClick={() =>
+                                                    history.push(
+                                                        Routes.galleryTheme
+                                                            .replace(':themeId', obj?.slug || '')
+                                                            .replace(':mediumId', pathname === Routes.home ? 'all' : pathname.split('/')[1]),
+                                                    )
+                                                }
                                             >
                                                 View Gallery
                                                 <span className="icon-append">
-                                                    <LazyImage src={Images.ViewGalleryArrow} alt="" effect="opacity" width="" />
+                                                    <span className="lazy-load-image-loaded">
+                                                        <img src={Images.ViewGalleryArrow?.src} alt="" width="" />
+                                                    </span>
                                                 </span>
                                             </FilledButton>
                                         </div>

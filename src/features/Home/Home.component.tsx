@@ -9,11 +9,11 @@ export const HomeHeroSection = styled.section`
     height: auto;
     background: linear-gradient(180deg, #161626 -22.69%, rgba(20, 20, 29, 0) 100%);
     height: 379px;
-    @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+    /* @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
         height: 30vh;
         padding-top: ${PagePdngTopEqualHeaderHeight};
-    }
-    @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
+    } */
+    @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
         height: 70vh;
         padding-top: ${PagePdngTopEqualHeaderHeight};
     }

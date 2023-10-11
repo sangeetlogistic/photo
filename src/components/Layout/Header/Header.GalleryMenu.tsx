@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { Menu } from 'antd';
-import { useHistory } from 'react-router-dom';
 
 import { paintingProcess } from '../../../constants/general';
 import { Routes } from '../../../navigation/Routes';
 import { Images } from '../../../theme';
 import BannerVideo from '../../BannerVideo';
-import LazyImage from '../../LazyImage';
+import { useRouter } from 'next/router';
 
 const GalleryMenu = ({ title, mobileClassName, hideVideo = false }: { title?: string; mobileClassName?: string; hideVideo?: boolean }) => {
-    const history = useHistory();
+    const history = useRouter();
 
     const [selectedMenuItemKey, setselectedMenuItemKey] = useState<any>([]);
     const onMenuItemClick = (item: any) => setselectedMenuItemKey([item.key]);
@@ -19,7 +18,7 @@ const GalleryMenu = ({ title, mobileClassName, hideVideo = false }: { title?: st
             <h2>{title || ''}</h2>
             <div className="mega-menu-shadow"></div>
             <div className="mega-menu-video">
-                {!hideVideo && paintingProcess && <BannerVideo bannerVideo={paintingProcess} poster={Images.TourPaintingVideoThumb} />}
+                {!hideVideo && paintingProcess && <BannerVideo bannerVideo={paintingProcess} poster={Images.TourPaintingVideoThumb?.src} />}
             </div>
             <div className="mega-menu-link-block">
                 <h2 className="mega-menu-title">Our Themes</h2>
@@ -143,7 +142,9 @@ const GalleryMenu = ({ title, mobileClassName, hideVideo = false }: { title?: st
                             label: (
                                 <span onClick={() => history.push(Routes.customOilPaintings)} role="button" tabIndex={0}>
                                     <figure className="mega-menu-link-icon">
-                                        <LazyImage effect="opacity" src={Images.PaintingTypeOil} alt="" className="" />
+                                        <span className="lazy-load-image-loaded">
+                                            <img src={Images.PaintingTypeOil?.src} alt="" className="" />
+                                        </span>
                                     </figure>
                                     <span className="mega-menu-link-text">Oil</span>
                                 </span>
@@ -154,7 +155,9 @@ const GalleryMenu = ({ title, mobileClassName, hideVideo = false }: { title?: st
                             label: (
                                 <span onClick={() => history.push(Routes.customAcrylicPaintings)} role="button" tabIndex={0}>
                                     <figure className="mega-menu-link-icon">
-                                        <LazyImage effect="opacity" src={Images.PaintingTypeAcrilic} alt="" className="" />
+                                        <span className="lazy-load-image-loaded">
+                                            <img src={Images.PaintingTypeAcrilic?.src} alt="" className="" />
+                                        </span>
                                     </figure>
                                     <span className="mega-menu-link-text">Acrylic</span>
                                 </span>
@@ -165,7 +168,9 @@ const GalleryMenu = ({ title, mobileClassName, hideVideo = false }: { title?: st
                             label: (
                                 <span onClick={() => history.push(Routes.customColorPencilPaintings)} role="button" tabIndex={0}>
                                     <figure className="mega-menu-link-icon">
-                                        <LazyImage effect="opacity" src={Images.PaintingTypeColoredPencil} alt="" className="" />
+                                        <span className="lazy-load-image-loaded">
+                                            <img src={Images.PaintingTypeColoredPencil?.src} alt="" className="" />
+                                        </span>
                                     </figure>
                                     <span className="mega-menu-link-text">Color Pencil</span>
                                 </span>
@@ -176,7 +181,9 @@ const GalleryMenu = ({ title, mobileClassName, hideVideo = false }: { title?: st
                             label: (
                                 <span onClick={() => history.push(Routes.customCharcoalPaintings)} role="button" tabIndex={0}>
                                     <figure className="mega-menu-link-icon">
-                                        <LazyImage effect="opacity" src={Images.PaintingTypeCharcoal} alt="" className="" />
+                                        <span className="lazy-load-image-loaded">
+                                            <img src={Images.PaintingTypeCharcoal?.src} alt="" className="" />
+                                        </span>
                                     </figure>
                                     <span className="mega-menu-link-text">Charcoal</span>
                                 </span>
@@ -187,7 +194,9 @@ const GalleryMenu = ({ title, mobileClassName, hideVideo = false }: { title?: st
                             label: (
                                 <span onClick={() => history.push(Routes.customWatercolorPaintings)} role="button" tabIndex={0}>
                                     <figure className="mega-menu-link-icon">
-                                        <LazyImage effect="opacity" src={Images.PaintingTypeWatercolor} alt="" className="" />
+                                        <span className="lazy-load-image-loaded">
+                                            <img src={Images.PaintingTypeWatercolor?.src} alt="" className="" />
+                                        </span>
                                     </figure>
                                     <span className="mega-menu-link-text">Watercolor</span>
                                 </span>
@@ -198,7 +207,9 @@ const GalleryMenu = ({ title, mobileClassName, hideVideo = false }: { title?: st
                             label: (
                                 <span onClick={() => history.push(Routes.customPencilDrawingsPaintings)} role="button" tabIndex={0}>
                                     <figure className="mega-menu-link-icon">
-                                        <LazyImage effect="opacity" src={Images.PaintingTypeBlackPencil} alt="" className="" />
+                                        <span className="lazy-load-image-loaded">
+                                            <img src={Images.PaintingTypeBlackPencil?.src} alt="" className="" />
+                                        </span>
                                     </figure>
                                     <span className="mega-menu-link-text">Black Pencil</span>
                                 </span>

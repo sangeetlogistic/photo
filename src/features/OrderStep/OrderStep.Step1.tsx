@@ -32,6 +32,8 @@ import { MobileOrderPageMainCmp } from './OrderPage.MobileComponent';
 import MobileHeader from './OrderStep.MobileHeader';
 import MobileStep1 from './OrderStep.MobileStep1';
 import MobileFooter from './OrderStep.MobileFooter';
+import { selectTotalRating } from '../../services/API/GeneralSettings/GeneralSettings.slice';
+import { roundOff } from '../../utils/func';
 
 const { Panel } = Collapse;
 
@@ -72,6 +74,7 @@ const Step1 = ({
     setSavedCardPopup,
     customSelectValueBlock,
     setCustomSelectValueBlock,
+    selectPaintingSizeAndPrice,
 }: IStep1) => {
     const [form] = Form.useForm();
 
@@ -82,6 +85,7 @@ const Step1 = ({
     const selectMediumItems = useAppSelector(mediumItems);
     const step1Detail = useAppSelector(selectStep1Detail);
     const step3Detail = useAppSelector(selectStep3Detail);
+    const totalRating = useAppSelector(selectTotalRating);
 
     const [validationMessage, setValidationMessage] = useState<
         | {
@@ -123,17 +127,28 @@ const Step1 = ({
     }, [personsCount, petsCount]);
 
     useEffect(() => {
-        if (!isMobile && !complateStep1 && step3Detail?.size?.length > 0) {
-            const populerSize = step3Detail?.size?.find((size: any) => !size.isFade);
+        if (!isMobile && !selectPaintingSizeAndPrice && !complateStep1 && step3Detail?.size?.length > 0) {
+            const populerSize = step3Detail?.size?.filter((size: any) => !size?.isFade);
 
-            if (populerSize) {
+            const populerRate = populerSize.find((size: any) => size?.size_id?.isPopular);
+
+            if (populerRate) {
                 setSelectPaintingSizeAndPrice({
-                    id: Number(populerSize.id),
-                    price: populerSize?.newprice || populerSize.price,
-                    framingServiceAvailable: populerSize.isFrame,
-                    title: `${populerSize?.size_id?.height}” x ${populerSize?.size_id?.width}”`,
-                    sizeInText: `${populerSize?.size_id?.height}x${populerSize?.size_id?.width}`,
-                    sizeid: populerSize?.size_id?.id,
+                    id: Number(populerRate.id),
+                    price: populerRate?.newprice || populerRate.price,
+                    framingServiceAvailable: populerRate.isFrame,
+                    title: `${populerRate?.size_id?.height}” x ${populerRate?.size_id?.width}”`,
+                    sizeInText: `${populerRate?.size_id?.height}x${populerRate?.size_id?.width}`,
+                    sizeid: populerRate?.size_id?.id,
+                });
+            } else if (populerSize) {
+                setSelectPaintingSizeAndPrice({
+                    id: Number(populerSize[0].id),
+                    price: populerSize[0]?.newprice || populerSize[0].price,
+                    framingServiceAvailable: populerSize[0].isFrame,
+                    title: `${populerSize[0]?.size_id?.height}” x ${populerSize[0]?.size_id?.width}”`,
+                    sizeInText: `${populerSize[0]?.size_id?.height}x${populerSize[0]?.size_id?.width}`,
+                    sizeid: populerSize[0]?.size_id?.id,
                 });
             } else {
                 setSelectPaintingSizeAndPrice({
@@ -154,8 +169,8 @@ const Step1 = ({
             if (selectThemesItems?.theme === SelectThemes.custom) {
                 if (personsCount || petsCount) {
                     payload = {
-                        TotalPerson: personsCount,
-                        TotalPet: petsCount,
+                        TotalPerson: personsCount || 0,
+                        TotalPet: petsCount || 0,
                         isCustom: true,
                         themeObjPersonId: personTheme?.id,
                         themeObjPetId: petTheme?.id,
@@ -172,6 +187,14 @@ const Step1 = ({
             }
         }
     }, [selectThemesItems, complateStep1]);
+
+    useEffect(() => {
+        if (selectThemesAns || selectMediumAns) {
+            document.body.classList.add('no-scroll');
+        } else {
+            document.body.classList.remove('no-scroll');
+        }
+    }, [selectThemesAns, selectMediumAns]);
 
     const validatePassword = (persons: any, pets: any) => {
         const personsString = persons !== null ? persons.toString() : '0';
@@ -231,8 +254,8 @@ const Step1 = ({
             let payload = {};
             if (selectedTheme === SelectThemes.custom) {
                 payload = {
-                    TotalPerson: personsCount,
-                    TotalPet: petsCount,
+                    TotalPerson: personsCount || 0,
+                    TotalPet: petsCount || 0,
                     isCustom: true,
                     themeObjPersonId: personTheme?.id,
                     themeObjPetId: petTheme?.id,
@@ -447,6 +470,7 @@ const Step1 = ({
                                                                         content={validationMessage?.persons}
                                                                         open={!!validationMessage?.persons}
                                                                         getPopupContainer={() => document.getElementById('popover_error')!}
+                                                                        showArrow={false}
                                                                     >
                                                                         <div className="custom-controls">
                                                                             <Form.Item name="persons">
@@ -495,6 +519,7 @@ const Step1 = ({
                                                                         placement="right"
                                                                         content={validationMessage?.pets}
                                                                         open={!!validationMessage?.pets}
+                                                                        showArrow={false}
                                                                     >
                                                                         <div className="custom-controls">
                                                                             <Form.Item name="pets">
@@ -631,7 +656,7 @@ const Step1 = ({
                                                             </Row>
                                                         </div>
                                                     </Panel>
-                                                    <Panel header="Charcoal Medium" key="2">
+                                                    <Panel header="Acrylic Medium" key="2">
                                                         <div className="medium-collapse-content">
                                                             <Row
                                                                 gutter={{
@@ -641,39 +666,36 @@ const Step1 = ({
                                                             >
                                                                 <Col className="gutter-row" md={8} xl={10}>
                                                                     <figure className="img-responsive">
-                                                                        <img src={Images.StepMediumImg} alt="" className="" />
+                                                                        <img src={Images.acrylicMedium} alt="" className="" />
                                                                     </figure>
                                                                 </Col>
                                                                 <Col className="gutter-row" md={16} xl={14}>
                                                                     <p>
                                                                         <strong>Characteristics</strong>
                                                                         <br />
-                                                                        Oil is the most popular medium and is the most vivid reflection of photos. All
-                                                                        styles and techniques are available to the artist who paints in oil, whereas
-                                                                        most other mediums are limited in their stylistic ranges. An oil painting is a
-                                                                        natural heirloom you will be proud to have in the family for generations.
+                                                                        Before you decide between oil and acrylic mediums, you should know that they
+                                                                        often appear identical. The main advantages of choosing acrylics over oils are
+                                                                        that they can sometimes appear somewhat more saturated in color. Acrylic is
+                                                                        more vibrant than oil, therefore, some will prefer Acrylic as the medium for a
+                                                                        landscape painting.
                                                                     </p>
                                                                     <p>
-                                                                        <strong>Material &amp; Framing:</strong> Oil is painted on canvas and doesn’t
-                                                                        require protective glass.
+                                                                        <strong>Material &amp; Framing:</strong> Acrylic is painted on canvas and
+                                                                        doesn’t require protective glass.
                                                                     </p>
                                                                     <p>
                                                                         <strong>Pros</strong>
                                                                     </p>
                                                                     <p>
-                                                                        <strong>Lively colors&nbsp;</strong>– Oil materials allow artists to create a
-                                                                        painting with the widest range of vivid colors.
+                                                                        <strong>Colors change&nbsp;</strong>– As time goes by, the darker colors in
+                                                                        acrylic paintings become lighter and less vivid. While this is the case with
+                                                                        most mediums, acrylic changes color after drying too.
                                                                     </p>
+
                                                                     <p>
-                                                                        <strong>Visual depth</strong>
-                                                                        &nbsp;– Oil medium is known for the opportunity to create visual depth that is
-                                                                        important for creating realistic portraits or landscape paintings.
-                                                                    </p>
-                                                                    <p>
-                                                                        <strong>Colors remain after drying&nbsp;</strong>– Unlike watercolors or
-                                                                        acrylics, custom color paintings don’t lose the colors after drying. Instead,
-                                                                        the beautiful colors their artists used to create oil painting from photo
-                                                                        remain the same.
+                                                                        <strong>Limitations of color&nbsp;</strong>– Unlike oil or watercolor, acrylic
+                                                                        is available in limited colors. However, it doesn’t mean that custom acrylic
+                                                                        paintings are always less colorful. .
                                                                     </p>
                                                                 </Col>
                                                             </Row>
@@ -689,39 +711,162 @@ const Step1 = ({
                                                             >
                                                                 <Col className="gutter-row" md={8} xl={10}>
                                                                     <figure className="img-responsive">
-                                                                        <img src={Images.StepMediumImg} alt="" className="" />
+                                                                        <img src={Images.watercolorMedium} alt="" className="" />
                                                                     </figure>
                                                                 </Col>
                                                                 <Col className="gutter-row" md={16} xl={14}>
                                                                     <p>
                                                                         <strong>Characteristics</strong>
                                                                         <br />
-                                                                        Oil is the most popular medium and is the most vivid reflection of photos. All
-                                                                        styles and techniques are available to the artist who paints in oil, whereas
-                                                                        most other mediums are limited in their stylistic ranges. An oil painting is a
-                                                                        natural heirloom you will be proud to have in the family for generations.
+                                                                        Watercolor is a very distinctive kind of painting medium. The transparent
+                                                                        watercolor distinguishes your painting from all other mediums. The magic of
+                                                                        color mixed with water gives the painting a soft, rustic, antique feeling.
                                                                     </p>
                                                                     <p>
-                                                                        <strong>Material &amp; Framing:</strong> Oil is painted on canvas and doesn’t
-                                                                        require protective glass.
+                                                                        <strong>Material &amp; Framing:</strong> Painted on paper and requires a
+                                                                        protective glass when framed.
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong>Works best for:&nbsp;</strong>Watercolor works very well for houses
+                                                                        and outdoor / landscape.
+                                                                    </p>
+                                                                </Col>
+                                                            </Row>
+                                                        </div>
+                                                    </Panel>
+                                                    <Panel header="Charcoal Medium" key="4">
+                                                        <div className="medium-collapse-content">
+                                                            <Row
+                                                                gutter={{
+                                                                    md: 16,
+                                                                    xl: 24,
+                                                                }}
+                                                            >
+                                                                <Col className="gutter-row" md={8} xl={10}>
+                                                                    <figure className="img-responsive">
+                                                                        <img src={Images.charcoalMedium} alt="" className="" />
+                                                                    </figure>
+                                                                </Col>
+                                                                <Col className="gutter-row" md={16} xl={14}>
+                                                                    <p>
+                                                                        <strong>Characteristics</strong>
+                                                                        <br />
+                                                                        Artistic simpleness with black and white. While charcoals grant the lively
+                                                                        drama of any black-and-white medium, they are usually far more high-contrast
+                                                                        than pencil drawings. In fact, contrast is the very nature of charcoals. The
+                                                                        darker blacks obtainable from charcoals give a certain drama that would be
+                                                                        more subtle in other mediums. If you love black and white pictures, and seek
+                                                                        to make a powerful statement, consider charcoals as your medium.
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong>Material &amp; Framing:</strong> Painted on paper and requires a
+                                                                        protective glass when framed.
                                                                     </p>
                                                                     <p>
                                                                         <strong>Pros</strong>
                                                                     </p>
                                                                     <p>
-                                                                        <strong>Lively colors&nbsp;</strong>– Oil materials allow artists to create a
-                                                                        painting with the widest range of vivid colors.
+                                                                        <strong>Shadows look very realistic&nbsp;</strong>- The charcoal medium is
+                                                                        famous for creating realistic shadows and adding depth to the painting.
+                                                                        Therefore, custom charcoal drawings look genuine and true to life.
                                                                     </p>
                                                                     <p>
-                                                                        <strong>Visual depth</strong>
-                                                                        &nbsp;– Oil medium is known for the opportunity to create visual depth that is
-                                                                        important for creating realistic portraits or landscape paintings.
+                                                                        <strong>Versatile paintings&nbsp;</strong>- Charcoal is considered one of the
+                                                                        most versatile art mediums due to its ability to be smudged and blended. As a
+                                                                        result, the charcoal medium is ideal for creating depth in black-and-white
+                                                                        paintings.
+                                                                    </p>
+                                                                </Col>
+                                                            </Row>
+                                                        </div>
+                                                    </Panel>
+                                                    <Panel header="Black Pencil Medium" key="5">
+                                                        <div className="medium-collapse-content">
+                                                            <Row
+                                                                gutter={{
+                                                                    md: 16,
+                                                                    xl: 24,
+                                                                }}
+                                                            >
+                                                                <Col className="gutter-row" md={8} xl={10}>
+                                                                    <figure className="img-responsive">
+                                                                        <img src={Images.blackPencilMedium} alt="" className="" />
+                                                                    </figure>
+                                                                </Col>
+                                                                <Col className="gutter-row" md={16} xl={14}>
+                                                                    <p>
+                                                                        <strong>Characteristics</strong>
+                                                                        <br />
+                                                                        Pencils can go from very light to very deep in hue and depth. The fine lines
+                                                                        of a sharpened pencil are nearly impossible to duplicate with a brush and
+                                                                        completely unavailable for pastels or charcoal. Shading with pencils is one of
+                                                                        the nicest characteristics this medium provides.
                                                                     </p>
                                                                     <p>
-                                                                        <strong>Colors remain after drying&nbsp;</strong>– Unlike watercolors or
-                                                                        acrylics, custom color paintings don’t lose the colors after drying. Instead,
-                                                                        the beautiful colors their artists used to create oil painting from photo
-                                                                        remain the same.
+                                                                        <strong>Material &amp; Framing:</strong> Painted on paper and requires
+                                                                        protective glass when framed.
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong>Pros</strong>
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong>Lasts for long&nbsp;</strong>- Pencil medium is known for its
+                                                                        longevity and durability. Respectively, custom pencil portraits won’t be
+                                                                        damaged over time and will remain just as you saw them for the first time.
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong>Dries immediately&nbsp;</strong>- Unlike oil, watercolor, and other
+                                                                        mediums that need plenty of time to dry, the pencil doesn’t need any time to
+                                                                        dry. Therefore, your custom pencil drawings will be shipped once the painter
+                                                                        finishes drawing.
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong>Can be used on most surfaces&nbsp;</strong>- Pencil is used on all
+                                                                        surfaces, including paper, canvas, wood, metal, and even concrete.
+                                                                    </p>
+                                                                </Col>
+                                                            </Row>
+                                                        </div>
+                                                    </Panel>
+                                                    <Panel header="Color Pencil Medium" key="6">
+                                                        <div className="medium-collapse-content">
+                                                            <Row
+                                                                gutter={{
+                                                                    md: 16,
+                                                                    xl: 24,
+                                                                }}
+                                                            >
+                                                                <Col className="gutter-row" md={8} xl={10}>
+                                                                    <figure className="img-responsive">
+                                                                        <img src={Images.colorPencilMedium} alt="" className="" />
+                                                                    </figure>
+                                                                </Col>
+                                                                <Col className="gutter-row" md={16} xl={14}>
+                                                                    <p>
+                                                                        <strong>Characteristics</strong>
+                                                                        <br />
+                                                                        Pencils can go from very light to very deep in hue and depth. The fine lines
+                                                                        of a sharpened pencil are nearly impossible to duplicate with a brush and
+                                                                        completely unavailable for pastels or charcoal. Shading with pencils is one of
+                                                                        the nicest characteristics this medium provides.
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong>Material &amp; Framing:</strong> Painted on paper and requires
+                                                                        protective glass when framed.
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong>Pros</strong>
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong>More vibrant colors&nbsp;</strong>- Color pencils allow artists to
+                                                                        create various colors, from dark to light. As a result, the colors in color
+                                                                        pencil drawings look super vibrant and lively.
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong>Dries immediately&nbsp;</strong>- While custom oil or watercolor
+                                                                        paintings require some time to dry before the portrait is completely ready,
+                                                                        there’s no such thing as a color pencil medium. In fact, colored pencil
+                                                                        artworks drive immediately, meaning customers don’t have to wait for days.
                                                                     </p>
                                                                 </Col>
                                                             </Row>
@@ -791,13 +936,8 @@ const Step1 = ({
                                         <Col md={12} xl={24} className="info-step-customer-review">
                                             <CustomerReview
                                                 className="customer-single-review-block"
-                                                title={
-                                                    <div>
-                                                        Customer review - <span className="text-success">Excellent</span>
-                                                    </div>
-                                                }
-                                                rate={4.9}
-                                                totalReviews={8758473}
+                                                title="Excellent Customer Reviews"
+                                                rate={roundOff(totalRating)}
                                             />
                                         </Col>
                                     </Row>

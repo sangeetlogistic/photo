@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Images } from '../../theme';
 const LoadingFadedDiv = styled.div<{ show: boolean; isfull?: boolean }>`
@@ -26,10 +26,18 @@ const LoadingFadedDiv = styled.div<{ show: boolean; isfull?: boolean }>`
     background: rgba(0, 0, 0, 0.55);
 `;
 
-const LoadingCover = ({ show, isFullScreen = true }: { show: boolean; isFullScreen?: boolean }) => (
-    <LoadingFadedDiv show={show} isfull={isFullScreen}>
-        <img src={Images.LoaderIcon} alt="loader" />
-    </LoadingFadedDiv>
-);
-
+const LoadingCover = ({ show, isFullScreen = true }: { show: boolean; isFullScreen?: boolean }) => {
+    useEffect(() => {
+        if (show) {
+            document.body.classList.add('no-scroll');
+        } else {
+            document.body.classList.remove('no-scroll');
+        }
+    }, [show]);
+    return (
+        <LoadingFadedDiv show={show} isfull={isFullScreen}>
+            <img src={Images.LoaderIcon} alt="loader" />
+        </LoadingFadedDiv>
+    );
+};
 export default LoadingCover;

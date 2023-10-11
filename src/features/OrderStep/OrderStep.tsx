@@ -5,8 +5,6 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { getCountries } from 'react-phone-number-input';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
-import { message } from 'antd';
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import LoadingCover from '../../components/LoadingCover';
@@ -18,7 +16,7 @@ import Checkout from './OrderStep.Checkout';
 import {
     clearThemeAndMedium,
     getOrderStepThemeObjMedium,
-    selectedSize,
+    // selectedSize,
     selectError,
     selectLoading,
     selectMediumItems,
@@ -36,11 +34,15 @@ import Step4 from './OrderStep.Step4';
 import OrderStepFooter from './OrderStep.Footer';
 import { OrderSteps, successPage } from './OrderStep.constants';
 import { isLocalStorageValid } from '../../utils/func';
+import Toast from '../../components/Toast';
+import { getTotalRatingAction } from '../../services/API/GeneralSettings/GeneralSettings.slice';
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 const OrderStep = () => {
-    const { pathname } = useLocation();
-    const history = useHistory();
-    const { id }: { id: string } = useParams();
+    const pathname = usePathname();
+    const history = useRouter();
+    const id: any = {};
 
     const dispatch = useAppDispatch();
     const { isMobile } = useDeviceDetect();
@@ -48,7 +50,6 @@ const OrderStep = () => {
 
     const themesItems = useAppSelector(selectThemesItems);
     const mediumItems = useAppSelector(selectMediumItems);
-    const selectSize = useAppSelector(selectedSize);
     const loading = useAppSelector(selectLoading);
     const error = useAppSelector(selectError);
     const step3Detail = useAppSelector(selectStep3Detail);
@@ -58,11 +59,12 @@ const OrderStep = () => {
         ? JSON.parse(localStorage.getItem(LocalStorageKeys.savedCardProccessComplete) || '')
         : '';
 
+    const [show, setShow] = useState(false);
     const [initLoad, setInitLoad] = useState(false);
     const [personTheme, setPersonTheme] = useState<any>({});
     const [petTheme, setPetTheme] = useState<any>({});
     const [complateStep1, setComplateStep1] = useState(false);
-    const [isdelay, setIsDelay] = useState(false);
+    const [isDelay, setIsDelay] = useState(false);
 
     // Select Themes
     const [selectThemesAns, setSelectThemesAns] = useState(false);
@@ -138,15 +140,7 @@ const OrderStep = () => {
         discountedAmount: string;
         message: string;
     } | null>(null);
-
-    // useEffect(() => {
-    //   const data: any = localStorage.getItem(LocalStorageKeys.orderPageDetail)
-    //     ? JSON.parse(localStorage.getItem(LocalStorageKeys.orderPageDetail) || '')
-    //     : '';
-
-    //   if (data?.data?.selectPaintingSize)
-    //     setSelectPaintingSize(data?.data?.selectPaintingSize);
-    // }, [selectPaintingSize]);
+    const [imagePerviewName, setImagePerviewName] = useState<string[]>([]);
 
     useEffect(() => {
         if (!initLoad) {
@@ -164,7 +158,7 @@ const OrderStep = () => {
             complateStep2,
             repeatStep2,
             combinePhotoPrice,
-            selectSize,
+            // selectSize,
             complateStep3,
             repeatStep3,
             selectPaintingSizeAndPrice,
@@ -186,6 +180,7 @@ const OrderStep = () => {
             couponCode,
             successCouponId,
             // selectPaintingSize,
+            imagePerviewName,
         };
         if (initLoad) {
             saveDataToLocalStorage(LocalStorageKeys.orderPageDetail, payload, 1);
@@ -201,7 +196,7 @@ const OrderStep = () => {
         complateStep2,
         repeatStep2,
         combinePhotoPrice,
-        selectSize,
+        // selectSize,
         complateStep3,
         repeatStep3,
         selectPaintingSizeAndPrice,
@@ -222,6 +217,7 @@ const OrderStep = () => {
         successCouponCode,
         couponCode,
         successCouponId,
+        imagePerviewName,
         // selectPaintingSize,
     ]);
 
@@ -268,10 +264,11 @@ const OrderStep = () => {
                 setSuccessCouponCode(data?.data.successCouponCode);
                 setCouponCode(data?.data.couponCode);
                 setSuccessCouponId(data?.data.successCouponId);
+                setImagePerviewName(data?.data.imagePerviewName);
                 // setSelectPaintingSize(data?.data.selectPaintingSize);
                 dispatch(setSelectThemesItems(data?.data.themesItems));
                 dispatch(setSelectMediumItems(data?.data.mediumItems));
-                dispatch(setSelectSize(data?.data.selectSize));
+                // dispatch(setSelectSize(data?.data.selectSize));
             }
         } else {
             localStorage.removeItem(LocalStorageKeys.orderPageDetail);
@@ -281,9 +278,7 @@ const OrderStep = () => {
     }, []);
 
     useEffect(() => {
-        if (error) {
-            message.error(error.message);
-        }
+        if (error) setShow(true);
     }, [error]);
 
     useEffect(() => {
@@ -303,6 +298,10 @@ const OrderStep = () => {
         const noteFadeList = step3Detail?.size?.filter((list: any) => !list.isFade);
         setIsNoteFadeList(noteFadeList);
     }, [step3Detail?.size]);
+
+    useEffect(() => {
+        dispatch(getTotalRatingAction());
+    }, []);
 
     useEffect(() => {
         if (savedCardProccessCompleteLocal?.data) {
@@ -383,14 +382,40 @@ const OrderStep = () => {
         }
     }, [customSelectValueBlock, viewOrderSummary]);
 
+    useEffect(() => {
+        const DISABLE_SCROLLING_CLASS = 'scroll-disabled';
+
+        const handleKeyboardOpen = () => {
+            const scrollPosition = window.scrollY || window.pageYOffset;
+            document.body.classList.add(DISABLE_SCROLLING_CLASS);
+            document.body.style.top = `-${scrollPosition}px`;
+        };
+
+        const handleKeyboardClose = () => {
+            document.body.classList.remove(DISABLE_SCROLLING_CLASS);
+            const scrollPosition = parseFloat(document.body.style.top);
+            document.body.style.removeProperty('top');
+            window.scrollTo(0, Math.abs(scrollPosition));
+        };
+
+        if (isMobile) {
+            if (isDelay) {
+                handleKeyboardOpen();
+            } else {
+                handleKeyboardClose();
+            }
+        }
+    }, [isDelay]);
+
     return (
         <>
             <Helmet>
                 <title>Order</title>
             </Helmet>
+            {show && <Toast show={show} setShow={setShow} message={error?.message} type="error" showIcon />}
             <OrderPageWrappCmp className={`${!isMobile ? 'order-wrap' : ''}`}>
                 <div className={`${!isMobile ? 'order-data-block' : 'mobile_comp_data-block'}`}>
-                    {isMobile && <div className={`backdrop_class ${isdelay ? 'backdrop_class_show' : ''}`} onClick={handleMobileBackDrop} />}
+                    {isMobile && <div className={`backdrop_class ${isDelay ? 'backdrop_class_show' : ''}`} onClick={handleMobileBackDrop} />}
 
                     {pathname === Routes.orderStep.replace(':id', '1') && (
                         <Step1
@@ -430,6 +455,7 @@ const OrderStep = () => {
                             setSavedCardPopup={setSavedCardPopup}
                             customSelectValueBlock={customSelectValueBlock}
                             setCustomSelectValueBlock={setCustomSelectValueBlock}
+                            selectPaintingSizeAndPrice={selectPaintingSizeAndPrice}
                         />
                     )}
 
@@ -564,6 +590,8 @@ const OrderStep = () => {
                             savedCardProccessComplete={savedCardProccessComplete}
                             setSavedCardPopup={setSavedCardPopup}
                             clearOrderData={clearOrderData}
+                            imagePerviewName={imagePerviewName}
+                            setImagePerviewName={setImagePerviewName}
                         />
                     )}
                 </div>

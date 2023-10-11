@@ -74,16 +74,13 @@ const MobileStep3 = ({
     };
 
     useEffect(() => {
-        if (nav1 && currentSlide) nav1?.slickGoTo(currentSlide);
+        if (nav1) nav1?.slickGoTo(currentSlide);
     }, [nav1, currentSlide]);
 
     useEffect(() => {
-        if (selectSizeSlider && currentSlide && isNoteFadeList?.length > 0) {
-            if (!selectPaintingSize) {
-                const filterSizePrice = step3Detail?.size?.find((list: any, index: number) => currentSlide === index);
-
-                handleInputSelection(filterSizePrice)(undefined);
-            }
+        if (selectSizeSlider && !selectPaintingSize) {
+            const filterSizePrice = step3Detail?.size?.find((list: any, index: number) => currentSlide === index);
+            handleInputSelection(filterSizePrice)(undefined);
         }
     }, [currentSlide, selectPaintingSize, selectSizeSlider]);
 
@@ -101,6 +98,15 @@ const MobileStep3 = ({
         const noteFadeList = step3Detail?.size?.filter((list: any) => !list.isFade);
         setIsNoteFadeList(noteFadeList);
     }, [step3Detail?.size]);
+
+    useEffect(() => {
+        if (!selectPaintingSize || selectPaintingSize === null) setSelectedPaintingFraming(false);
+    }, [selectPaintingSize]);
+
+    useEffect(() => {
+        if (step3Detail?.frame?.filter((obj: any) => obj?.sizeid?.id === selectPaintingSizeAndPrice?.sizeid).length === 1)
+            setSelectedPaintingFraming(true);
+    }, [selectPaintingSizeAndPrice]);
 
     const settingsBox = {
         slidesToShow: 1,
@@ -160,15 +166,15 @@ const MobileStep3 = ({
                                         />
                                         <div className={`select-size-block-outer ${list.isFade ? 'opacity05' : ''} `} role="button" tabIndex={0}>
                                             <div className="select-size-wrap">
-                                                <div className="d-flex justify-between">
+                                                <div className="d-flex justify-between items-center">
                                                     <span className="painting-size">{`${list?.size_id?.height}” x ${list?.size_id?.width}”`}</span>
                                                     <span className="painting-rate">{`$${list?.newprice || list?.price}`}</span>
                                                 </div>
                                                 <p className="twenty_per_text">
-                                                    20% Due Now:{' '}
+                                                    <span className="painting-size">20% Due Now:</span>{' '}
                                                     <span
-                                                        className={`painting-rate  ${
-                                                            selectSizeSlider && selectPaintingSizeAndPrice?.id === list.id ? 'text-red' : ''
+                                                        className={`painting-rate-red  ${
+                                                            selectPaintingSizeAndPrice?.id === list.id ? 'text-red' : ''
                                                         }`}
                                                     >
                                                         ${Math.round((list?.newprice || list?.price) * depositDue)}
@@ -205,7 +211,18 @@ const MobileStep3 = ({
                                 <FontAwesomeIcon icon={faChevronRight} />
                             </FilledButton>
                         </div>
-                        <div className="frame-size-block justify-center">
+                        <div
+                            className="frame-size-block justify-center"
+                            onClick={() => {
+                                dispatch(
+                                    setSelectSize({
+                                        painting: true,
+                                        frame: false,
+                                    }),
+                                );
+                                setSelectedPaintingFraming(true);
+                            }}
+                        >
                             <label className="select-size-label selected_width">
                                 <input
                                     type="radio"
@@ -218,13 +235,15 @@ const MobileStep3 = ({
                                 />
                                 <div className="select-size-block-outer">
                                     <div className="select-size-wrap">
-                                        <div className="d-flex justify-between">
+                                        <div className="d-flex justify-between items-center">
                                             <span className="painting-size">{`${selectPaintingSizeAndPrice?.title}`}</span>
                                             <span className="twenty_per_text">{`$${selectPaintingSizeAndPrice?.price}`}</span>
                                         </div>
                                         <p className="twenty_per_text">
-                                            20% Due Now:{' '}
-                                            <span className="painting-rate">${(selectPaintingSizeAndPrice?.price * depositDue).toFixed(2)}</span>
+                                            <span className="painting-size">20% Due Now:</span>{' '}
+                                            <span className="painting-rate-red text-red">
+                                                ${Math.round(selectPaintingSizeAndPrice?.price * depositDue)}
+                                            </span>
                                         </p>
                                     </div>
                                 </div>
@@ -240,15 +259,18 @@ const MobileStep3 = ({
                                     </FilledButton>
                                 )}
                             </div>
-
-                            <div className="select-frame-block">
-                                <label htmlFor="paintingFrame" className="select-frame-label">
+                            <div
+                                className="select-frame-block"
+                                onClick={() => selectPaintingSizeAndPrice?.framingServiceAvailable && setSelectedPaintingFraming(false)}
+                            >
+                                <label htmlFor="framePainting" className="select-frame-label">
                                     <input
                                         type="radio"
                                         className="select-frame-input-radio"
-                                        name="paintingFrame"
-                                        checked={selectedFrame?.id}
-                                        readOnly
+                                        name="framePainting"
+                                        defaultChecked={
+                                            step3Detail?.frame?.length > 0 && step3Detail?.frame?.find((obj: any) => obj?.id === selectedFrame?.id)
+                                        }
                                     />
                                     <div className="select-frame-block-outer">
                                         <div className="select-frame-wrap">
@@ -325,7 +347,7 @@ const MobileStep3 = ({
                 </div>
             </OrderSummaryThemeModal>
             {selectSize.painting && selectPaintingSize && (
-                <OrderStep3Cmp className="mobile-order-inner-block step-3 px-0 py-0">
+                <OrderStep3Cmp className="mobile-order-inner-block step-3 px-0 py-0 slider_slide_bottom">
                     <div className="mobile_fram_selection">
                         <div className="frame-select-preview">
                             <img src={Images.OrderPaintingImgBg} alt="" className="f-s-bg" />
@@ -369,20 +391,20 @@ const MobileStep3 = ({
                                                     tabIndex={0}
                                                 >
                                                     <div className="select-size-wrap">
-                                                        <div className="d-flex justify-between">
+                                                        <div className="d-flex justify-between items-center">
                                                             <span className="painting-size">
                                                                 {`${list?.size_id?.height}” x ${list?.size_id?.width}”`}
                                                             </span>
                                                             <span className="painting-rate">{`$${list?.newprice || list?.price}`}</span>
                                                         </div>
                                                         <p className="twenty_per_text">
-                                                            20% Due Now:{' '}
+                                                            20% Due Now:
                                                             <span
-                                                                className={`painting-rate  ${
+                                                                className={`painting-rate-red  ${
                                                                     selectPaintingSizeAndPrice?.id === list.id ? 'text-red' : ''
                                                                 }`}
                                                             >
-                                                                ${((list?.newprice || list?.price) * depositDue).toFixed(2)}
+                                                                ${Math.round((list?.newprice || list?.price) * depositDue)}
                                                             </span>
                                                         </p>
                                                     </div>

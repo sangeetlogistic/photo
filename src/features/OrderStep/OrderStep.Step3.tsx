@@ -102,7 +102,7 @@ const Step3 = ({
 
     const handleFrameChange = (list: any) => (event: any) => {
         setSelectedFrame({
-            id: Number(event.target.id),
+            id: event ? Number(event?.target?.id) : list?.id,
             title: list.name,
             price: list.price,
             image: list.frameImageUrl,
@@ -139,8 +139,7 @@ const Step3 = ({
                                     <div
                                         className={`order-frame-nav-item ${selectSize.frame ? 'active' : ''} ${
                                             complateStep3 ? 'selected pe-none' : ''
-                                        }
-                `}
+                                        }`}
                                     >
                                         <span className="">{!complateStep3 ? 'Framing' : 'Frame Selected'}</span>
                                         <i className="icon">

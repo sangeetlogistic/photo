@@ -8,184 +8,189 @@ import { convertPxToVw } from '../../utils/func';
 export const AccountMainCmp = styled.section``;
 
 export const AccountWrapCmp = styled.div`
-  padding-top: 96px;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-    padding-top: ${PagePdngTopEqualHeaderHeight};
-  }
-  .account-data-block {
-
-    @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-      padding: 2.5vw 5.208vw;
+    padding-top: 96px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+        padding-top: ${PagePdngTopEqualHeaderHeight};
     }
-    .account-data-head {
-      display: flex;
-      align-items: center;
-      margin-bottom: 2.5vw;
-      @media (max-width: ${`${MediaBreakpoints.upMd1}px`}) {
-        padding: 0 24px;
-        margin-bottom: 20px;
-      }
-      .account-head-icon {
-        width: 74px;
-        height: 74px;
-        margin-right: 15px;
-        @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-          width: 8.854vw;
-          height: 8.854vw;
-          border-radius: 8.854vw;
-          margin: 0 1.563vw 0 0;
+    .account-data-block {
+        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+            padding: 2.5vw 5.208vw;
         }
-        img {
-          width: 100%;
-          height: 100%;
-        }
-      }
-      .account-head-right {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        @media (max-width: ${`${MediaBreakpoints.upMd1}px`}) {
-          flex-wrap: wrap;
-        }
-        .account-data-heade-title {
-          @media (max-width: ${`${MediaBreakpoints.upMd1}px`}) {
-            width: 100%;
-          }
-          h2 {
-            @media (max-width: ${`${MediaBreakpoints.upMd1}px`}) {
-              font-size: 16px;
-              line-height: inherit;
-              margin: 0;
-              letter-spacing: 0;
+        .account-data-head {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2.5vw;
+            @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+                padding: 0 24px;
+                margin-bottom: 20px;
             }
-          }
-          h2,
-          h3 {
-            color: ${Colors.gray100};
+            .account-head-icon {
+                width: 74px;
+                height: 74px;
+                margin-right: 15px;
+                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                    width: 8.854vw;
+                    height: 8.854vw;
+                    border-radius: 8.854vw;
+                    margin: 0 1.563vw 0 0;
+                }
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            .account-head-right {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+                    flex-wrap: wrap;
+                }
+                .account-data-heade-title {
+                    @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+                        width: 100%;
+                    }
+                    h2 {
+                        @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+                            font-size: 16px;
+                            line-height: inherit;
+                            margin: 0;
+                            letter-spacing: 0;
+                        }
+                    }
+                    h2,
+                    h3 {
+                        color: ${Colors.gray100};
+                        font-family: ${Fonts.titleFont};
+                        text-transform: uppercase;
+                    }
+                    h3 {
+                        line-height: normal;
+                        margin: 0;
+                        font-size: 12px;
+                        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                            font-size: 1.667vw;
+                            line-height: 1.823vw;
+                            margin-bottom: 1.25vw;
+                        }
+                    }
+                }
+                .ant-btn-primary {
+                    border-radius: 0.7vw;
+                    @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+                        height: 7vw;
+                        font-size: 2.5vw;
+                        padding: 0 7vw;
+                        margin-bottom: 10px;
+                    }
+                }
+            }
+        }
+        .account-tab {
+            .ant-tabs-nav {
+                padding: 0 20px;
+                margin: 0;
+                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                    padding: 0;
+                    padding-left: 2.083vw;
+                    margin-bottom: 1.094vw;
+                }
+                &::before {
+                    border-color: ${Colors.transparent};
+                }
+                .ant-tabs-tab {
+                    font-family: ${Fonts.titleFont};
+                    color: ${Colors.gray60};
+                    font-weight: 700;
+                    padding: 0;
+                    font-size: 16px;
+                    line-height: 35px;
+                    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                        font-size: 1.25vw;
+                        line-height: 1.823vw;
+                    }
+                    + .ant-tabs-tab {
+                        margin: 0 0 0 12px;
+                        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                            margin: 0 0 0 2.5vw;
+                        }
+                    }
+                    &.ant-tabs-tab-active {
+                        .ant-tabs-tab-btn {
+                            color: ${Colors.gray100};
+                        }
+                    }
+                }
+                .ant-tabs-ink-bar {
+                    height: 1px;
+                }
+            }
+        }
+        .store-credit-balance-wrap {
+            display: flex;
+            align-items: center;
+            font-size: ${convertPxToVw('24')}vw;
             font-family: ${Fonts.titleFont};
-            text-transform: uppercase;
-          }
-          h3 {
-            line-height: normal;
-            margin: 0;
-            font-size: 12px;
-            @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-              font-size: 1.667vw;
-              line-height: 1.823vw;
-              margin-bottom: 1.25vw;
+            font-weight: 700;
+            color: ${Colors.gray80};
+            .store-credit-balance {
+                .balance {
+                    margin-left: ${convertPxToVw('16')}vw;
+                }
             }
-          }
-        }
-        .ant-btn-primary {
-          border-radius: 0.7vw;
-          @media (max-width: ${`${MediaBreakpoints.upMd1}px`}) {
-            height: 7vw;
-            font-size: 2.5vw;
-            padding: 0 7vw;
-            margin-bottom: 10px;
-          }
-        }
-      }
-    }
-    .tab-tracking-block {
-      /* display: flex;
-      align-items: center; */
-      /* justify-content: space-between; */
-    }
-    .account-tab {
-      .ant-tabs-nav {
-        padding: 0 20px;
-        margin: 0;
-        @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-          padding: 0;
-          padding-left: 2.083vw;
-          margin-bottom: 1.094vw;
-        }
-        &::before {
-          border-color: ${Colors.transparent};
-        }
-        .ant-tabs-tab {
-          font-family: ${Fonts.titleFont};
-          color: ${Colors.gray60};
-          font-weight: 700;
-          padding: 0;
-          font-size: 16px;
-          line-height: 35px;
-          @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-            font-size: 1.25vw;
-            line-height: 1.823vw;
-          }
-          + .ant-tabs-tab {
-            margin: 0 0 0 12px;
-            @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-              margin: 0 0 0 2.5vw;
+            .icon {
+                margin-left: ${convertPxToVw('8')}vw;
             }
-          }
-          &.ant-tabs-tab-active {
-            .ant-tabs-tab-btn {
-              color: ${Colors.gray100};
+        }
+        .personal-detail-card {
+            border-radius: ${convertPxToVw('32')}vw;
+            border-color: ${Colors.reviewCardbrd};
+            @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+                border-radius: 32px;
+                margin-top: 30px;
             }
-          }
+            .ant-card-body {
+                padding: ${convertPxToVw('50')}vw ${convertPxToVw('100')}vw;
+                .ant-space-item {
+                    position: relative;
+                    .position_select {
+                        bottom: 0;
+                        top: unset;
+                        width: 94px;
+                        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                            width: ${convertPxToVw('220')}vw;
+                        }
+                        @media (min-width: ${`${MediaBreakpoints.upLg}px`}) {
+                            width: ${convertPxToVw('180')}vw;
+                        }
+                        @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
+                            width: ${convertPxToVw('120')}vw;
+                        }
+                    }
+                    .ant-form-item {
+                        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                            margin-bottom: ${convertPxToVw('24')}vw;
+                        }
+                    }
+                }
+            }
         }
-        .ant-tabs-ink-bar {
-          height: 1px;
-        }
-      }
     }
-    .store-credit-balance-wrap {
-      display: flex;
-      align-items: center;
-      font-size: ${convertPxToVw('24')}vw;
-      font-family: ${Fonts.titleFont};
-      font-weight: 700;
-      color: ${Colors.gray80};
-      .store-credit-balance {
-        .balance {
-          margin-left: ${convertPxToVw('16')}vw;
-        }
-      }
-      .icon {
-        margin-left: ${convertPxToVw('8')}vw;
-      }
-    }
-    .personal-detail-card {
-      border-radius: ${convertPxToVw('32')}vw;
-      border-color: ${Colors.reviewCardbrd};
-      @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
-      border-radius: 32px;
-      margin-top: 30px;
-    }
-      .ant-card-body {
-        padding: ${convertPxToVw('50')}vw ${convertPxToVw('100')}vw;
-      .ant-space-item {
-        position: relative;
-        .position_select{
-          bottom:0;
-          top: unset;
-          width:94px;
-          @media (min-width: ${`${MediaBreakpoints.upLg}px`}) {
-            width: ${convertPxToVw('120')}vw;;
-          }
-        }
-      }
-    }
-  }
 `;
 
 export const ShippingAddressCmp = styled.div`
     &.shipping_address_form {
-        margin-top: 0.833vw;
         .title-font {
             font-weight: 700;
             color: ${Colors.black};
             margin: 0 0 1.25vw;
             padding: 0;
-            font-size: 14px;
-            @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+            font-size: 24px;
+            @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                 font-size: 1.249vw;
                 line-height: 1.822vw;
             }
@@ -194,8 +199,14 @@ export const ShippingAddressCmp = styled.div`
             bottom: 0;
             top: unset;
             width: 94px;
+            @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                width: ${convertPxToVw('220')}vw;
+            }
             @media (min-width: ${`${MediaBreakpoints.upLg}px`}) {
-                width: ${convertPxToVw('110')}vw;
+                width: ${convertPxToVw('180')}vw;
+            }
+            @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
+                width: ${convertPxToVw('120')}vw;
             }
         }
         .ant-form-item {
@@ -212,13 +223,13 @@ export const ShippingAddressCmp = styled.div`
             @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
                 padding-bottom: 5px;
             }
-            @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+            @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                 font-size: 0.8vw;
             }
             > label {
                 @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
-                    font-size: 12px;
-                    line-height: 12px;
+                    font-size: 16px;
+                    line-height: 18px;
                 }
             }
         }
@@ -228,19 +239,32 @@ export const ShippingAddressCmp = styled.div`
             background: #ffffff;
             color: ${Colors.black};
             font-family: ${Fonts.titleFont};
-            border: 0.052vw solid rgba(217, 224, 242, 0.9);
-            border-radius: 0.416vw;
-            height: 38px;
+            border: 0.052vw solid ${Colors.reviewCardbrd};
+            height: 48px;
+            border-radius: 8px;
             @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
-                font-size: 12px;
+                font-size: 14px;
             }
-            @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+            @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                height: 36px;
+                font-size: ${convertPxToVw('20')}vw;
+            }
+            @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
                 height: 2.499vw;
+                border-radius: 0.416vw;
+                font-size: ${convertPxToVw('16')}vw;
             }
         }
         .ant-select-selection-item {
             padding-right: 0;
-            @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+            line-height: 48px;
+            @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                line-height: 4.5vw;
+            }
+            @media (min-width: ${`${MediaBreakpoints.upLg}px`}) {
+                line-height: 3.5vw;
+            }
+            @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
                 line-height: 2.5vw;
             }
         }
@@ -254,17 +278,22 @@ export const ShippingAddressCmp = styled.div`
             .save_address-btn {
                 display: flex;
                 justify-content: center;
-                font-weight: 700;
+                font-weight: 600;
                 text-align: center;
-                letter-spacing: -0.02em;
                 text-transform: uppercase;
                 align-items: center;
                 gap: 0.5vw;
-                font-size: 12px;
-                border: 0.052vw solid #ee4266;
-                background-color: ${Colors.primary};
-                color: ${Colors.white};
-                @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                font-size: 14px;
+                border: 1px solid #ee4266;
+                background-color: ${Colors.white};
+                color: ${Colors.black};
+                width: 100%;
+                height: unset;
+                border-radius: 14px;
+                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                    border: 0.052vw solid #ee4266;
+                    color: ${Colors.white};
+                    background-color: ${Colors.primary};
                     width: 10vw;
                     height: 2.863vw;
                     border-radius: 0.729vw;
@@ -287,7 +316,7 @@ export const HelpIcon = styled.span`
     display: flex;
     align-items: center;
     justify-content: center;
-    @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
         width: ${convertPxToVw('22')}vw;
         height: ${convertPxToVw('22')}vw;
     }
@@ -304,16 +333,16 @@ export const AccountOrderBlock = styled.div`
     border-radius: 32px;
     background: ${Colors.white};
     box-shadow: 0px 0px 37px 0px rgba(16, 18, 35, 0.03);
-    @media (max-width: ${`${MediaBreakpoints.upMd1}px`}) {
+    @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
         margin-top: 30px;
     }
-    @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
         border-radius: 1.667vw;
         padding: 2.344vw 2.135vw 1.875vw 2.135vw;
     }
     + .account-order-block {
         margin-top: 20px;
-        @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
             margin-top: ${convertPxToVw('20')}vw;
         }
     }
@@ -324,7 +353,7 @@ export const AccountOrderBlock = styled.div`
         height: unset;
         font-size: 14px;
         margin: 0 auto;
-        @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
             font-size: ${convertPxToVw('14')}vw;
             margin: 0;
             line-height: ${convertPxToVw('18')}vw;
@@ -333,14 +362,14 @@ export const AccountOrderBlock = styled.div`
     .account-order-row {
         display: flex;
         /* padding: 0 1.458vw 0.781vw 1.458vw; */
-        @media (max-width: ${`${MediaBreakpoints.upMd1}px`}) {
+        @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
             flex-wrap: wrap;
             justify-content: center;
         }
         /* border-bottom: 2px solid ${Colors.pageContetBg}; */
         .product-img {
             width: 220px;
-            @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+            @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                 width: calc(10.99vw + 0.729vw);
                 flex-basis: calc(10.99vw + 0.729vw);
                 margin-right: 1.406vw;
@@ -355,7 +384,7 @@ export const AccountOrderBlock = styled.div`
                     content: '';
                     position: absolute;
                     border-radius: 30px;
-                    @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                         border-radius: 0.781vw;
                     }
                     background-color: ${rgba(Colors.gray100, 0.5)};
@@ -372,7 +401,7 @@ export const AccountOrderBlock = styled.div`
                     bottom: 12px;
                     left: 14px;
                     right: -14px;
-                    @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                         top: 0.625vw;
                         bottom: 0.625vw;
                         left: 0.729vw;
@@ -383,7 +412,7 @@ export const AccountOrderBlock = styled.div`
                     width: 100%;
                     border-radius: 30px;
                     height: 160px;
-                    @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                         border-radius: 0.781vw;
                         height: 8vw;
                     }
@@ -407,7 +436,7 @@ export const AccountOrderBlock = styled.div`
                     top: 50%;
                     transform: translate(-50%, -50%);
                     font-weight: 700;
-                    @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                         width: 2.396vw;
                         height: 2.396vw;
                         border-radius: 2.396vw;
@@ -421,7 +450,7 @@ export const AccountOrderBlock = styled.div`
             display: flex;
             justify-content: space-between;
             color: ${Colors.gray100};
-            @media (max-width: ${`${MediaBreakpoints.upMd1}px`}) {
+            @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
                 font-size: 0.729vw;
                 flex-wrap: wrap;
             }
@@ -432,14 +461,14 @@ export const AccountOrderBlock = styled.div`
                 color: ${Colors.success};
             }
             .label {
-                @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                     padding-right: 0.521vw;
                 }
             }
 
             .d-flex {
                 align-items: center;
-                @media (max-width: ${`${MediaBreakpoints.downMd}px`}) {
+                @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
                     justify-content: space-between;
                 }
             }
@@ -457,10 +486,10 @@ export const AccountOrderBlock = styled.div`
                 text-transform: capitalize;
                 font-weight: 600;
                 border-radius: 40px;
-                @media (min-width: ${`${MediaBreakpoints.upXxl}px`}) {
+                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                     padding: 0.208vw 1.042vw;
                     border-radius: 0.9vw;
-                    font-size: 11px;
+                    font-size: 0.75vw;
                     margin-right: 0.208vw;
                 }
             }
@@ -468,7 +497,7 @@ export const AccountOrderBlock = styled.div`
                 padding-right: 1.042;
                 display: flex;
                 flex-direction: column;
-                @media (max-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
                     width: 100%;
                     margin: 0px 0 24px;
                 }
@@ -476,13 +505,13 @@ export const AccountOrderBlock = styled.div`
                     font-weight: 600;
                     display: flex;
                     font-size: 18px;
-                    @media (max-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                    @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
                         justify-content: space-between;
                         margin: 0 0 12px;
                         padding: 0 0 7px;
                         border-bottom: 1px solid rgb(222 222 224 / 20%);
                     }
-                    @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                         font-size: 0.938vw;
                     }
                     margin-bottom: ${convertPxToVw('16')}vw;
@@ -492,19 +521,19 @@ export const AccountOrderBlock = styled.div`
                 }
                 .inner-row {
                     margin-bottom: ${convertPxToVw('6')}vw;
-                    @media (max-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                    @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
                         font-size: 14px;
                         justify-content: space-between;
                     }
                 }
                 .label {
-                    @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                         width: ${convertPxToVw('65')}vw;
                         flex-basis: ${convertPxToVw('65')}vw;
                     }
                 }
                 .value {
-                    @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                         flex: auto;
                     }
                 }
@@ -514,10 +543,10 @@ export const AccountOrderBlock = styled.div`
                 flex-direction: column;
                 width: 100%;
                 margin: 25px 0 30px 0px;
-                @media (max-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
                     font-size: 14px;
                 }
-                @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                     width: ${convertPxToVw('380')}vw;
                     margin: 0;
                 }
@@ -525,29 +554,29 @@ export const AccountOrderBlock = styled.div`
                     margin-bottom: ${convertPxToVw('16')}vw;
                 }
                 .label {
-                    @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                         max-width: ${convertPxToVw('70')}vw;
                         flex-basis: ${convertPxToVw('70')}vw;
                     }
                 }
                 .value {
-                    @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                         flex: auto;
                     }
                 }
             }
             .acc-ord-detail-block {
-                @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                     width: ${convertPxToVw('197')}vw;
                 }
             }
             .order-shipping {
-                @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                     width: ${convertPxToVw('284')}vw;
                 }
             }
             .order-finance {
-                @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                     width: ${convertPxToVw('538')}vw;
                 }
                 .finance-block {
@@ -555,13 +584,13 @@ export const AccountOrderBlock = styled.div`
                     align-items: center;
                     justify-content: space-between;
                     background-color: ${Colors.gray08};
-                    @media (max-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                    @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
                         padding: 12px;
                         padding-bottom: 0;
                         border-radius: 10px;
                         flex-wrap: wrap;
                     }
-                    @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                         padding: ${convertPxToVw('10')}vw ${convertPxToVw('40')}vw;
                         border-radius: ${convertPxToVw('12')}vw;
                         margin-bottom: ${convertPxToVw('18')}vw;
@@ -569,19 +598,19 @@ export const AccountOrderBlock = styled.div`
                     .finance-inner-block {
                         display: flex;
                         font-size: 14px;
-                        @media (max-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                        @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
                             flex-wrap: wrap;
                             width: 100%;
                             margin: 0px 0 12px;
                             justify-content: space-between;
                         }
-                        @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                             font-size: ${convertPxToVw('14')}vw;
                         }
                         .label {
                             padding: 0;
                             white-space: nowrap;
-                            @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                            @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                                 width: ${convertPxToVw('84')}vw;
                                 margin-right: ${convertPxToVw('10')}vw;
                             }
@@ -591,7 +620,7 @@ export const AccountOrderBlock = styled.div`
                 .finance-btn-row {
                     display: flex;
                     justify-content: space-between;
-                    @media (max-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                    @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
                         flex-wrap: wrap;
                     }
                     .coupan-code-block {
@@ -599,7 +628,6 @@ export const AccountOrderBlock = styled.div`
                         color: ${Colors.gray100};
                         font-weight: 600;
                         width: 100%;
-                        border: 0;
                         display: flex;
                         align-items: center;
                         justify-content: center;
@@ -608,13 +636,19 @@ export const AccountOrderBlock = styled.div`
                         font-size: 16px;
                         height: auto;
                         margin: 1rem 0;
-                        background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%23EE43679C' stroke-width='3' stroke-dasharray='7' stroke-dashoffset='8' stroke-linecap='square'/%3e%3c/svg%3e");
-                        @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                        border: 2px dashed ${Colors.primary};
+                        border-radius: 14px;
+                        /* background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%23EE43679C' stroke-width='3' stroke-dasharray='7' stroke-dashoffset='8' stroke-linecap='square'/%3e%3c/svg%3e"); */
+                        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                             font-size: ${convertPxToVw('16')}vw;
                             margin: 0;
+                            padding: 0;
                             border-radius: ${convertPxToVw('12')}vw;
                             width: ${convertPxToVw('282')}vw;
                             height: ${convertPxToVw('48')}vw;
+                        }
+                        @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+                            padding: 12px 15px;
                         }
                     }
                     .coupan-code-block-btn-opacity {
@@ -623,8 +657,11 @@ export const AccountOrderBlock = styled.div`
                     .btn-review {
                         box-shadow: 0px 0px 37px 0px rgba(16, 18, 35, 0.03);
                         width: 100%;
-                        height: auto;
-                        @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                        @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+                            height: 51px;
+                            font-size: 16px;
+                        }
+                        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                             width: ${convertPxToVw('218')}vw;
                             height: ${convertPxToVw('48')}vw;
                         }
@@ -637,7 +674,7 @@ export const AccountOrderBlock = styled.div`
 
 export const PostUnBoxingVideoBlock = styled.div`
     display: flex;
-    @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
         margin-top: ${convertPxToVw('58')}vw;
         border-radius: ${convertPxToVw('16')}vw;
         padding: ${convertPxToVw('40')}vw ${convertPxToVw('40')}vw;
@@ -647,13 +684,13 @@ export const PostUnBoxingVideoBlock = styled.div`
     .unboxing-row {
         display: flex;
         flex-wrap: wrap;
-        @media (max-width: ${`${MediaBreakpoints.upMd1}px`}) {
+        @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
             padding: 1.5rem;
         }
-        @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
             margin: 0 calc(${convertPxToVw('17')}vw * -1);
         }
-        @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
             > .unboxing-col {
                 margin: 0 ${convertPxToVw('17')}vw;
             }
@@ -664,7 +701,7 @@ export const PostUnBoxingVideoBlock = styled.div`
         width: 100%;
         height: 225px;
         border-radius: 12px;
-        @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
             width: ${convertPxToVw('402')}vw;
             border-radius: ${convertPxToVw('12')}vw;
             height: ${convertPxToVw('225')}vw;
@@ -679,7 +716,7 @@ export const PostUnBoxingVideoBlock = styled.div`
     }
     .unboxing-video-data {
         width: 100%;
-        @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
             width: ${convertPxToVw('440')}vw;
             margin-left: ${convertPxToVw('34')}vw;
         }
@@ -690,25 +727,26 @@ export const PostUnBoxingVideoBlock = styled.div`
             font-size: 16px;
             margin-top: 12px;
             margin-bottom: 12px;
-            @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+            @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                 margin-top: 0;
                 margin-bottom: ${convertPxToVw('12')}vw;
                 font-size: ${convertPxToVw('24')}vw;
             }
             .icon {
                 margin-left: 5px;
+                cursor: help;
             }
         }
         .unboxing-video-text-block {
             color: ${Colors.gray100};
             margin-bottom: 16px;
-            @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+            @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                 margin-bottom: ${convertPxToVw('24')}vw;
             }
             p {
                 margin: 0;
                 font-size: 12px;
-                @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                     font-size: ${convertPxToVw('12')}vw;
                     line-height: ${convertPxToVw('15')}vw;
                 }
@@ -719,7 +757,7 @@ export const PostUnBoxingVideoBlock = styled.div`
                 font-weight: 600;
                 font-size: 14px;
                 margin-bottom: 13px;
-                @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                     font-size: ${convertPxToVw('14')}vw;
                     margin-bottom: ${convertPxToVw('13')}vw;
                 }
@@ -733,7 +771,7 @@ export const PostUnBoxingVideoBlock = styled.div`
                     align-items: flex-end;
                     .social-icon-link {
                         padding: 0;
-                        @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                             width: ${convertPxToVw('40')}vw;
                         }
                         img {
@@ -742,13 +780,14 @@ export const PostUnBoxingVideoBlock = styled.div`
                         }
                     }
                     .icon {
+                        cursor: help;
                         margin-left: 6px;
-                        @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                             margin-left: ${convertPxToVw('2')}vw;
                         }
                         img {
                             width: 18px;
-                            @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                            @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                                 width: 1vw;
                             }
                         }
@@ -761,7 +800,7 @@ export const PostUnBoxingVideoBlock = styled.div`
         display: flex;
         align-items: center;
         width: 100%;
-        @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
             width: ${convertPxToVw('253')}vw;
         }
         .and-wrap {
@@ -777,17 +816,17 @@ export const PostUnBoxingVideoBlock = styled.div`
                 display: inline-block;
                 background-color: ${Colors.pageContetBg};
                 font-size: 32px;
-                @media (max-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
                     margin: 1rem 0;
                 }
-                @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                     font-size: ${convertPxToVw('32')}vw;
                     line-height: ${convertPxToVw('32')}vw;
                     padding: ${convertPxToVw('24')}vw;
                 }
             }
             &::before {
-                @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                     content: '';
                     position: absolute;
                     top: 50%;
@@ -799,20 +838,71 @@ export const PostUnBoxingVideoBlock = styled.div`
         }
     }
     .unboxing-upload-col {
-        display: flex;
-        align-items: center;
-        @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
             width: ${convertPxToVw('415')}vw;
         }
         p {
             color: ${Colors.gray100};
             margin-bottom: 30px;
             font-size: 12px;
-            @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+            @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                 font-size: ${convertPxToVw('12')}vw;
                 line-height: ${convertPxToVw('15')}vw;
             }
         }
+        .ant-alert-with-description {
+            margin-top: 1rem;
+            .ant-alert-description {
+                line-height: normal;
+            }
+        }
+        .upload-input-block-progress-bar {
+            .ant-progress-outer {
+                padding-right: 0;
+                margin-right: 0;
+                .ant-progress-inner {
+                    border-radius: 10px;
+                    background-color: #fef4f6;
+                    border: 2px solid ${Colors.primary};
+                    position: relative;
+                    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                        border-radius: 0.65vw;
+                    }
+                    &::after {
+                        font-family: ${Fonts.titleFont};
+                        content: 'Uploading...';
+                        position: absolute;
+                        left: 50%;
+                        top: 50%;
+                        transform: translate(-50%, -50%);
+                        text-transform: uppercase;
+                        font-weight: 700;
+                        color: ${Colors.white};
+                        font-size: 14px;
+                        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                            font-size: 0.8vw;
+                        }
+                    }
+                    .ant-progress-bg {
+                        height: 60px !important;
+                        border-radius: 0;
+                        background-color: ${Colors.primary};
+                        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                            height: 3.6vw !important;
+                        }
+                    }
+                }
+            }
+            .ant-progress-text {
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                position: absolute;
+                padding: 0 20px;
+                color: ${Colors.white};
+            }
+        }
+
         .upload-input-block {
             font-family: ${Fonts.titleFont};
             font-weight: 600;
@@ -824,8 +914,9 @@ export const PostUnBoxingVideoBlock = styled.div`
             position: relative;
             justify-content: center;
             font-size: 12px;
-            height: 68px;
-            @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+            height: 60px;
+            border-radius: 12px;
+            @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                 font-size: ${convertPxToVw('12')}vw;
                 height: ${convertPxToVw('68')}vw;
                 border-radius: ${convertPxToVw('12')}vw;
@@ -851,7 +942,7 @@ export const PostUnBoxingVideoBlock = styled.div`
                 width: 26px;
                 height: 26px;
                 margin-right: 16px;
-                @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                     width: ${convertPxToVw('44')}vw;
                     height: ${convertPxToVw('44')}vw;
                     margin-right: ${convertPxToVw('16')}vw;
@@ -866,9 +957,10 @@ export const PostUnBoxingVideoBlock = styled.div`
 `;
 
 export const ViewOrderDetailPopupCmp = styled(Popup)`
-    width: 100% !important;
+    max-width: 100%;
     @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
-        max-width: ${convertPxToVw('1400')}vw;
+        width: 100% !important;
+        max-width: ${convertPxToVw('1200')}vw;
     }
     @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
         max-width: ${convertPxToVw('1000')}vw;
@@ -877,9 +969,9 @@ export const ViewOrderDetailPopupCmp = styled(Popup)`
         .ant-modal-body {
             .account-orde-detail-wrap {
                 .account-orde-detail-row {
-                    margin: 0 calc(${convertPxToVw('43')}vw * -1);
+                    margin: 0 calc(${convertPxToVw('25')}vw * -1);
                     .account-orde-detail-col {
-                        padding: 0 ${convertPxToVw('43')}vw;
+                        padding: 0 ${convertPxToVw('20')}vw;
                     }
                 }
                 .account-orde-detail-2 {
@@ -888,38 +980,70 @@ export const ViewOrderDetailPopupCmp = styled(Popup)`
                     justify-content: space-between;
                 }
                 .account-order-card {
+                    @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+                        text-align: center;
+                        margin-top: 1rem;
+                    }
                     &.order-detail {
                         border-radius: ${convertPxToVw('8')}vw 0 0 ${convertPxToVw('8')}vw;
+                        h4 {
+                            margin-bottom: 1rem;
+                            @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                                margin-bottom: 1rem;
+                            }
+                        }
                     }
                     &.order-info {
                         @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
                             margin-top: 1rem;
                         }
-                        @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                             border-radius: 0 ${convertPxToVw('8')}vw 0 0;
                         }
                         h4 {
-                            margin-bottom: 0;
+                            @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+                                margin-bottom: 1rem;
+                            }
                         }
                     }
                     &.estimated-delivery-card {
-                        margin-top: ${convertPxToVw('14')}vw;
                         display: flex;
-                        border-radius: 0 0 ${convertPxToVw('8')}vw 0;
+                        align-items: center;
+                        margin-bottom: 20px;
+                        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                            margin-bottom: 0;
+                            margin-top: ${convertPxToVw('14')}vw;
+                            border-radius: 0 0 ${convertPxToVw('8')}vw 0;
+                        }
                         .icon {
-                            @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                            height: fit-content;
+                            margin-right: 1rem;
+                            @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                                 flex-basis: ${convertPxToVw('53')}vw;
                                 width: ${convertPxToVw('53')}vw;
                                 height: ${convertPxToVw('53')}vw;
                                 margin-right: ${convertPxToVw('16')}vw;
                             }
                             img {
-                                width: 100%;
-                                height: 100%;
+                                width: 53px;
+                                height: 53px;
+                                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                                    width: 100%;
+                                    height: 100%;
+                                }
                             }
                         }
                         .estimated-delivery-data {
                             flex: auto;
+                            text-align: left;
+                            @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+                                margin-top: 1rem;
+                            }
+                            p {
+                                .d-block-date {
+                                    display: block;
+                                }
+                            }
                         }
                         h4 {
                             color: ${Colors.gray100};
@@ -928,9 +1052,9 @@ export const ViewOrderDetailPopupCmp = styled(Popup)`
                         p {
                             margin-bottom: 0;
                             color: ${Colors.gray40};
-                            font-size: '14px';
-                            line-height: '17px';
-                            @media (min-width: ${`${MediaBreakpoints.upLg}px`}) {
+                            font-size: 14px;
+                            line-height: 17px;
+                            @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                                 font-size: ${convertPxToVw('14')}vw;
                                 line-height: ${convertPxToVw('17')}vw;
                             }
@@ -940,13 +1064,16 @@ export const ViewOrderDetailPopupCmp = styled(Popup)`
                         }
                     }
                     &.shipping-info-detail {
-                        margin-top: ${convertPxToVw('40')}vw;
-                        border-radius: ${convertPxToVw('8')}vw;
+                        margin-top: 20px;
+                        @media (min-width: ${`${MediaBreakpoints.upLg}px`}) {
+                            margin-top: ${convertPxToVw('40')}vw;
+                            border-radius: ${convertPxToVw('8')}vw;
+                        }
 
                         h4 {
-                            margin-bottom: 14px;
-                            @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-                                margin-bottom: ${convertPxToVw('15')}vw;
+                            margin-bottom: 16px;
+                            @media (min-width: ${`${MediaBreakpoints.upLg}px`}) {
+                                margin-bottom: 5px;
                             }
                         }
                         .shipping-detail-block {
@@ -960,7 +1087,7 @@ export const ViewOrderDetailPopupCmp = styled(Popup)`
                             .shipping-detail-left {
                                 font-size: 14px;
                                 width: 100%;
-                                @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                                     font-size: ${convertPxToVw('14')}vw;
                                     width: ${convertPxToVw('230')}vw;
                                     flex-basis: ${convertPxToVw('230')}vw;
@@ -976,7 +1103,10 @@ export const ViewOrderDetailPopupCmp = styled(Popup)`
                                 font-weight: 500;
                                 color: ${Colors.gray40};
                                 margin-bottom: 10px;
-                                @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                                @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+                                    justify-content: space-between;
+                                }
+                                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                                     margin-bottom: ${convertPxToVw('10')}vw;
                                     &:last-child {
                                         margin-bottom: 0;
@@ -988,6 +1118,12 @@ export const ViewOrderDetailPopupCmp = styled(Popup)`
                                     flex: 0 0 ${convertPxToVw('70')}vw;
                                     padding-right: ${convertPxToVw('10')}vw;
                                 }
+                                .info {
+                                    text-transform: lowercase;
+                                    @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+                                        text-align: right;
+                                    }
+                                }
                             }
                         }
                     }
@@ -998,7 +1134,7 @@ export const ViewOrderDetailPopupCmp = styled(Popup)`
                         font-weight: 600;
                         margin-bottom: ${convertPxToVw('30')}vw;
                         font-size: 16px;
-                        @media (min-width: ${`${MediaBreakpoints.upLg}px`}) {
+                        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                             font-size: ${convertPxToVw('16')}vw;
                         }
                     }
@@ -1016,15 +1152,12 @@ export const ViewOrderDetailPopupCmp = styled(Popup)`
                                 text-transform: capitalize;
                                 vertical-align: top;
                                 padding: 10px;
-                                @media (min-width: ${`${MediaBreakpoints.upLg}px`}) {
-                                    padding: 12px;
-                                }
                                 .note {
                                     color: ${Colors.gray40};
                                     padding-right: 10px;
                                     display: block;
                                     font-size: 12px;
-                                    @media (min-width: ${`${MediaBreakpoints.upLg}px`}) {
+                                    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                                         line-height: ${convertPxToVw('18')}vw;
                                         font-size: ${convertPxToVw('12')}vw;
                                     }
@@ -1071,10 +1204,14 @@ export const ViewOrderDetailPopupCmp = styled(Popup)`
                                 }
                                 td {
                                     .discount-price {
-                                        font-size: ${convertPxToVw('14')}vw;
                                         color: ${Colors.gray80};
                                         text-decoration: line-through;
-                                        padding-right: ${convertPxToVw('10')}vw;
+                                        font-size: 14px;
+                                        padding-right: 10px;
+                                        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                                            font-size: ${convertPxToVw('14')}vw;
+                                            padding-right: ${convertPxToVw('10')}vw;
+                                        }
                                     }
                                     color: ${Colors.primary};
                                 }
@@ -1088,7 +1225,18 @@ export const ViewOrderDetailPopupCmp = styled(Popup)`
 `;
 
 export const AccountReviewModalCmp = styled(Popup)`
-    width: 100% !important;
+    max-width: 100%;
+    @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+        height: 100%;
+        /* position: fixed; */
+        bottom: 0;
+        top: 0;
+        /* overflow: auto; */
+        .ant-modal-content {
+            padding-bottom: 3rem;
+            min-height: 100%;
+        }
+    }
     @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
         max-width: ${convertPxToVw('1400')}vw;
     }
@@ -1098,7 +1246,8 @@ export const AccountReviewModalCmp = styled(Popup)`
     .ant-modal-content {
         .ant-modal-body {
             @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
-                padding-bottom: ${convertPxToVw('60')}vw;
+                padding: ${convertPxToVw('20')}vw;
+                padding-bottom: ${convertPxToVw('40')}vw;
             }
         }
         .account-review-modal-data-block {
@@ -1108,9 +1257,12 @@ export const AccountReviewModalCmp = styled(Popup)`
                 position: relative;
                 text-align: center;
                 height: 400px;
+                @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+                    height: 300px;
+                }
                 @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
                     margin: 0 auto 1vw auto;
-                    height: ${convertPxToVw('600px')}vw;
+                    height: ${convertPxToVw('500px')}vw;
                 }
                 .magnifier {
                     text-align: center;
@@ -1121,14 +1273,23 @@ export const AccountReviewModalCmp = styled(Popup)`
                         height: 100% !important;
                         img {
                             height: 100% !important;
-                            object-fit: cover;
-                            @media (max-width: ${`${MediaBreakpoints.downMd}px`}) {
+                            object-fit: contain;
+                            @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
                                 width: 100%;
                             }
                         }
                     }
                     img {
-                        object-fit: cover;
+                        object-fit: contain;
+                        max-width: 100%;
+                    }
+                }
+
+                .img-length {
+                    .lazy-load-image-loaded {
+                        img {
+                            max-width: 100%;
+                        }
                     }
                 }
                 .buttons_bottom {
@@ -1158,9 +1319,12 @@ export const AccountReviewModalCmp = styled(Popup)`
             .account-modal-review-text {
                 font-family: ${Fonts.alternateFont2};
                 color: ${Colors.gray100};
-                font-size: 14px;
-                margin-bottom: 20px;
+                font-size: 12px;
+                margin-bottom: 10px;
+                margin-top: 10px;
+                line-height: 16px;
                 @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
+                    margin-top: 0;
                     font-size: ${convertPxToVw('14')}vw;
                     margin-bottom: ${convertPxToVw('22')}vw;
                     line-height: ${convertPxToVw('17')}vw;
@@ -1176,7 +1340,7 @@ export const AccountReviewModalCmp = styled(Popup)`
                 text-shadow: none;
                 height: 42px;
                 @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
-                    height: 54px;
+                    height: ${convertPxToVw('64')}vw;
                 }
             }
             .account-2-btn-row {
@@ -1184,7 +1348,8 @@ export const AccountReviewModalCmp = styled(Popup)`
                 align-items: center;
                 justify-content: center;
                 @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
-                    margin-bottom: 1.75rem;
+                    margin-bottom: 1rem;
+                    flex-wrap: wrap;
                 }
                 .ant-btn {
                     box-shadow: 0px 8px 10px 0px rgba(16, 18, 35, 0.2);
@@ -1194,22 +1359,43 @@ export const AccountReviewModalCmp = styled(Popup)`
                     }
                     ~ .ant-btn {
                         margin-left: ${convertPxToVw('40')}vw;
+                        @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+                            width: 100%;
+                            height: unset;
+                            margin-left: 0;
+                            font-size: 16px;
+                            line-height: unset;
+                        }
                     }
                     &.btn-ask-modification {
                         color: ${Colors.gray100};
                         box-shadow: none;
                         background-color: #fff;
                         border: 2px dashed ${Colors.blueMenu};
+                        @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+                            order: 2;
+                            height: unset;
+                            margin-top: 1rem;
+                            font-size: 16px;
+                            width: 100%;
+                            line-height: unset;
+                        }
                     }
                 }
             }
             .form-control-area {
                 font-size: 12px;
-                height: 54px;
                 resize: none;
                 border: 0;
                 border-radius: 12px;
                 background-color: ${rgba(Colors.gray10, 0.4)};
+                height: 70px;
+                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                    height: 42px;
+                }
+                @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
+                    height: ${convertPxToVw('64')}vw;
+                }
             }
             .account-edit-comment-row {
                 display: flex;
@@ -1217,6 +1403,7 @@ export const AccountReviewModalCmp = styled(Popup)`
                 width: 100%;
                 @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
                     margin-top: 1rem;
+                    margin-right: 0 !important;
                 }
                 .label-text {
                     font-family: ${Fonts.titleFont};
@@ -1226,10 +1413,25 @@ export const AccountReviewModalCmp = styled(Popup)`
                     font-weight: 600;
                     margin: 0 0 0 8px;
                 }
+                .button-top {
+                    margin-top: 1rem;
+                    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                        margin-top: 0;
+                    }
+                    .ant-btn {
+                        @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+                            height: 51px;
+                            font-size: 16px;
+                        }
+                    }
+                }
             }
             .approved-row {
-                margin-top: ${convertPxToVw('40')}vw;
+                margin-top: 80px;
                 text-align: center;
+                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                    margin-top: ${convertPxToVw('40')}vw;
+                }
                 .title {
                     font-family: ${Fonts.titleFont};
                     font-weight: 600;
@@ -1247,6 +1449,11 @@ export const AccountReviewModalCmp = styled(Popup)`
 `;
 
 export const ThankYouPopupCmp = styled(Popup)`
+    @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+        position: absolute;
+        bottom: 0;
+        max-width: 100%;
+    }
     .ant-modal-content {
         .ant-modal-body {
             .thank-you-popup-wrapper {
@@ -1265,11 +1472,15 @@ export const ThankYouPopupCmp = styled(Popup)`
                     margin-top: ${convertPxToVw('73')}vw;
                     margin-bottom: ${convertPxToVw('18')}vw;
                     h3 {
-                        font-size: ${convertPxToVw('46')}vw;
-                        line-height: ${convertPxToVw('35')}vw;
                         text-transform: uppercase;
-                        margin-bottom: ${convertPxToVw('12')}vw;
                         color: ${Colors.success02};
+                        font-size: 24px;
+                        margin-bottom: 12px;
+                        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                            margin-bottom: ${convertPxToVw('12')}vw;
+                            font-size: ${convertPxToVw('46')}vw;
+                            line-height: ${convertPxToVw('35')}vw;
+                        }
                     }
                     p {
                         color: ${Colors.success};
@@ -1279,46 +1490,63 @@ export const ThankYouPopupCmp = styled(Popup)`
                     margin-bottom: ${convertPxToVw('69')}vw;
                     h5 {
                         font-weight: 600;
-                        font-size: ${convertPxToVw('24')}vw;
-                        line-height: ${convertPxToVw('35')}vw;
-                        margin-bottom: ${convertPxToVw('5')}vw;
+                        font-size: 18px;
+                        margin-bottom: 6px;
+                        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                            font-size: ${convertPxToVw('24')}vw;
+                            line-height: ${convertPxToVw('35')}vw;
+                            margin-bottom: ${convertPxToVw('5')}vw;
+                        }
                     }
                     p {
                         font-weight: 500;
                         color: ${Colors.gray80};
                         font-family: ${Fonts.titleFont};
-                        line-height: ${convertPxToVw('23')}vw;
+                        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                            line-height: ${convertPxToVw('23')}vw;
+                        }
                     }
                 }
                 .ant-btn {
                     width: 100%;
-                    max-width: ${convertPxToVw('316')}vw;
+                    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                        max-width: ${convertPxToVw('316')}vw;
+                    }
                 }
             }
         }
     }
 `;
 
-export const ShippingAddressPopupCmp = styled(Popup)``;
+export const ShippingAddressPopupCmp = styled(Popup)`
+    @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+        max-width: 100%;
+    }
+`;
 
 export const ShippingAddressDetail = styled.div`
     .shippingAddressDetail_select-dropdown {
         .ant-select {
             width: 100%;
-            @media (max-width: ${`${MediaBreakpoints.downMd}px`}) {
+            @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
                 margin-bottom: 1rem;
                 font-size: 14px;
             }
-            @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+            @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                 width: 18.25vw;
             }
             .ant-select-selector {
-                padding: 0.5rem 1rem;
-                border-radius: 12px;
                 border: 1px solid #ee4266;
                 color: ${Colors.primary};
                 height: auto;
                 text-transform: uppercase;
+                border-radius: 6px;
+                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                    border-radius: ${convertPxToVw('12')}vw;
+                }
+                @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
+                    padding: 0.5rem 1rem;
+                }
             }
             .ant-select-arrow {
                 color: ${Colors.primary};
@@ -1338,7 +1566,7 @@ export const ShippingAddressDetail = styled.div`
         color: ${Colors.black};
         font-size: 16px;
         margin-bottom: 15px;
-        @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
             font-size: 1.249vw;
             line-height: 1.822vw;
             margin-bottom: 1.041vw;
@@ -1351,21 +1579,35 @@ export const ShippingAddressDetail = styled.div`
         cursor: pointer;
     }
     .checkout-details-button {
+        font-family: ${Fonts.titleFont};
         display: flex;
         align-items: center;
-        width: 18.25vw;
-        height: 2.5vw;
-        padding-left: 1.2vw;
-        padding-right: 1.2vw;
-        border-radius: 0.7vw;
+        width: 100%;
+        height: 48px;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        border-radius: 12px;
         background-color: transparent;
         color: ${Colors.primary};
         border: 1px solid ${Colors.primary};
-        justify-content: space-between;
+        justify-content: center;
+        font-size: 14px;
+        @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+            font-size: 0.833vw;
+            width: 15.781vw;
+            height: 2.5vw;
+            padding-left: 1.2vw;
+            padding-right: 1.2vw;
+            border-radius: 0.7vw;
+            /* justify-content: space-between; */
+        }
+        svg {
+            margin-left: 10px;
+        }
     }
     .estimate_detail-content-box {
         background-color: #ffffff;
-        border: 1px dashed #5b87e0;
+        border: 2px dashed #dedee0;
         border-radius: 8px;
         display: flex;
         flex-direction: row;
@@ -1373,6 +1615,7 @@ export const ShippingAddressDetail = styled.div`
         align-items: center;
         gap: 8px;
         padding: 12px;
+        margin-top: 30px;
         @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
             flex-wrap: wrap;
         }
@@ -1441,7 +1684,7 @@ export const ShippingAddressDetail = styled.div`
                     color: ${Colors.black};
                     margin-right: 0.5vw;
                     text-transform: uppercase;
-                    font-size: 12px;
+                    font-size: 16px;
                     margin-bottom: 0;
                     @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
                         font-size: 0.833vw;
@@ -1451,8 +1694,8 @@ export const ShippingAddressDetail = styled.div`
             .ant-radio-group {
                 margin-top: 5px;
                 .ant-radio-wrapper {
-                    @media (max-width: ${`${MediaBreakpoints.downMd}px`}) {
-                        font-size: 12px;
+                    @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+                        font-size: 14px;
                         align-items: center;
                     }
                 }
@@ -1477,17 +1720,20 @@ export const ShippingAddressDetail = styled.div`
         margin-top: 1.65vw;
         text-align: center;
         .copy-code_box {
-            border: 1px dashed ${Colors.blueMenu};
+            border: 2px dashed ${Colors.blueMenu};
             border-radius: 9px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             max-width: 100%;
-            padding: 15px;
+            padding: 12px 15px;
+            margin-top: 1.75rem;
             @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
-                padding: 25px;
+                padding: ${convertPxToVw('25')}vw;
                 flex-wrap: wrap;
                 max-width: 19.7vw;
+                margin-top: 0;
+                border: 2px dashed #dedee0;
             }
             p {
                 color: ${Colors.gray80};
@@ -1513,8 +1759,9 @@ export const ShippingAddressDetail = styled.div`
             }
             .tip-box-title {
                 font-weight: 700;
-                margin-bottom: 0.5rem;
+                margin-bottom: 0.15rem;
                 margin-top: 1rem;
+                font-family: ${Fonts.titleFont};
                 @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                     margin-top: 0;
                     margin-bottom: 0.35vw;
@@ -1523,6 +1770,7 @@ export const ShippingAddressDetail = styled.div`
             }
             p {
                 font-size: 14px;
+                line-height: 14px;
                 @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                     font-size: 0.7vw;
                     line-height: 0.75vw;
@@ -1530,7 +1778,10 @@ export const ShippingAddressDetail = styled.div`
             }
         }
         .tip-button_block {
-            margin-top: 0.8vw;
+            margin-top: 1rem;
+            @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                margin-top: 0.5vw;
+            }
             .tipButton {
                 text-transform: uppercase;
                 color: #fff;

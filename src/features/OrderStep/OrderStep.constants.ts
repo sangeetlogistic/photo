@@ -58,7 +58,13 @@ export enum CouponCodeDiscount {
 
 export enum PaymentWays {
     stripe = 'stripe',
-    creditcard = 'creditcard',
+    creditCard = 'Credit Card',
     googlePay = 'googlePay',
     applePay = 'applePay',
+    affirm = 'affirm',
+    payPal = 'paypal',
 }
+
+export const estimatedDays = 22;
+export const estimatedDaysWithExpress = 18;
+export const sperationDays = 4;

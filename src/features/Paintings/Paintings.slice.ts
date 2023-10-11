@@ -46,12 +46,14 @@ export interface HomeState {
         | undefined
         | null;
     mediumDetail: any;
+    recentBlog: any;
 }
 
 const initialState: HomeState = {
     loading: false,
     error: null,
     mediumDetail: undefined,
+    recentBlog: undefined,
 };
 
 export const paintingSlice = createSlice({
@@ -71,6 +73,7 @@ export const paintingSlice = createSlice({
             })
             .addCase(getMediumDetailAction.fulfilled, (state, action: any) => {
                 state.mediumDetail = action.payload.Medium;
+                state.recentBlog = action.payload.recentBlog;
                 state.loading = false;
                 state.error = null;
             })
@@ -90,5 +93,6 @@ export const { clearMediumDetail } = paintingSlice.actions;
 export const selectLoading = (state: RootState) => state.paintings.loading;
 export const selectError = (state: RootState) => state.paintings.error;
 export const selectMediumDetail = (state: RootState) => state.paintings.mediumDetail;
+export const selectRecentBlog = (state: RootState) => state.paintings.recentBlog;
 
 export default paintingSlice.reducer;

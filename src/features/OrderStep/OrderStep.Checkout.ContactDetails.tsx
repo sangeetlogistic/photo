@@ -1,27 +1,50 @@
 /* eslint-disable complexity */
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Form, Popover, Input } from 'antd';
+import { Row, Col, Popover, Input } from 'antd';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
-import { getCountries, getCountryCallingCode } from 'react-phone-number-input';
+import { getCountries } from 'react-phone-number-input';
 
 import { ContactDetailCmp } from './OrderPage.component';
 import CheckboxGroup from '../../components/CheckboxGroup';
-import { useLocalStorage } from '../../hooks';
+import { useDeviceDetect, useLocalStorage } from '../../hooks';
 import { LocalStorageKeys } from '../../constants/keys';
 import { expressServiceChargePer } from './OrderStep.constants';
 import PhoneNumber from '../../components/PhoneNumber';
 
 const estimateDeliveryContent = (
     <>
-        {`If you want to reduce the delivery time by several days, you can choose our
-    Express service (+${expressServiceChargePer}%) + Express Shipping service (+${expressServiceChargePer}%). Delivery times may
-    vary (2-3 days) during high-volume order periods`}
+        <b>Please note that the date doesn&apos;t take into account</b>
+        <br />
+        <br />
+        <p>
+            1.) Modification requests you may submit after viewing the online proof. Each such modification request may delay the turnaround by 2-3
+            days.
+        </p>
+        <br />
+        <p>
+            2.) The time we wait for you to approve the online proof that we send you or to complete the payment, so please check your emails
+            regularly and try to respond as quickly as you can.
+        </p>
     </>
 );
-
-const ContactDetails = ({ fillingForm, setFillingForm, setExpressService, expressService, form }: any) => {
+const estimatedServiceContent = (
+    <>
+        {`If you choose the Express Service, we will start working on your order immediately, reducing the production time by several days! The cost of this service is an additional (+${expressServiceChargePer}%).`}
+    </>
+);
+const ContactDetails = ({
+    fillingForm,
+    setFillingForm,
+    setExpressService,
+    expressService,
+    formIns,
+    Form,
+    estimatedDeliveryDays,
+    setValidPhoneNumber,
+}: any) => {
     const [country, setCountry] = useState<any>('US');
     const localStorage = useLocalStorage();
+    const { isMobile } = useDeviceDetect();
 
     const data: any = localStorage.getItem(LocalStorageKeys.orderPageDetail)
         ? JSON.parse(localStorage.getItem(LocalStorageKeys.orderPageDetail) || '')
@@ -66,12 +89,12 @@ const ContactDetails = ({ fillingForm, setFillingForm, setExpressService, expres
 
             <div className="checkout_contac_form">
                 <Form
-                    form={form}
+                    form={formIns}
                     name="basic"
                     layout="vertical"
                     initialValues={{
                         countryCode:
-                            getCountries().find((item: any) => getCountryCallingCode(item) === savedCardDetail?.countryCode) ||
+                            getCountries().find((item: any) => item === savedCardDetail?.countryCode) ||
                             contectDetail?.countryCode ||
                             data?.data?.fillingForm?.countryCode ||
                             getCountries().filter((obj) => obj === 'US')[0],
@@ -118,6 +141,7 @@ const ContactDetails = ({ fillingForm, setFillingForm, setExpressService, expres
                                 handleCountryCode={handleCountryCode}
                                 handlePhoneNumInput={handlePhoneNumInput}
                                 disabled={!!contectDetail}
+                                setValidPhoneNumber={setValidPhoneNumber}
                             />
                         </Col>
                         <Col xs={24} md={12}>
@@ -154,25 +178,29 @@ const ContactDetails = ({ fillingForm, setFillingForm, setExpressService, expres
                     <div className="checkout_estimate_title">
                         <h3>ESTIMATED DELIVERY</h3>
                         <Popover
-                            trigger="hover"
+                            trigger={!isMobile ? 'hover' : 'click'}
                             content={estimateDeliveryContent}
                             arrowPointAtCenter={false}
-                            overlayClassName="order-step-tooltip tooltip-combine-photo"
+                            overlayClassName="order-step-tooltip  estimate_tooltip"
+                            showArrow={false}
                         >
                             <span className="que-icon">?</span>
                         </Popover>
                     </div>
-                    <h4 className="date">{expressService ? 'August 11 - August 15' : 'August 15 - August 19'}</h4>
+                    <h4 className="date">
+                        {estimatedDeliveryDays.formattedFutureDate} - {estimatedDeliveryDays.formattedFuture4Date}
+                    </h4>
                     <p>Depending on the shipping method you will choose after approving the online proofing of your painting.</p>
                 </div>
                 <div className="estimate_detail-right">
                     <div className="checkout_estimate_title checkout_sooner_title">
                         <h3>Want it sooner?</h3>
                         <Popover
-                            trigger="hover"
-                            content={estimateDeliveryContent}
+                            trigger={!isMobile ? 'hover' : 'click'}
+                            content={estimatedServiceContent}
                             arrowPointAtCenter={false}
-                            overlayClassName="order-step-tooltip tooltip-combine-photo"
+                            overlayClassName="order-step-tooltip"
+                            showArrow={false}
                         >
                             <span className="que-icon">?</span>
                         </Popover>

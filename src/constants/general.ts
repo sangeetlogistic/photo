@@ -15,6 +15,7 @@ export const portraitsGallery = [
     Routes.customDogPortraits,
     Routes.customPetPortraits,
     Routes.customLandscapePortraits,
+    Routes.drawingPortrait,
 ];
 export const sketchGallery = [
     Routes.customOilPaintings,
@@ -33,10 +34,13 @@ export const delayTimeForSpeed = 3000;
 export const countingForMb = 1024;
 export const uploadDocumentSizeLimit = 15;
 export const dateFormat = 'YYYY-MM-DD';
-export const dateMonthFormat = 'MMM DD';
+export const dateMonthFormat = 'MMMM DD';
+export const monthDayFormat = 'MMMM D';
 
 export const awsImagePath = 'staging/upload/userOrderImagePath/';
+export const awsVideoPath = 'staging/upload/userUnboxingVideoPath/';
 export const TTL = 24 * 60 * 60 * 1000;
+export const windowSize = 1400;
 
 export enum CountryCodeName {
     US = 'US',

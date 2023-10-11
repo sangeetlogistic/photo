@@ -4,7 +4,6 @@ export interface ITourPaintings {
     btnTitle: string;
     reviewTitle: JSX.Element | string;
     rate: number;
-    totalReviews: number;
     bannerVideo: string;
     poster?: string;
     onClick?: () => void;

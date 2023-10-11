@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { message, Tabs } from 'antd';
-import { useHistory } from 'react-router-dom';
-import { getCountries, getCountryCallingCode } from 'react-phone-number-input';
+import { Tabs } from 'antd';
+import { getCountries } from 'react-phone-number-input';
 import { Helmet } from 'react-helmet';
 
 import PersonalDetails from './Account.PersonalDetails';
@@ -25,6 +24,9 @@ import { useLocalStorage } from '../../hooks';
 import { LocalStorageKeys } from '../../constants/keys';
 import LoadingCover from '../../components/LoadingCover';
 import { TabActiveKey } from './Accout.constants';
+import { GOOGLE_AUTOCOMPLETE_KEY } from '../../constants/predicates';
+import Toast from '../../components/Toast';
+import { useRouter } from 'next/router';
 
 const keysToRemove = [
     LocalStorageKeys.authUser,
@@ -34,8 +36,9 @@ const keysToRemove = [
     LocalStorageKeys.savedCardDetail,
 ];
 
+const scriptId = 'google-maps-api';
 const Account = () => {
-    const history = useHistory();
+    const history = useRouter();
     const dispatch = useAppDispatch();
     const localStorage = useLocalStorage();
     const authUser = localStorage.getItem(LocalStorageKeys.authUser);
@@ -48,7 +51,10 @@ const Account = () => {
 
     const loading = useAppSelector(selectedLoading);
 
+    const [status, setStatus] = useState(!!document.getElementById(scriptId));
     const [activekey, setActivekey] = useState<TabActiveKey>(TabActiveKey.myOrder);
+    const [progress, setProgress] = useState(0);
+    const [showError, setShowError] = useState(false);
 
     useEffect(
         () => () => {
@@ -58,11 +64,38 @@ const Account = () => {
     );
 
     useEffect(() => {
+        if (!document.getElementById(scriptId)) {
+            const script = document.createElement('script');
+            script.id = scriptId;
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_AUTOCOMPLETE_KEY}&libraries=places&callback=initMap`;
+            script.async = true;
+            script.defer = true;
+            document.head.appendChild(script);
+        }
+    }, []);
+
+    window.initMap = () => {
+        setStatus(true);
+    };
+
+    let intervalProgress: any;
+
+    useEffect(() => {
+        intervalProgress = setInterval(() => {
+            setProgress((prev) => (prev + 1 < 100 ? prev + 1 : 100));
+        }, 100);
+
+        return () => {
+            clearInterval(intervalProgress);
+        };
+    }, []);
+
+    useEffect(() => {
         if (userData) {
             const payload = {
                 firstName: userData?.name || '',
                 surName: userData?.surname || '',
-                countryCode: getCountries().find((item: any) => getCountryCallingCode(item) === userData?.countryCode) || 'US',
+                countryCode: getCountries().find((item: any) => item === userData?.countryName) || 'US',
                 phoneNumber: userData?.phoneNumber || '',
                 email: userData?.email || '',
             };
@@ -72,7 +105,7 @@ const Account = () => {
 
     useEffect(() => {
         if (loginError || accountError) {
-            message.error(loginError?.message || accountError?.message);
+            setShowError(true);
         }
 
         return () => {
@@ -89,7 +122,7 @@ const Account = () => {
                     await localStorage.setItem(LocalStorageKeys.authUser, result.payload.token);
                     await dispatch(getMyOrderAction());
                 } else if (result.type === doLoginLinkAction.rejected.toString() && result.payload.code === 401) {
-                    history.replace(Routes.home);
+                    history.push(Routes.home);
                 }
             } else if (authUser) {
                 await dispatch(getMyOrderAction());
@@ -105,12 +138,12 @@ const Account = () => {
         {
             label: 'My Orders',
             key: TabActiveKey.myOrder,
-            children: <MyOrder />,
+            children: <MyOrder progress={progress} setProgress={setProgress} status={status} />,
         },
         {
             label: 'Personal Details',
             key: TabActiveKey.personalDetails,
-            children: <PersonalDetails handleChangeKey={handleChangeKey} />,
+            children: <PersonalDetails handleChangeKey={handleChangeKey} status={status} />,
         },
     ];
 
@@ -119,7 +152,7 @@ const Account = () => {
             await localStorage.removeItem(key);
         });
 
-        history.replace(Routes.home);
+        history.push(Routes.home);
     };
 
     const onTabClick = (key: string) => {
@@ -131,6 +164,10 @@ const Account = () => {
             <Helmet>
                 <title>Account</title>
             </Helmet>
+
+            {showError && (
+                <Toast show={showError} setShow={setShowError} message={loginError?.message || accountError?.message} type="error" showIcon />
+            )}
 
             <AccountMainCmp>
                 <AccountWrapCmp>
@@ -151,14 +188,6 @@ const Account = () => {
                         </div>
                         <div className="tab-tracking-block">
                             <Tabs activeKey={activekey} items={items} className="account-tab" onTabClick={onTabClick} />
-                            {/* <div className="store-credit-balance-wrap">
-              <div className="store-credit-balance">
-                Store Credit Balance: <span className="balance">$ 199</span>
-              </div>
-              <HelpIcon className="icon">
-                <img src={Images.HelpIcon} alt="" className="" />
-              </HelpIcon>
-            </div> */}
                         </div>
                     </div>
                 </AccountWrapCmp>

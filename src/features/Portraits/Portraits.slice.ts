@@ -46,12 +46,14 @@ export interface HomeState {
         | undefined
         | null;
     themeDetail: any;
+    recentBlog: any;
 }
 
 const initialState: HomeState = {
     loading: false,
     error: null,
     themeDetail: undefined,
+    recentBlog: undefined,
 };
 
 export const portraitSlice = createSlice({
@@ -71,6 +73,7 @@ export const portraitSlice = createSlice({
             })
             .addCase(getThemeDetailAction.fulfilled, (state, action: any) => {
                 state.themeDetail = action.payload.Theme;
+                state.recentBlog = action.payload.recentBlog;
                 state.loading = false;
                 state.error = null;
             })
@@ -90,5 +93,6 @@ export const { clearThemeDetail } = portraitSlice.actions;
 export const selectLoading = (state: RootState) => state.portraits.loading;
 export const selectError = (state: RootState) => state.portraits.error;
 export const selectThemeDetail = (state: RootState) => state.portraits.themeDetail;
+export const selectRecentBlog = (state: RootState) => state.portraits.recentBlog;
 
 export default portraitSlice.reducer;

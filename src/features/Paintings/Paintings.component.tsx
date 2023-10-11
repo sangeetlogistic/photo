@@ -7,12 +7,16 @@ export const HeroSection = styled.section<{ detailPageCoverImage: string }>`
     z-index: 1;
     background-color: ${Colors.transparent};
     background: ${(props) => (props.detailPageCoverImage ? `url('${props.detailPageCoverImage}')` : '')};
-    background-position: center 106px;
     background-repeat: no-repeat;
-    background-size: contain;
-    @media (min-width: ${`${MediaBreakpoints.upXxl}px`}) {
+    background-size: cover;
+    background-position: center 50px;
+    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+        background-position: center 100px;
         background-size: auto;
         padding-top: ${PagePdngTopEqualHeaderHeight};
+    }
+    @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
+        background-position: center top;
     }
     &::before {
         content: '';
@@ -39,12 +43,11 @@ export const PaintingsHeroSectionCmp = styled.div`
         padding-top: 96px;
     }
     @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-        height: 30vh;
+        height: 70vh;
         padding-top: 5.57vw;
         /* height: 80vh; */
     }
     @media (min-width: ${`${MediaBreakpoints.upXxl}px`}) {
-        height: 70vh;
         padding-top: 0;
     }
     .hero-content-wrapp {
@@ -93,7 +96,7 @@ export const PaintingsHeroSectionCmp = styled.div`
                     height: 3.229vw;
                 }
             }
-            @media (max-width: ${`${MediaBreakpoints.upMd1}px`}) {
+            @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
                 position: absolute;
                 left: 50%;
                 bottom: 20px;
@@ -105,7 +108,7 @@ export const PaintingsHeroSectionCmp = styled.div`
 export const PageBackground = styled.div<{ backgroundRepeatImage: string }>`
     position: absolute;
     z-index: 0;
-    top: -1.875vw;
+    /* top: -1.875vw; */
     left: 0;
     width: 100%;
     height: 100%;

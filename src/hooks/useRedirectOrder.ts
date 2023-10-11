@@ -1,9 +1,9 @@
 // useRedirect.js
-import { useHistory } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import { Routes } from '../navigation/Routes';
 
 export const useRedirectOrder = () => {
-    const history = useHistory();
+    const history = useRouter();
 
     const redirectTo = () => {
         history.push(Routes.orderStep.replace(':id', '1'));

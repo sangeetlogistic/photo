@@ -1,5 +1,8 @@
+/* eslint-disable complexity */
 import moment from 'moment';
 import { CouponCodeDiscount, depositDue } from '../features/OrderStep/OrderStep.constants';
+import { monthDayFormat } from '../constants/general';
+import { basicPrice } from '../components/Layout/Header/Header.constants';
 
 export const convertBrToN = (content: string | undefined) => content && content.replace(/<br\s*[/]?>/gi, '\n');
 
@@ -34,7 +37,7 @@ export const calculateFun = (
 
     total -= couponCodeAmount;
 
-    total = (total * (depositDueMake ? depositDue : 1)).toFixed(2);
+    total = total < 0 ? 0 : (total * (depositDueMake ? depositDue : 1)).toFixed(2);
 
     return total;
 };
@@ -50,7 +53,77 @@ export const isLocalStorageValid = (key: string) => {
     return currentDate.isBefore(expirationDate);
 };
 
-export const checkForDevice = () => {
-    const windowWidth = window.innerWidth;
-    return windowWidth <= 1440;
+export const checkForDevice = (windowSize: number) => {
+    const windowWidth = typeof window !== 'undefined' ? window.innerWidth : 0;
+    return windowWidth < windowSize;
 };
+
+export const dateSeparation = (estimatedDays: number, futureSeprateDays: number) => {
+    // Get the current date
+    const currentDate = moment();
+
+    // Calculate the date after estimatedDays days
+    const futureDate = currentDate.clone().add(estimatedDays, 'days');
+    const futureDateWith4Days = futureDate.clone().add(futureSeprateDays, 'days');
+
+    // Format the dates if needed
+    const formattedFutureDate = futureDate.format(monthDayFormat);
+    const formattedFuture4Date = futureDateWith4Days.format(monthDayFormat);
+
+    return { formattedFutureDate, formattedFuture4Date };
+};
+
+export const emailRegex = (email: string) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+
+export const priceCalculatorMenu = (size_price: any, num_persons: any, num_pets: any) => {
+    let priceCalc = 0;
+
+    if ((num_persons === 1 && num_pets === 0) || (num_persons === 0 && num_pets === 1) || (num_persons === 0 && num_pets === 0)) {
+        priceCalc = size_price;
+        return priceCalc;
+    }
+    if (num_persons === 1 && num_pets === 1) {
+        priceCalc = size_price + basicPrice;
+        return priceCalc;
+    }
+
+    if (num_persons >= 2) {
+        if (num_pets === 0) {
+            const persons = (num_persons - 1) * basicPrice;
+            priceCalc = size_price + persons;
+            return priceCalc;
+        }
+        if (num_pets === 1) {
+            const numOfPerson = num_persons * basicPrice;
+            priceCalc = size_price + numOfPerson;
+            return priceCalc;
+        }
+        if (num_pets > 1) {
+            const persons = (num_persons - 1) * basicPrice;
+            const pets = num_pets * basicPrice;
+            priceCalc = size_price + persons + pets;
+            return priceCalc;
+        }
+    }
+    if (num_pets >= 2) {
+        if (num_persons === 0) {
+            const pets = (num_pets - 1) * basicPrice;
+            priceCalc = size_price + pets;
+            return priceCalc;
+        }
+        if (num_persons === 1) {
+            const numOfPet = num_pets * basicPrice;
+            priceCalc = size_price + numOfPet;
+            return priceCalc;
+        }
+        if (num_persons > 1) {
+            const pets = (num_pets - 1) * basicPrice;
+            const persons = num_persons * basicPrice;
+            priceCalc = size_price + pets + persons;
+            return priceCalc;
+        }
+    }
+    return null;
+};
+
+export const roundOff = (data: any) => Math.round(Number(data || 0) * 10) / 10;

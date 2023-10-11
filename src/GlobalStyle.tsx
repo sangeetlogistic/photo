@@ -30,10 +30,10 @@ const GlobalStyle = createGlobalStyle`
     margin-bottom: 4px;
       @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
         margin: 0;
-        font-size: 56px;
+        font-size: 24px;
         line-height: 35px;
       }
-      @media (min-width: ${`${MediaBreakpoints.upXxl}px`}) {
+      @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
         font-size: 2.917vw;
         line-height: 1.823vw;
       }
@@ -67,7 +67,7 @@ const GlobalStyle = createGlobalStyle`
     font-family:${Fonts.primaryFont}; 
   }
   .text-primary{
-    color: ${Colors.primary};
+    color: ${Colors.primary} !important;
   }
   .title-color{
     color: ${Colors.gray120};
@@ -86,17 +86,16 @@ const GlobalStyle = createGlobalStyle`
     border-color: #d9d9d9;
   }
   .footer-dropdown-popup{
-    min-width: 120px !important;
+    min-width: auto !important;
+    width: auto !important;
     background-color: ${Colors.gray120};
-    @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-      min-width: 6.25vw !important;
-    }
     .ant-select-item{
       font-size: 14px;
       font-weight: 700;
       color:${Colors.white};
       font-family:${Fonts.titleFont};
       transition: all 0.3s ease-out;
+      padding: 5px 10px;
       @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
         font-size: 0.729vw;
       }
@@ -113,7 +112,7 @@ const GlobalStyle = createGlobalStyle`
   .select-painting-size{
     .ant-select-item{
 
-      @media (max-width: ${`${MediaBreakpoints.upMd1}px`}) {
+      @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
         color: ${Colors.black};
         font-weight:600;
       font-size: 16px !important;
@@ -174,7 +173,7 @@ const GlobalStyle = createGlobalStyle`
 //step page tooltip
 .order-step-tooltip{
   @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
-    max-width:14.542vw;
+    max-width:14.542vw !important;
   }
   .ant-popover-inner{
     @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
@@ -194,6 +193,11 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 }
+.estimate_tooltip{
+  @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+    max-width:17.542vw !important;
+  }
+}
 .que-icon {
     display: flex;
     align-items: center;
@@ -207,7 +211,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: 12px;
     border-radius: 100%;
     @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
-    font-size: 1.042vw;
+    font-size: 1vw;
           width: 1.198vw;
           height: 1.198vw;
         }

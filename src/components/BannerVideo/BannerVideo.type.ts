@@ -7,4 +7,5 @@ export interface IBannerVideo {
     autoPlay?: boolean;
     poster?: string;
     id?: string;
+    isVideoContent?: boolean;
 }

@@ -1,13 +1,12 @@
 import React from 'react';
 import FilledButton from '../../components/FilledButton';
-import LazyImage from '../../components/LazyImage';
 import { Images } from '../../theme';
 import { ThankYouPopupCmp } from './Account.component';
 
-const ThankyouPopup = ({ setThankyouPopup }: any) => {
+const ThankyouPopup = ({ setThankyouPopup, thankyouPopup }: any) => {
     const ThankyouPopupContent = (
         <div className="thank-you-popup-wrapper">
-            <LazyImage src={Images.LoginPopupImg} alt="" effect="opacity" />
+            <img src={Images.LoginPopupImg?.src} alt="" />
             <div className="thankyou-title-block">
                 <h3>Thank you!</h3>
                 <p>Hi George, Congratulations your order will be shipped soon!</p>
@@ -25,7 +24,7 @@ const ThankyouPopup = ({ setThankyouPopup }: any) => {
         </div>
     );
 
-    return <ThankYouPopupCmp onCancel={() => setThankyouPopup(false)} open closable={false} content={ThankyouPopupContent} />;
+    return <ThankYouPopupCmp onCancel={() => setThankyouPopup(false)} open={thankyouPopup} closable={false} content={ThankyouPopupContent} />;
 };
 
 export default ThankyouPopup;

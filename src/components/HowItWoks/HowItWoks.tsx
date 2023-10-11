@@ -6,7 +6,6 @@ import { HowItWorkBlockCmp } from './HowItWoks.component';
 import { Images } from '../../theme';
 import SliderCarousel from '../SliderCarousel';
 import BannerVideo from '../BannerVideo';
-import LazyImage from '../LazyImage';
 
 const HowItWoks = ({ detail, info }: any) => {
     const sliderRef = useRef<any>(null);
@@ -41,7 +40,7 @@ const HowItWoks = ({ detail, info }: any) => {
                 <p className="mb-0 text-light">Follow simple, three steps to order your precious custom painting from a photo...</p>
             </div>
             <div className="how-it-work-icon">
-                <LazyImage src={Images.HowItWorkIcon} alt="" className="" effect="opacity" width="100" height="100" />
+                <img src={Images.HowItWorkIcon?.src} alt="" className="" width="100" height="100" />
             </div>
             {detail?.length > 0 && (
                 <SliderCarousel settings={settings} ref={sliderRef}>
@@ -57,7 +56,7 @@ const HowItWoks = ({ detail, info }: any) => {
             <div className="how-it-work-slider-pagination">
                 <button type="button" className="button how-btn-prev" onClick={handlePrevious}>
                     <FontAwesomeIcon icon={faAngleLeft} />
-                    <LazyImage effect="opacity" src={Images.HowItWorkArrowLeft} alt="" className="" />
+                    <img src={Images.HowItWorkArrowLeft?.src} alt="" className="" />
                 </button>
                 <div className="step-btn-wrap">
                     {detail &&
@@ -74,7 +73,7 @@ const HowItWoks = ({ detail, info }: any) => {
                 </div>
                 <button type="button" className="button how-btn-next" onClick={handleNext}>
                     <FontAwesomeIcon icon={faAngleRight} />
-                    <LazyImage effect="opacity" src={Images.HowItWorkArrowRight} alt="" className="" />
+                    <img src={Images.HowItWorkArrowRight?.src} alt="" className="" />
                 </button>
             </div>
         </HowItWorkBlockCmp>

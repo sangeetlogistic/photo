@@ -1,11 +1,10 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable complexity */
 /* eslint-disable max-lines-per-function */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Col, Row, Card, Input } from 'antd';
-import { useHistory } from 'react-router-dom';
 
 import { LoadingOutlined, CloseOutlined } from '@ant-design/icons';
 import { Elements } from '@stripe/react-stripe-js';
@@ -22,8 +21,9 @@ import { STRIPE_PUBLIC_KEY } from '../../constants/predicates';
 import { calculateFun } from '../../utils/func';
 
 import FilledButton from '../../components/FilledButton';
-import { useAppSelector } from '../../app/hooks';
-import { selectStep3Detail } from './OrderStep.slice';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { selectStep3Detail, setSelectSize } from './OrderStep.slice';
+import { useRouter } from 'next/router';
 
 loadStripe.setLoadParameters({ advancedFraudSignals: false });
 const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
@@ -56,12 +56,28 @@ const Checkout = ({
     fillingForm,
     setFillingForm,
     setExpressService,
-    form,
+    formIns,
+    Form,
     handleSubmitCheckOut,
     advancedPaymentAmount,
+    estimatedDeliveryDays,
+    firstName,
+    lastName,
+    email,
+    validPhoneNumber,
+    setValidPhoneNumber,
 }: any) => {
-    const history = useHistory();
+    const history = useRouter();
+    const dispatch = useAppDispatch();
     const step3Detail = useAppSelector(selectStep3Detail);
+
+    useEffect(
+        () => () => {
+            dispatch(setSelectSize({ painting: true, frame: false }));
+        },
+        [],
+    );
+
     return (
         <OrderCheckOutCmp className="order-inner-block mobile-order-inner-block checkout-step">
             <Row gutter={24}>
@@ -91,8 +107,8 @@ const Checkout = ({
                                                 <img src={themesItems?.image} alt="" className="" />
                                                 {themesItems?.theme === SelectThemes.custom && (
                                                     <div className="d-flex justify-center">
-                                                        <output className="mx-3">{personsCount}</output>
-                                                        <output className="mx-3">{petsCount}</output>
+                                                        <output className="mx-3">{personsCount || 0}</output>
+                                                        <output className="mx-3">{petsCount || 0}</output>
                                                     </div>
                                                 )}
                                             </figure>
@@ -162,7 +178,7 @@ const Checkout = ({
                                         </span>
                                     </div>
                                     <OrderStep3Cmp className="mobile-order-inner-block step-3 px-0 py-0">
-                                        <div className="select-size-frame-card d-flex justify-between">
+                                        <div className="select-size-frame-card d-flex">
                                             <div className="frame-size-block justify-center">
                                                 <label className="select-size-label">
                                                     <input
@@ -176,21 +192,21 @@ const Checkout = ({
                                                     />
                                                     <div className="select-size-block-outer">
                                                         <div className="select-size-wrap">
-                                                            <div className="d-flex justify-between">
+                                                            <div className="d-flex justify-between items-center">
                                                                 <span className="painting-size">{`${selectPaintingSizeAndPrice?.title}`}</span>
                                                                 <span className="twenty_per_text">{`$${selectPaintingSizeAndPrice?.price}`}</span>
                                                             </div>
-                                                            <p className="twenty_per_text">
-                                                                20% Due Now:{' '}
-                                                                <span className="painting-rate">
-                                                                    ${(selectPaintingSizeAndPrice?.price * depositDue).toFixed(2)}
+                                                            <div className="d-flex justify-between items-center">
+                                                                <span className="painting-size">20% Due Now: </span>
+                                                                <span className="painting-rate-red text-red">
+                                                                    ${Math.round(selectPaintingSizeAndPrice?.price * depositDue)}
                                                                 </span>
-                                                            </p>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </label>
                                             </div>
-                                            <div className="select-frame-block justify-center">
+                                            <div className="select-frame-block justify-center frame-auto">
                                                 <label htmlFor="paintingFrame" className="select-frame-label" key={1}>
                                                     <input type="radio" className="select-frame-input-radio" name="paintingFrame" defaultChecked />
                                                     <div className="select-frame-block-outer">
@@ -216,7 +232,7 @@ const Checkout = ({
                                 <h5 className="title">Attributes Selected</h5>
                             </div>
                             <Card className="checkout_settings_right" bordered={false}>
-                                <div className="d-flex w-=d">
+                                <div className="d-flex">
                                     <CheckboxGroup
                                         className="checkbox_wrapper"
                                         onChange={handleCombinePhoto}
@@ -232,7 +248,7 @@ const Checkout = ({
                                     </label>
                                 </div>
 
-                                <div className="d-flex w-=d">
+                                <div className="d-flex">
                                     <CheckboxGroup
                                         className="checkbox_wrapper"
                                         onChange={handleVideoCreated}
@@ -247,7 +263,7 @@ const Checkout = ({
                                         (+ ${videoCreatedPrice})
                                     </label>
                                 </div>
-                                <div className="d-flex w-=d">
+                                <div className="d-flex">
                                     <CheckboxGroup className="checkbox_wrapper" onChange={handleArtistSign} checked={artistSign}></CheckboxGroup>
                                     <span className={`checkbox-title ${artistSign ? 'opacity-1' : ''}`}>
                                         {' '}
@@ -400,11 +416,22 @@ const Checkout = ({
                             setFillingForm={setFillingForm}
                             setExpressService={setExpressService}
                             expressService={expressService}
-                            form={form}
+                            formIns={formIns}
+                            Form={Form}
+                            estimatedDeliveryDays={estimatedDeliveryDays}
+                            setValidPhoneNumber={setValidPhoneNumber}
                         />
                         {stripePromise && (
                             <Elements stripe={stripePromise}>
-                                <PaymentMod handleSubmitCheckOut={handleSubmitCheckOut} advancedPaymentAmount={advancedPaymentAmount} form={form} />
+                                <PaymentMod
+                                    handleSubmitCheckOut={handleSubmitCheckOut}
+                                    advancedPaymentAmount={advancedPaymentAmount}
+                                    form={formIns}
+                                    firstName={firstName}
+                                    lastName={lastName}
+                                    email={email}
+                                    validPhoneNumber={validPhoneNumber}
+                                />
                             </Elements>
                         )}
                     </Card>

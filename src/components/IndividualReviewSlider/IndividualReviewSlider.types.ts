@@ -10,4 +10,6 @@ export interface IIndividualReviewCard {
 export interface IIndividualReviewSlider {
     title: string;
     subTitle: string;
+    trustPilots?: any;
+    totalRating?: number;
 }

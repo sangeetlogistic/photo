@@ -9,7 +9,7 @@ import FilledButton from '../../components/FilledButton';
 
 const { Panel } = Collapse;
 
-const PaintingsFAQ = ({ name, description, faqs }: { name: string; description: string; faqs: any }) => (
+const PaintingsFAQ = ({ name, description, faqs }: { name: string; description: string; faqs?: any }) => (
     <PaintingsFAQCmp>
         <div className="portraits-content-wrapper">
             <nav className="social-menu">
@@ -33,15 +33,18 @@ const PaintingsFAQ = ({ name, description, faqs }: { name: string; description: 
             </nav>
             {description ? parse(`${description}`) : ''}
             <div className="portraits-faq-block">
-                <h2 className="">{name} FAQ</h2>
-                <Collapse accordion className="portraits-accordian">
-                    {faqs?.length > 0 &&
-                        faqs.map((obj: any) => (
-                            <Panel header={obj?.question} key={obj?.id}>
-                                {parse(`${obj?.answer}`)}
-                            </Panel>
-                        ))}
-                </Collapse>
+                {faqs?.length > 0 && (
+                    <>
+                        <h2 className="">{name} FAQ</h2>
+                        <Collapse accordion className="portraits-accordian">
+                            {faqs.map((obj: any) => (
+                                <Panel header={obj?.question} key={obj?.id}>
+                                    {parse(`${obj?.answer}`)}
+                                </Panel>
+                            ))}
+                        </Collapse>
+                    </>
+                )}
             </div>
         </div>
     </PaintingsFAQCmp>

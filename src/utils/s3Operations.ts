@@ -1,10 +1,12 @@
 import AWS from 'aws-sdk';
-import { awsImagePath } from '../constants/general';
+import { awsImagePath, awsVideoPath } from '../constants/general';
 import { ACCESS_ID, ACCESS_KEY, REGION } from '../constants/predicates';
 
-export const s3ImageUpload = (fileObj: any, progressFun: React.Dispatch<React.SetStateAction<number>>) =>
+export const s3ImageUpload = (fileObj: any, video: boolean = false) =>
     new Promise((resolve) => {
-        const fileName = !fileObj.extension ? `${new Date().getTime().toString()}.png` : `${new Date().getTime().toString()}.${fileObj.extension}`;
+        const fileName = !fileObj.extension
+            ? `${new Date().getTime().toString()}.${!video ? 'png' : 'mp4'}`
+            : `${new Date().getTime().toString()}.${fileObj.extension}`;
 
         AWS.config.update({
             accessKeyId: ACCESS_ID,
@@ -15,32 +17,21 @@ export const s3ImageUpload = (fileObj: any, progressFun: React.Dispatch<React.Se
 
         const params = {
             Bucket: 'photo2painting',
-            Key: `${awsImagePath}${fileName}`,
+            Key: `${!video ? awsImagePath : awsVideoPath}${fileName}`,
             Body: fileObj,
-            ContentType: fileObj.extension ? fileObj.type : 'image/jpeg',
+            ContentType: fileObj.extension ? fileObj.type : `${!video ? 'image/jpeg' : 'video/mp4'}`,
         };
 
         const options = { partSize: 500 * 1024 * 1024, queueSize: 1 };
 
         s3.upload(params, options, (err, data) => {
             if (err) {
-                console.log('ERR :: ', err);
-                // return err;
                 resolve({ status: 401 });
             }
             if (data) {
-                // return data;
                 resolve({ status: 201, data });
             } else {
                 resolve({ status: 401 });
-                // console.log("error");
-                // return 0;
             }
         });
-
-        // .on('httpUploadProgress', (evt: any) => {
-        //   const { loaded, total } = evt;
-        //   const totalCount = (Number(loaded) * 500) / Number(total);
-        //   progressFun(totalCount);
-        // });
     });

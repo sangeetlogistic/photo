@@ -1,13 +1,25 @@
-import React, { useRef } from 'react';
+/* eslint-disable no-nested-ternary */
+import React, { forwardRef } from 'react';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
 import { Player, ControlBar, BigPlayButton } from 'video-react';
 
 import { IBannerVideo } from './BannerVideo.type';
 
-const BannerVideo = ({ bannerVideo, type = 'video/mp4', controls = true, autoPlay = false, loop = false, className, poster, id }: IBannerVideo) => {
-    const playerRef = useRef<any>(null);
-
-    return (
+const BannerVideo = forwardRef(
+    (
+        {
+            bannerVideo,
+            type = 'video/mp4',
+            controls = true,
+            autoPlay = false,
+            loop = false,
+            className,
+            poster,
+            id,
+            isVideoContent = false,
+        }: IBannerVideo,
+        ref: any,
+    ) => (
         <>
             {loop ? (
                 <video
@@ -24,9 +36,19 @@ const BannerVideo = ({ bannerVideo, type = 'video/mp4', controls = true, autoPla
                 >
                     <source data-src={bannerVideo} type={type} />
                 </video>
+            ) : isVideoContent ? (
+                <Player ref={ref} autoPlay={autoPlay} preload="none" playsInline muted poster={poster} src={bannerVideo}>
+                    <source src={bannerVideo} type={type} />
+                    {!controls && (
+                        <>
+                            <ControlBar disableCompletely />
+                        </>
+                    )}
+                    <BigPlayButton position="center" />
+                </Player>
             ) : (
                 <LazyLoadComponent>
-                    <Player ref={playerRef} autoPlay={autoPlay} preload="none" playsInline muted poster={poster} src={bannerVideo}>
+                    <Player autoPlay={autoPlay} preload="none" playsInline muted poster={poster} src={bannerVideo}>
                         <source src={bannerVideo} type={type} />
                         {!controls && (
                             <>
@@ -38,7 +60,7 @@ const BannerVideo = ({ bannerVideo, type = 'video/mp4', controls = true, autoPla
                 </LazyLoadComponent>
             )}
         </>
-    );
-};
+    ),
+);
 
 export default BannerVideo;

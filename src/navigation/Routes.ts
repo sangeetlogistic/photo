@@ -29,9 +29,11 @@ export const Routes = {
     ccpa: '/ccpa',
     blog: '/blog/:id?',
     termsCondition: '/terms',
-    drawingsPictures: '/drawings-of-pictures',
     cookiePolicy: '/cookie-policy',
     pricingTiming: '/pricing-timing',
     galleryTheme: '/gallery/theme/:themeId/medium/:mediumId',
     galleryMedium: '/gallery/medium/:mediumId/theme/:themeId',
+    drawingPortrait: '/drawings-of-pictures',
+
+    return: '/return',
 };

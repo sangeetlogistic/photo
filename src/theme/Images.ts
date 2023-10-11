@@ -19,6 +19,13 @@ import IconRightArrowRound from '../assets/images/icons/icon-right-arrow-round.s
 import IconRightArrow from '../assets/images/icons/arrow-icon-right.svg';
 import TrustpilotLogo from '../assets/images/trustpilot-logo.svg';
 import TrustpilotFooterLogo from '../assets/images/trustpilot-logo-white.svg';
+import YelpLogoReview from '../assets/images/yelp.svg';
+import YelpLogoReviewWhite from '../assets/images/yelp-logo-white.svg';
+import GoogleLogoReview from '../assets/images/google.svg';
+import GoogleLogoReviewWhite from '../assets/images/google-logo-white.svg';
+import shieldIcon from '../assets/images/shield-icon.svg';
+import shieldIconMobile from '../assets/images/shield-icon-mobile.svg';
+import countryIcon from '../assets/images/icon_country.svg';
 import SliderArrowPrev from '../assets/images/icons/icon-slider-arrow-prev.svg';
 import SliderArrowNext from '../assets/images/icons/icon-slider-arrow-next.svg';
 import ViewGalleryArrow from '../assets/images/icons/icon-view-gallery.svg';
@@ -185,6 +192,37 @@ import TocIcon from '../assets/images/blog/toc.svg';
 import YoutubeIcon from '../assets/images/blog/youtube.svg';
 import Blog2Img from '../assets/images/blog/blog-2.png';
 import HeroImage from '../assets/hero.jpg';
+import BlogDetailImage from '../assets/images/blog/Watercolor.png';
+import profileImg from '../assets/images/blog/profile-blog.png';
+import Blog01 from '../assets/images/blog/Happy-Birthday-Lucy-1.png';
+import BlogPainting01 from '../assets/images/blog/painting-scaled.png';
+import FamilyBlog from '../assets/images/blog/Family.png';
+import HomeIconMobile from '../assets/images/icons/home-icon-mobile.svg';
+import PriceListIcon1 from '../assets/images/icons/price-list-icon-1.svg';
+import PriceListIcon2 from '../assets/images/icons/price-list-icon-2.svg';
+import PriceListIcon3 from '../assets/images/icons/price-list-icon-3.svg';
+import PriceListIcon4 from '../assets/images/icons/price-list-icon-4.svg';
+import PriceListIcon5 from '../assets/images/icons/price-list-icon-5.svg';
+import AfterpayInstallImg1 from '../assets/images/afterpay-install-img-1.png';
+import AfterpayInstallImg2 from '../assets/images/afterpay-install-img-2.svg';
+import AfterpayInstallHelp1 from '../assets/images/icons/afterpay-install-help-icon-1.svg';
+import AfterpayInstallHelp2 from '../assets/images/icons/afterpay-install-help-icon-2.svg';
+import PersonBox from '../assets/images/person-box.svg';
+import priceTag from '../assets/images/blog/price.png';
+import moneyIcon from '../assets/images/blog/sat.png';
+import starIcon from '../assets/images/blog/Stroke-1.png';
+import acrylicMedium from '../assets/images/acrylic-scaled.jpg';
+import watercolorMedium from '../assets/images/watercolor.jpg';
+import charcoalMedium from '../assets/images/charcoal.jpg';
+import blackPencilMedium from '../assets/images/black-pencil.jpg';
+import colorPencilMedium from '../assets/images/color-pencil.jpg';
+import affirmButton from '../assets/images/affirm.png';
+import ZipPayButton from '../assets/images/zippay.svg';
+import CountDownIcon from '../assets/images/blog/countdown.png';
+import FormArrowIcon from '../assets/images/blog/icon-arrow.svg';
+import GiftCardImg from '../assets/images/gift-card.png';
+import GiftBoxImg from '../assets/images/gift-box.png';
+import FourZeroFour from '../assets/images/404-error.svg';
 
 const Images = {
     LogoImg,
@@ -225,6 +263,13 @@ const Images = {
     HowItWorkArrowRight,
     FooterBtnArrow,
     TrustpilotFooterLogo,
+    YelpLogoReview,
+    YelpLogoReviewWhite,
+    GoogleLogoReview,
+    GoogleLogoReviewWhite,
+    shieldIcon,
+    shieldIconMobile,
+    countryIcon,
     IconWhiteArrowUp,
     IconWhiteArrowDown,
     IconAfterBeforeArrow,
@@ -374,6 +419,37 @@ const Images = {
     YoutubeIcon,
     Blog2Img,
     HeroImage,
+    BlogDetailImage,
+    profileImg,
+    Blog01,
+    FamilyBlog,
+    HomeIconMobile,
+    PriceListIcon1,
+    PriceListIcon2,
+    PriceListIcon3,
+    PriceListIcon4,
+    PriceListIcon5,
+    AfterpayInstallImg1,
+    AfterpayInstallImg2,
+    AfterpayInstallHelp1,
+    AfterpayInstallHelp2,
+    BlogPainting01,
+    PersonBox,
+    priceTag,
+    moneyIcon,
+    starIcon,
+    acrylicMedium,
+    watercolorMedium,
+    charcoalMedium,
+    blackPencilMedium,
+    colorPencilMedium,
+    affirmButton,
+    ZipPayButton,
+    CountDownIcon,
+    FormArrowIcon,
+    GiftCardImg,
+    GiftBoxImg,
+    FourZeroFour,
 };
 
 export default Images;

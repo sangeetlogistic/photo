@@ -1,8 +1,8 @@
+/* eslint-disable complexity */
 /* eslint-disable max-lines-per-function */
 /* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
 import moment from 'moment';
-import { useHistory } from 'react-router-dom';
 import { Col, Row } from 'antd';
 import { Helmet } from 'react-helmet';
 
@@ -13,18 +13,19 @@ import { Images } from '../../theme';
 import { selectedSaveOrderData } from '../OrderStep/OrderStep.slice';
 import { ThankYouCmp, ThankYouWrap } from './Thankyou.components';
 import { dateMonthFormat } from '../../constants/general';
-import { CouponCodeDiscount, multipleCombinePhotosPrice } from '../OrderStep/OrderStep.constants';
+import { CouponCodeDiscount, PaymentWays, multipleCombinePhotosPrice } from '../OrderStep/OrderStep.constants';
+import { useRouter } from 'next/router';
 
 const Thankyou = () => {
     const dispatch = useAppDispatch();
-    const history = useHistory();
+    const history = useRouter();
 
     const saveOrderData = useAppSelector(selectedSaveOrderData);
 
     useEffect(() => {
         dispatch(setNotShowingFooter(Routes.thankYou));
 
-        const onPageLoad = () => history.replace(Routes.account);
+        const onPageLoad = () => history.push(Routes.account);
 
         window.addEventListener('load', onPageLoad);
         return () => window.removeEventListener('load', onPageLoad);
@@ -33,7 +34,7 @@ const Thankyou = () => {
     return (
         <>
             <Helmet>
-                <title>ThankYou</title>
+                <title>Thank You</title>
             </Helmet>
 
             <ThankYouWrap>
@@ -148,10 +149,27 @@ const Thankyou = () => {
                                                             <>
                                                                 <span className="discount-price">
                                                                     $
-                                                                    {(
-                                                                        Number(saveOrderData?.paymentObj?.total_payment) +
-                                                                        Number(saveOrderData?.paymentObj?.discountedAmount)
-                                                                    ).toFixed(2)}
+                                                                    {saveOrderData?.paymentObj?.total_payment <= 0
+                                                                        ? (
+                                                                              Number(saveOrderData?.saveOrder?.saveOrder?.size_price || 0) +
+                                                                              Number(saveOrderData?.saveOrder?.saveOrder?.frame_price || 0) +
+                                                                              Number(
+                                                                                  saveOrderData?.saveOrder?.saveOrder?.how_my_video_created_price ||
+                                                                                      0,
+                                                                              ) +
+                                                                              Number(saveOrderData?.saveOrder?.saveOrder?.service_type_price || 0) +
+                                                                              Number(
+                                                                                  saveOrderData?.saveOrder?.saveOrder?.shipping_method_price || 0,
+                                                                              ) +
+                                                                              Number(
+                                                                                  saveOrderData?.saveOrder?.saveOrder
+                                                                                      ?.combine_multiple_image_to_create_one_price || 0,
+                                                                              )
+                                                                          ).toFixed(2)
+                                                                        : (
+                                                                              Number(saveOrderData?.paymentObj?.total_payment) +
+                                                                              Number(saveOrderData?.paymentObj?.discountedAmount)
+                                                                          ).toFixed(2)}
                                                                 </span>
                                                                 ${saveOrderData?.paymentObj?.total_payment} (-
                                                                 {saveOrderData?.paymentObj?.couponObj?.discountType === CouponCodeDiscount.PRICE
@@ -192,7 +210,11 @@ const Thankyou = () => {
                                                 </tr>
                                                 <tr>
                                                     <th>Payment Method</th>
-                                                    <td>{saveOrderData?.paymentObj?.payment_method}</td>
+                                                    <td style={{ width: '75px' }}>
+                                                        {saveOrderData?.paymentObj?.payment_method === PaymentWays.stripe
+                                                            ? saveOrderData?.paymentObj?.payment_mode
+                                                            : saveOrderData?.paymentObj?.payment_method}
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <th>promo Code applied</th>
@@ -223,14 +245,16 @@ const Thankyou = () => {
                                             <h4 className="">estimated delivery</h4>
                                             <p className="">
                                                 The painting will be at your door approximately on{' '}
-                                                <span className="">
+                                                <span className="d-block-date">
+                                                    {moment
+                                                        .utc(saveOrderData?.saveOrder?.saveOrder?.estimated_delivery_startDate)
+                                                        .format(dateMonthFormat)}{' '}
+                                                    -{' '}
                                                     {moment
                                                         .utc(saveOrderData?.saveOrder?.saveOrder?.estimated_delivery_endDate)
                                                         .format(dateMonthFormat)}
                                                     .
-                                                </span>
-                                            </p>
-                                            <p>
+                                                </span>{' '}
                                                 allow us extra time for delivery during high-volume order periods{' '}
                                                 <span className="">(2-4 days).</span>
                                             </p>

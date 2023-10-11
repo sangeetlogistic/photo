@@ -1,7 +1,7 @@
 import React from 'react';
 import FilledButton from '../../components/FilledButton';
-import LazyImage from '../../components/LazyImage';
 import { HeroSection, PortraitsHeroSectionCmp } from './Portraits.component';
+import Image from 'next/image';
 
 const PortraitsHeroSectionContent = ({ detailPageCoverImage, handImage, coverTitle, coverSubTitle, coverButtonTitle, onClick }: any) => (
     <HeroSection detailPageCoverImage={detailPageCoverImage}>
@@ -19,8 +19,8 @@ const PortraitsHeroSectionContent = ({ detailPageCoverImage, handImage, coverTit
                     </div>
                 </div>
             </PortraitsHeroSectionCmp>
-            <figure className="hnd-image-outer">
-                <LazyImage src={handImage} alt="" effect="opacity" />
+            <figure className="hnd-image-outer ">
+                <Image fill src={handImage} alt="" className=''/>
             </figure>
         </div>
     </HeroSection>

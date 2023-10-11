@@ -1,19 +1,21 @@
 import React, { useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { usePathname } from 'next/navigation';
 
 import { NextBtn, PrevBtn } from '../PrevNextBtn';
 import { PhotosPaintingMediumSliderBlock } from './PhotosIntoPaintingsMedium.component';
 import FilledButton from '../FilledButton';
 import { Images } from '../../theme';
 import SliderCarousel from '../SliderCarousel';
-import LazyImage from '../LazyImage';
 import { useDeviceDetect } from '../../hooks';
+import { Routes } from '../../navigation/Routes';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
 
-const PaintingsTheme = ({ detail }: any) => {
+const PhotosIntoPaintingsMedium = ({ detail }: any) => {
+    const pathname = usePathname();
     const sliderRef = useRef<any>(null);
     const { isMobile } = useDeviceDetect();
-    const history = useHistory();
-
+    const history = useRouter();
     const [currentSlide, setCurrentSlide] = useState(0);
 
     const settings = {
@@ -94,14 +96,24 @@ const PaintingsTheme = ({ detail }: any) => {
                                 tabIndex={0}
                             >
                                 <figure className="">
-                                    <LazyImage
-                                        src={obj.sliderHoverImageUrl}
-                                        alt=""
-                                        width="100%"
-                                        className="mediums-carousel-image-active"
-                                        effect="opacity"
-                                    />
-                                    <LazyImage src={obj.sliderImageUrl} alt="" width="100%" className="mediums-carousel-image" effect="opacity" />
+                                    <span className="lazy-load-image-loaded">
+                                        <Image
+                                            src={obj.sliderHoverImageUrl}
+                                            alt=""
+                                            // width="100%"
+                                            className="mediums-carousel-image-active "
+                                            fill
+                                        />
+                                    </span>
+                                    <span className="lazy-load-image-loaded">
+                                        <Image
+                                            src={obj.sliderImageUrl}
+                                            alt=""
+                                            // width="100%"
+                                            className="mediums-carousel-image "
+                                            fill
+                                        />
+                                    </span>
                                 </figure>
                                 <div className="slider-text-wrap">
                                     <p className="title-font title-color">{obj.name}</p>
@@ -110,11 +122,19 @@ const PaintingsTheme = ({ detail }: any) => {
                                         className="link-btn-blue link-btn-height-auto link-btn-no-pdng link-btn-icon-append"
                                         type="link"
                                         size="small"
-                                        onClick={() => history.replace('/gallery/medium/custom-landscape-paintings/theme/all')}
+                                        onClick={() =>
+                                            history.push(
+                                                Routes.galleryMedium
+                                                    .replace(':mediumId', obj?.slug || '')
+                                                    .replace(':themeId', pathname === Routes.home ? 'all' : pathname.split('/')[1]),
+                                            )
+                                        }
                                     >
                                         View Gallery
                                         <span className="icon-append">
-                                            <LazyImage src={Images.ViewGalleryArrow} alt="" effect="opacity" width="" />
+                                            <span className="lazy-load-image-loaded">
+                                                <img src={Images.ViewGalleryArrow?.src} alt="" width="" />
+                                            </span>
                                         </span>
                                     </FilledButton>
                                 </div>
@@ -128,4 +148,4 @@ const PaintingsTheme = ({ detail }: any) => {
     );
 };
 
-export default PaintingsTheme;
+export default PhotosIntoPaintingsMedium;

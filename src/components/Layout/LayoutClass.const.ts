@@ -5,4 +5,5 @@ export const getClassByRoute: { [x: string]: string } = {
     [Routes.customIndividualPortraits]: 'custom-individual-portraits-page',
     [Routes.customOilPaintings]: 'custom-oil-paintings-page',
     [Routes.ourFaq]: 'our-faq-page',
+    [Routes.pricingTiming]: 'our-faq-page',
 };

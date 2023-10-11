@@ -41,7 +41,7 @@ const MobileMegaMenu = ({
                     <FontAwesomeIcon className="icon-next" icon={faChevronRight} />
                 </div>
                 <div className="mega-menu-video">
-                    {paintingProcess && <BannerVideo bannerVideo={paintingProcess} poster={Images.TourPaintingVideoThumb} />}
+                    {paintingProcess && <BannerVideo bannerVideo={paintingProcess} poster={Images.TourPaintingVideoThumb?.src} />}
                 </div>
             </div>
         )}

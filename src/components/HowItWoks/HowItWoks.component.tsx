@@ -194,7 +194,7 @@ export const HowItWorkBlockCmp = styled.div<any>`
         font-size: 14px;
         margin: 0 auto 36px auto;
         color: ${Colors.gray10};
-        @media (max-width: ${`${MediaBreakpoints.upMd1}px`}) {
+        @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
             max-width: 270px;
         }
         @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {

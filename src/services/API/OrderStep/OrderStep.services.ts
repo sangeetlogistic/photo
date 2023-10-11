@@ -1,4 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
+// import axios from 'axios';
 import API from '../../../constants/API';
 import { axiosInterceptor } from '../../../utils/requestClient';
 
@@ -32,6 +33,11 @@ const googleApplePay = async (payload: any) => {
     const response = await axiosInterceptor.get(uri, { params: payload });
     return response;
 };
+const zipPayment = async (payload: any) => {
+    const uri = API.zipPay.post;
+    const response = await axiosInterceptor.post(uri, payload);
+    return response;
+};
 
 export default {
     orderStepGetThemeObjMedium,
@@ -40,4 +46,5 @@ export default {
     isValidCouponCode,
     addMember,
     googleApplePay,
+    zipPayment,
 };

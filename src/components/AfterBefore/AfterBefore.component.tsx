@@ -126,11 +126,11 @@ export const AfterBeforeCmp = styled.section<any>`
                         }
                         &::before {
                             top: -1px;
-                            background: url(${Images.AfterBeforeTopCurve}) no-repeat center top;
+                            background: url(${Images.AfterBeforeTopCurve?.src}) no-repeat center top;
                         }
                         &::after {
                             bottom: -1px;
-                            background: url(${Images.AfterBeforeBtmCurve}) no-repeat center top;
+                            background: url(${Images.AfterBeforeBtmCurve?.src}) no-repeat center top;
                         }
                     }
                     > :nth-child(4),

@@ -2,16 +2,15 @@ import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Collapse } from 'antd';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import { Routes } from '../../../navigation/Routes';
 import { Images } from '../../../theme';
 import FilledButton from '../../FilledButton';
-import LazyImage from '../../LazyImage';
+import { useRouter } from 'next/router';
 
 const { Panel } = Collapse;
 
 const MobileFAQ = ({ title, mobileClassName }: { title?: string; mobileClassName?: string }) => {
-    const history = useHistory();
+    const history = useRouter();
 
     return (
         <div className={`mega-menu-container ${mobileClassName || ''}`}>
@@ -109,7 +108,9 @@ const MobileFAQ = ({ title, mobileClassName }: { title?: string; mobileClassName
                 >
                     FAQ
                     <span className="icon-append">
-                        <LazyImage effect="opacity" src={Images.IconRightArrowRound} alt="" />
+                        <span className="lazy-load-image-background">
+                            <img src={Images.IconRightArrowRound?.src} alt="" />
+                        </span>
                     </span>
                 </FilledButton>
             </div>

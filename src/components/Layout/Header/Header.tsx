@@ -1,10 +1,10 @@
 /* eslint-disable max-lines-per-function */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Menu, MenuProps, message } from 'antd';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Menu, MenuProps } from 'antd';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import TagManager from 'react-gtm-module';
+import { usePathname } from 'next/navigation';
 
 import { Images } from '../../../theme';
 import { MainHeader } from './Header.component';
@@ -12,29 +12,25 @@ import MegaMenu from './Header.MegaMenu';
 import { MenuType } from './Header.constants';
 import FilledButton from '../../FilledButton';
 import { useDeviceDetect, useHover, useLocalStorage } from '../../../hooks';
-import LazyImage from '../../LazyImage';
 import { Routes } from '../../../navigation/Routes';
 import MobileMegaMenu from './Header.MobileMegaMenu';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { selectIsAfterBeforeSliderMoving, selectMobileOpenMenu, setMobileOpenMenu } from '../Layout.slice';
-import { selectedError, selectedLoading, selectedLoginPopup, setLoginPopup } from '../../../features/Login/Login.slice';
+import { selectedLoading, setLoginPopup } from '../../../features/Login/Login.slice';
 import LoadingCover from '../../LoadingCover';
 import LoginPopup from '../../../features/Login/Login.Popup';
 import { LocalStorageKeys } from '../../../constants/keys';
+import { useRouter } from 'next/router';
 
 const Header = () => {
-    const history = useHistory();
+    const history = useRouter();
     const dispatch = useAppDispatch();
-    const localStorage = useLocalStorage();
-    const location = useLocation();
+    const pathname = usePathname();
 
     const mobileOpenMenu = useAppSelector(selectMobileOpenMenu);
-    const error = useAppSelector(selectedError);
     const loading = useAppSelector(selectedLoading);
     const isAfterBeforeSliderMoving = useAppSelector(selectIsAfterBeforeSliderMoving);
-    const loginPopup = useAppSelector(selectedLoginPopup);
 
-    const { pathname }: { pathname: string } = useLocation();
     const { isMobile } = useDeviceDetect();
 
     const [openMenu, setOpenMenu] = useState<string[] | []>(['']);
@@ -62,10 +58,6 @@ const Header = () => {
     }, [pathname]);
 
     useEffect(() => {
-        if (error) message.error(error.message);
-    }, [error]);
-
-    useEffect(() => {
         const handleScroll = () => {
             setShowFixedBtn(window.scrollY > 100);
         };
@@ -90,21 +82,21 @@ const Header = () => {
             window.removeEventListener('scroll', handleScroll);
             clearTimeout(tagFun);
         };
-    }, [location]);
+    }, [pathname]);
 
     useEffect(() => {
         if (isMobile) {
             if (mobileMenu || isAfterBeforeSliderMoving) {
-                document.body.style.overflow = 'hidden';
+                document.body.classList.add('no-scroll');
             } else {
-                document.body.style.overflow = 'auto';
+                document.body.classList.remove('no-scroll');
             }
         }
     }, [mobileMenu, isAfterBeforeSliderMoving]);
 
     const handleUser = () => {
         if (localStorage.getItem(LocalStorageKeys.authUser)) {
-            history.replace(Routes.account);
+            history.push(Routes.account);
         } else {
             dispatch(setLoginPopup(true));
         }
@@ -166,8 +158,8 @@ const Header = () => {
         {
             className: 'user-icon',
             label: (
-                <span tabIndex={0} role="button" onClick={handleUser}>
-                    <LazyImage effect="opacity" alt="" src={Images.UserIconSvg} width="14" height="21" />
+                <span tabIndex={0} role="button" onClick={handleUser} className="lazy-load-image-background">
+                    <img alt="" src={Images.UserIconSvg?.src} width="14" height="21" />
                 </span>
             ),
             key: 'user',
@@ -196,8 +188,10 @@ const Header = () => {
         {
             className: 'mobile-user-icon',
             label: (
-                <span>
-                    <LazyImage effect="opacity" alt="" src={Images.IconMobileMenuUser} width="30" height="30" />
+                <span onClick={handleUser} tabIndex={0} role="button">
+                    <span className="lazy-load-image-background">
+                        <img alt="" src={Images.IconMobileMenuUser?.src} width="30" height="30" />
+                    </span>
                 </span>
             ),
             key: 'mobileMenuUser',
@@ -248,7 +242,9 @@ const Header = () => {
                         <FontAwesomeIcon icon={faAngleLeft} />
                     </button>
                     <div className="site-logo" onClick={() => history.push(Routes.home)} tabIndex={0} role="button">
-                        <LazyImage effect="opacity" src={Images.LogoImg} alt="" className="" width="172" height="42" />
+                        <span className="lazy-load-image-loaded">
+                            <img src={Images.LogoImg?.src} alt="" className="" width="172" height="42" />
+                        </span>
                     </div>
                     {!isMobile ? (
                         <div className="p2p-menu">
@@ -265,7 +261,7 @@ const Header = () => {
                     )}
                 </div>
             </MainHeader>
-            {loginPopup && <LoginPopup />}
+            <LoginPopup />
             <LoadingCover show={loading} />
         </>
     );

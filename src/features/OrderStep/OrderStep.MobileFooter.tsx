@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import FilledButton from '../../components/FilledButton';
 import { Routes } from '../../navigation/Routes';
@@ -8,6 +7,8 @@ import { OrderSteps } from './OrderStep.constants';
 import { selectedSize, selectMediumItems, selectOrderStep, selectThemesItems, setSelectSize } from './OrderStep.slice';
 import { useLocalStorage } from '../../hooks';
 import { LocalStorageKeys } from '../../constants/keys';
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 export interface IMobileFooter {
     showProgressBar?: boolean;
@@ -40,8 +41,8 @@ const MobileFooter = ({
     setViewOrderSummary,
 }: IMobileFooter) => {
     const dispatch = useAppDispatch();
-    const history = useHistory();
-    const { pathname } = useLocation();
+    const history = useRouter();
+    const pathname = usePathname();
     const step = useAppSelector(selectOrderStep);
     const themesItems = useAppSelector(selectThemesItems);
     const mediumItems = useAppSelector(selectMediumItems);
@@ -60,10 +61,9 @@ const MobileFooter = ({
             if (viewOrderSummary) {
                 setViewOrderSummary?.(false);
             } else if (selectSize.frame) {
-                setSelectSizeSlider?.(null);
-                setSelectPaintingSize?.(false);
                 dispatch(setSelectSize({ painting: true, frame: false }));
-            } else if (selectSize.painting) {
+                setSelectPaintingSize?.(true);
+            } else if (selectSize.painting && selectPaintingSize) {
                 setSelectSizeSlider?.(null);
                 setSelectPaintingSize?.(false);
             } else {
@@ -88,7 +88,11 @@ const MobileFooter = ({
                 setViewOrderSummary?.(false);
             }
             if (selectSize.painting) {
-                dispatch(setSelectSize({ painting: false, frame: true }));
+                if (!selectPaintingSize) {
+                    setSelectPaintingSize?.(true);
+                } else {
+                    dispatch(setSelectSize({ painting: false, frame: true }));
+                }
             } else {
                 history.push(Routes.orderStep.replace(':id', '4'));
             }
@@ -101,20 +105,6 @@ const MobileFooter = ({
     };
 
     const successBtn = useMemo(() => {
-        if (step === OrderSteps.step1) {
-            if ((!themesItems && !mediumItems) || (!themesItems && mediumItems)) {
-                return 'Select  theme';
-            }
-            if (themesItems && !mediumItems) {
-                return 'select medium';
-            }
-            if (themesItems && mediumItems) {
-                return 'Continue';
-            }
-        }
-        if (step === OrderSteps.step2) {
-            return 'Upload or continue';
-        }
         if (step === OrderSteps.step3) {
             if (selectSize.frame) {
                 return 'Continue';
@@ -128,17 +118,15 @@ const MobileFooter = ({
     }, [step, themesItems, mediumItems, selectSize]);
 
     const disabledBtn = useMemo(() => {
-        if (step === OrderSteps.step1 && !(themesItems && mediumItems)) {
-            return true;
-        }
-        if (step === OrderSteps.step2 && showProgressBar) {
-            return true;
-        }
-        if (step === OrderSteps.step3 && (!selectPaintingSizeAndPrice || selectPaintingSizeAndPrice === null)) {
+        if (
+            (step === OrderSteps.step1 && !(themesItems && mediumItems)) ||
+            (step === OrderSteps.step2 && showProgressBar) ||
+            (step === OrderSteps.step3 && (!selectPaintingSizeAndPrice || selectPaintingSizeAndPrice === null))
+        ) {
             return true;
         }
         return false;
-    }, [step, themesItems, mediumItems, selectPaintingSize, showProgressBar]);
+    }, [step, themesItems, mediumItems, showProgressBar, selectPaintingSizeAndPrice]);
 
     return (
         <>

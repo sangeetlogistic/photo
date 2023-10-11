@@ -1,13 +1,14 @@
 /* eslint-disable complexity */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
-import { useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Routes } from '../../navigation/Routes';
 import { Images } from '../../theme';
 import { MobileOrderHeaderCmp } from './OrderPage.MobileComponent';
 import { OrderSteps } from './OrderStep.constants';
-import { selectMediumItems, selectOrderStep, selectThemesItems } from './OrderStep.slice';
+import { selectMediumItems, selectOrderStep, selectThemesItems, setSelectSize } from './OrderStep.slice';
+import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 
 export interface IMobileHeader {
     complateStep2?: boolean;
@@ -19,13 +20,15 @@ export interface IMobileHeader {
 }
 
 const MobileHeader = ({ complateStep2, repeatStep2, complateStep3, repeatStep3, complateStep4, repeatStep4 }: IMobileHeader) => {
-    const history = useHistory();
-    const location = useLocation();
+    const history = useRouter();
+    const location = usePathname();
+    const dispatch = useAppDispatch();
     const step = useAppSelector(selectOrderStep);
     const themesItems = useAppSelector(selectThemesItems);
     const mediumItems = useAppSelector(selectMediumItems);
 
-    const handleOrder = (item: OrderSteps) => {
+    const handleOrder = async (item: OrderSteps) => {
+        await dispatch(setSelectSize({ painting: true, frame: false }));
         if (item === OrderSteps.step1) {
             history.push(Routes.orderStep.replace(':id', '1'));
         } else if (item === OrderSteps.step2) {
@@ -39,8 +42,14 @@ const MobileHeader = ({ complateStep2, repeatStep2, complateStep3, repeatStep3, 
 
     return (
         <MobileOrderHeaderCmp>
-            {location.pathname !== Routes.orderStep.replace(':id', 'checkout') ? (
+            {location !== Routes.orderStep.replace(':id', 'checkout') ? (
                 <ul className="mobile-order-header-nav">
+                    <li className="nav-item" onClick={() => history.push(Routes.home)}>
+                        <div className="top-indicater">
+                            <img src={Images.HomeIconMobile} alt="" />
+                        </div>
+                        <div className="nav-link-name text-danger">Home</div>
+                    </li>
                     <li
                         className={`nav-item ${themesItems && mediumItems ? 'selected' : ''} ${step === OrderSteps.step1 ? 'active' : ''}`}
                         onClick={() => handleOrder(OrderSteps.step1)}

@@ -7,9 +7,9 @@ import { timezone } from './ProfessionalPainters.data';
 import { ProfessionalPainterMobileSliderCmp, ProfessionalPaintersCmp } from './ProfessionalPainters.component';
 import { NextBtn, PrevBtn } from '../PrevNextBtn';
 import SliderCarousel from '../SliderCarousel';
-import LazyImage from '../LazyImage';
 import { Images } from '../../theme';
 import { useDeviceDetect } from '../../hooks';
+import Image from 'next/image';
 
 const ProfessionalPainters = ({ detail }: any) => {
     const { isMobile } = useDeviceDetect();
@@ -115,7 +115,15 @@ const ProfessionalPainters = ({ detail }: any) => {
                                     {detail?.map((obj: any, index: number) => (
                                         <React.Fragment key={index}>
                                             <figure className="professional-painter-slider-img-block" onClick={() => handleSlideClick(index)}>
-                                                <LazyImage src={obj.profilePicUrl} alt="" width="100%" effect="opacity" />
+                                                <span className="lazy-load-image-loaded ">
+                                                    <Image
+                                                        src={obj.profilePicUrl}
+                                                        alt=""
+                                                        //  width="100%"
+                                                        fill
+                                                        className=''
+                                                    />
+                                                </span>
                                             </figure>
                                             <div className="professional-painter-slide-data">
                                                 <h3>Meet</h3>
@@ -123,19 +131,11 @@ const ProfessionalPainters = ({ detail }: any) => {
                                                 <p>{obj.painterIntro}</p>
                                                 <p className="author-originate">originated from {obj.originatedFrom}</p>
                                                 <div className="hand-box-wrap">
-                                                    <LazyImage
-                                                        src={Images.ProfessionalPainterSliderHandBtmNew}
-                                                        alt=""
-                                                        effect="opacity"
-                                                        className="hand-btm"
-                                                    />
+                                                    <img src={Images.ProfessionalPainterSliderHandBtmNew?.src} alt="" className="hand-btm" />
                                                     <span className="hand-top">
-                                                        <LazyImage
-                                                            src={Images.ProfessionalPainterSliderHandTop}
-                                                            alt=""
-                                                            className=""
-                                                            effect="opacity"
-                                                        />
+                                                        <span className="lazy-load-image-loaded">
+                                                            <img src={Images.ProfessionalPainterSliderHandTop?.src} alt="" className="" />
+                                                        </span>
                                                     </span>
                                                 </div>
                                             </div>
@@ -164,14 +164,11 @@ const ProfessionalPainters = ({ detail }: any) => {
                                         <p>{obj.painterIntro}</p>
                                         <p className="author-originate"> originated from {obj.originatedFrom}</p>
                                         <div className="hand-box-wrap">
-                                            <LazyImage
-                                                src={Images.ProfessionalPainterSliderHandBtmNew}
-                                                alt=""
-                                                effect="opacity"
-                                                className="hand-btm"
-                                            />
+                                            <img src={Images.ProfessionalPainterSliderHandBtmNew?.src} alt="" className="hand-btm" />
                                             <span className="hand-top">
-                                                <LazyImage src={Images.ProfessionalPainterSliderHandTop} alt="" className="" effect="opacity" />
+                                                <span className="lazy-load-image-loaded">
+                                                    <img src={Images.ProfessionalPainterSliderHandTop?.src} alt="" className="" />
+                                                </span>
                                             </span>
                                         </div>
                                     </div>

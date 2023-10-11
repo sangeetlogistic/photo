@@ -1,3 +1,5 @@
+import { Images } from '../../theme';
+
 export const getStatusValue = (key: any) => {
     const status: { [x: string]: string } = {
         '1': 'Waiting For Photo To Upload',
@@ -30,3 +32,30 @@ export enum TabActiveKey {
     myOrder = 'MyOrder',
     personalDetails = 'PersonalDetails',
 }
+
+export const estimatedAccountDeliveryDays = 12;
+export const estimatedAccountExpressDeliveryDays = 7;
+
+export const socialBtnArray = [
+    {
+        img: Images.IconFb,
+
+        link: 'https://www.facebook.com/photo2painting',
+    },
+    {
+        img: Images.IconInsta,
+
+        link: 'https://www.instagram.com/photo2painting/',
+    },
+
+    {
+        img: Images.IconYouTube,
+
+        link: 'https://www.youtube.com/photo2painting',
+    },
+    {
+        img: Images.IconTickTok,
+
+        link: 'https://tiktok.com/photo2painting',
+    },
+];

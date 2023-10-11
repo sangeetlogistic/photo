@@ -32,6 +32,11 @@ const updateUser = async (payload: any) => {
     const response = await axiosInterceptor.post(uri, payload);
     return response;
 };
+const userUnboxingVideo = async (payload: any) => {
+    const uri = API.userUnboxingVideo.post;
+    const response = await axiosInterceptor.post(uri, payload);
+    return response;
+};
 
 export default {
     getMyOrder,
@@ -40,4 +45,5 @@ export default {
     doRemainingPayment,
     doSaveAddress,
     updateUser,
+    userUnboxingVideo,
 };

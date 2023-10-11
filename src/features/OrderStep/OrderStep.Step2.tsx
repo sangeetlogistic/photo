@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable max-lines-per-function */
 import React, { useEffect, useState } from 'react';
-import { Checkbox, Col, Collapse, Input, message, Popover, Progress, Row } from 'antd';
+import { Checkbox, Col, Collapse, Input, Popover, Progress, Row } from 'antd';
 import { useDropzone } from 'react-dropzone';
 import _ from 'lodash';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,13 +15,13 @@ import { ImgStepUplaodCmp, OrderStep1InfoBlockCmp, OrderStep2Cmp } from './Order
 import { Images } from '../../theme';
 import { maxLengthForComments, multipleCombinePhotosPrice, OrderSteps } from './OrderStep.constants';
 import { clearCreateFiles, clearError, OrderStep } from './OrderStep.slice';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { ModalCloseIcon } from '../../assets/customSVG';
 import { awsImagePath, countingForMb, uploadDocumentSizeLimit } from '../../constants/general';
 import { IStep2 } from './OrderStep.types';
 import { s3ImageUpload } from '../../utils/s3Operations';
 import { AWS_UPLOAD_URL, PUBLIC_URL } from '../../constants/predicates';
-import { convertBrToN, isLocalStorageValid } from '../../utils/func';
+import { convertBrToN, isLocalStorageValid, roundOff } from '../../utils/func';
 import { LocalStorageKeys } from '../../constants/keys';
 import { useDeviceDetect, useLocalStorage } from '../../hooks';
 import SavedCardPopup from './OrderPage.SavedCardPopup';
@@ -29,6 +29,8 @@ import MobileFooter from './OrderStep.MobileFooter';
 import MobileStep2 from './OrderStep.MobileStep2';
 import { MobileOrderPageMainCmp } from './OrderPage.MobileComponent';
 import MobileHeader from './OrderStep.MobileHeader';
+import Toast from '../../components/Toast';
+import { selectTotalRating } from '../../services/API/GeneralSettings/GeneralSettings.slice';
 
 const { Panel } = Collapse;
 const { TextArea } = Input;
@@ -89,6 +91,7 @@ const Step2 = ({
     const dispatch = useAppDispatch();
     const localStorage = useLocalStorage();
     const { isMobile } = useDeviceDetect();
+    const totalRating = useAppSelector(selectTotalRating);
 
     const [uploadPhotoAns, setUploadPhotoAns] = useState(false);
     const [filesArray, setFilesArray] = useState<IFilesArray>({
@@ -97,12 +100,34 @@ const Step2 = ({
     });
     const [progress, setProgress] = useState<number>(0);
     const [isDragOverEvent, setIsDragOverEvent] = useState(false);
+    const [toastMsgWithType, setToastMsgWithType] = useState({
+        isShow: false,
+        isError: true,
+        message: '',
+    });
 
     let intervalProgress: any;
 
+    const clearToastMessage = () => {
+        setToastMsgWithType((preveInfo) => ({
+            ...preveInfo,
+            isShow: false,
+            message: '',
+        }));
+    };
+
     const checkFileLengthValidation = () => {
         if (preview?.length >= 5) {
-            message.error('Maximum 5 documents allowed.');
+            setToastMsgWithType((preveInfo) => {
+                if (!preveInfo.isShow) {
+                    return {
+                        isShow: true,
+                        isError: true,
+                        message: 'Maximum 5 documents allowed.',
+                    };
+                }
+                return preveInfo;
+            });
             return false;
         }
         return true;
@@ -110,12 +135,30 @@ const Step2 = ({
     const checkFileSizeValidation = (uploadedFile: Array<File>) => {
         const fileSizeValidation = _.map(uploadedFile, (file: File) => {
             if (file.size === 0) {
-                message.error('Files must be greater than 0 bytes');
+                setToastMsgWithType((preveInfo) => {
+                    if (!preveInfo.isShow) {
+                        return {
+                            isShow: true,
+                            isError: true,
+                            message: 'Files must be greater than 0 bytes',
+                        };
+                    }
+                    return preveInfo;
+                });
             }
             return file.size !== 0 && file.size / countingForMb / countingForMb <= uploadDocumentSizeLimit;
         });
         if (!_.every(fileSizeValidation, (value: boolean) => value === true)) {
-            message.error(`Max image size is ${uploadDocumentSizeLimit}MB.`);
+            setToastMsgWithType((preveInfo) => {
+                if (!preveInfo.isShow) {
+                    return {
+                        isShow: true,
+                        isError: true,
+                        message: `Max image size is ${uploadDocumentSizeLimit}MB.`,
+                    };
+                }
+                return preveInfo;
+            });
             return false;
         }
         return true;
@@ -124,7 +167,16 @@ const Step2 = ({
     const checkFileTypeValidation = (uploadedFile: Array<File>) => {
         const fileTypeValidation = _.map(uploadedFile, (file: File) => validType.includes(file.type));
         if (!_.every(fileTypeValidation, (value: boolean) => value === true)) {
-            message.error('Upload failed. Document type not supported.');
+            setToastMsgWithType((preveInfo) => {
+                if (!preveInfo.isShow) {
+                    return {
+                        isShow: true,
+                        isError: true,
+                        message: 'Upload failed. Document type not supported.',
+                    };
+                }
+                return preveInfo;
+            });
             return false;
         }
         return true;
@@ -168,7 +220,7 @@ const Step2 = ({
                             try {
                                 setShowProgressBar(true);
                                 setProgress(0);
-                                const res: any = await s3ImageUpload(filesArray.files[0], setProgress);
+                                const res: any = await s3ImageUpload(filesArray.files[0]);
                                 if (res.status === 201) {
                                     const imageUrl = res.data.Location.replace(AWS_UPLOAD_URL, PUBLIC_URL);
                                     const imageName = imageUrl.split(`${PUBLIC_URL}${awsImagePath}`);
@@ -177,7 +229,16 @@ const Step2 = ({
                                 }
                             } catch (error) {
                                 setShowProgressBar(false);
-                                message.error('something went wrong, please try again');
+                                setToastMsgWithType((preveInfo) => {
+                                    if (!preveInfo.isShow) {
+                                        return {
+                                            isShow: true,
+                                            isError: true,
+                                            message: 'something went wrong, please try again',
+                                        };
+                                    }
+                                    return preveInfo;
+                                });
                             }
                         }
                     }
@@ -209,6 +270,7 @@ const Step2 = ({
             setRepeatStep2(true);
             clearInterval(intervalProgress);
             dispatch(clearError());
+            clearToastMessage();
         };
     }, []);
 
@@ -223,7 +285,16 @@ const Step2 = ({
 
     const dropRejectHandler = () => {
         setFilesArray({ isValid: false, files: undefined });
-        message.error('Upload failed. Document type not supported.');
+        setToastMsgWithType((preveInfo) => {
+            if (!preveInfo.isShow) {
+                return {
+                    isShow: true,
+                    isError: true,
+                    message: 'Upload failed. Document type not supported.',
+                };
+            }
+            return preveInfo;
+        });
     };
     const dropAcceptHandler = (files: Array<File>) => {
         if (files) {
@@ -258,6 +329,15 @@ const Step2 = ({
 
     return (
         <>
+            {toastMsgWithType.isShow && (
+                <Toast
+                    show={toastMsgWithType.isShow}
+                    setShow={clearToastMessage}
+                    message={toastMsgWithType.message}
+                    type={toastMsgWithType.isError ? 'error' : 'success'}
+                    showIcon
+                />
+            )}
             {!isMobile ? (
                 <OrderStep2Cmp className="order-inner-block step-2">
                     <Row className="step-2-row" justify="space-around" gutter={{ sm: 16, md: 24, lg: 48 }}>
@@ -371,7 +451,8 @@ const Step2 = ({
                                                 trigger="hover"
                                                 content={contentCombinePhotos}
                                                 arrowPointAtCenter={false}
-                                                overlayClassName="order-step-tooltip tooltip-combine-photo"
+                                                overlayClassName="order-step-tooltip"
+                                                showArrow={false}
                                             >
                                                 <span className="que-icon">?</span>
                                             </Popover>
@@ -386,6 +467,7 @@ const Step2 = ({
                                                 content={contentArtistAdvice}
                                                 arrowPointAtCenter={false}
                                                 overlayClassName="order-step-tooltip tooltip-artist-advice"
+                                                showArrow={false}
                                             >
                                                 <span className="que-icon">?</span>
                                             </Popover>
@@ -399,6 +481,7 @@ const Step2 = ({
                                             content={contentArtistNotes}
                                             arrowPointAtCenter={false}
                                             overlayClassName="order-step-tooltip tooltip-add-notes"
+                                            showArrow={false}
                                         >
                                             <span className="que-icon">?</span>
                                         </Popover>
@@ -433,13 +516,8 @@ const Step2 = ({
                                     <Col md={14} xl={24} className="info-step-customer-review">
                                         <CustomerReview
                                             className="customer-single-review-block"
-                                            title={
-                                                <div>
-                                                    Customer review - <span className="text-success">Excellent</span>
-                                                </div>
-                                            }
-                                            rate={4.9}
-                                            totalReviews={8758473}
+                                            title="Excellent Customer Reviews"
+                                            rate={roundOff(totalRating)}
                                         />
                                     </Col>
                                 </Row>
@@ -491,13 +569,11 @@ const Step2 = ({
                 </MobileOrderPageMainCmp>
             )}
 
-            {savedCardPopup && (
-                <SavedCardPopup
-                    savedCardPopup={savedCardPopup}
-                    setSavedCardPopup={setSavedCardPopup}
-                    setSavedCardProccessComplete={setSavedCardProccessComplete}
-                />
-            )}
+            <SavedCardPopup
+                savedCardPopup={savedCardPopup}
+                setSavedCardPopup={setSavedCardPopup}
+                setSavedCardProccessComplete={setSavedCardProccessComplete}
+            />
         </>
     );
 };

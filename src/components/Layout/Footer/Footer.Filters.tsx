@@ -129,12 +129,11 @@ const Filters = () => {
                         }))
                     }
                 >
-                    {countryDropdown?.updatedCountry.length &&
-                        countryDropdown.updatedCountry?.map((obj, index) => (
-                            <Option key={index} value={obj}>
-                                {obj}
-                            </Option>
-                        ))}
+                    {countryDropdown.updatedCountry?.map((obj, index) => (
+                        <Option key={index} value={obj}>
+                            {obj}
+                        </Option>
+                    ))}
                 </Select>
             </div>
             <div className="f-filter-block f-filter-block-2">
@@ -187,12 +186,11 @@ const Filters = () => {
                         }))
                     }
                 >
-                    {languageDropdown?.updatedLanguage.length &&
-                        languageDropdown.updatedLanguage?.map((obj, index) => (
-                            <Option key={index} value={obj}>
-                                {obj}
-                            </Option>
-                        ))}
+                    {languageDropdown.updatedLanguage?.map((obj, index) => (
+                        <Option key={index} value={obj}>
+                            {obj}
+                        </Option>
+                    ))}
                 </Select>
             </div>
             <div className="f-filter-block f-filter-block-3">
@@ -245,12 +243,11 @@ const Filters = () => {
                         }))
                     }
                 >
-                    {currencyDropdown?.updatedCurrency.length &&
-                        currencyDropdown.updatedCurrency?.map((obj, index) => (
-                            <Option key={index} value={obj}>
-                                {obj}
-                            </Option>
-                        ))}
+                    {currencyDropdown.updatedCurrency?.map((obj, index) => (
+                        <Option key={index} value={obj}>
+                            {obj}
+                        </Option>
+                    ))}
                 </Select>
             </div>
         </div>

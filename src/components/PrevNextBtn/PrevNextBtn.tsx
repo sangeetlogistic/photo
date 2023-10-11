@@ -2,7 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+
 import { Colors, MediaBreakpoints } from '../../theme';
+
 const SliderBtnCmp = styled.span`
     &.slider-btn {
         width: 9.067vw;
@@ -40,26 +42,12 @@ const SliderBtnCmp = styled.span`
 
 export const PrevBtn = (props: { handlePrevious: () => void }) => (
     <SliderBtnCmp className="slider-btn slider-prev" onClick={props.handlePrevious} role="button" tabIndex={0}>
-        {/* <LazyImage
-      src={Images.SliderArrowPrev}
-      alt=""
-      effect="opacity"
-      width="9"
-      height="14"
-    /> */}
         <FontAwesomeIcon icon={faAngleLeft} size="xl" className="arrow_icon" />
     </SliderBtnCmp>
 );
 
 export const NextBtn = (props: { handleNext: () => void }) => (
     <SliderBtnCmp className="slider-btn slider-next" onClick={props.handleNext} role="button" tabIndex={0}>
-        {/* <LazyImage
-      src={Images.SliderArrowNext}
-      alt=""
-      effect="opacity"
-      width="9"
-      height="14"
-    /> */}
         <FontAwesomeIcon icon={faAngleRight} size="xl" className="arrow_icon" />
     </SliderBtnCmp>
 );

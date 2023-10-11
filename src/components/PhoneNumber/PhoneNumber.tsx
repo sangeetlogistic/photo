@@ -14,6 +14,7 @@ interface IPhoneNumber {
     label?: string;
     disabled?: boolean;
     required?: boolean;
+    setValidPhoneNumber?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const PhoneNumberCmp = styled.div`
@@ -35,7 +36,15 @@ const PhoneNumberCmp = styled.div`
     }
 `;
 
-const PhoneNumber = ({ handleCountryCode, handlePhoneNumInput, countryValue, label, disabled, required = true }: IPhoneNumber) => {
+const PhoneNumber = ({
+    handleCountryCode,
+    handlePhoneNumInput,
+    countryValue,
+    label,
+    disabled,
+    required = true,
+    setValidPhoneNumber,
+}: IPhoneNumber) => {
     const [maxLenghtPhoneNumber, setMaxLenghtPhoneNumber] = useState(15);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,12 +89,14 @@ const PhoneNumber = ({ handleCountryCode, handlePhoneNumInput, countryValue, lab
                                     info = parsePhoneNumber(value, getFieldValue('countryCode'));
                                 }
                                 if (value && info && info.isValid()) {
+                                    setValidPhoneNumber?.(true);
                                     return Promise.resolve();
                                 }
                                 if (!value && !required) {
                                     return Promise.resolve();
                                 }
                                 if (value) {
+                                    setValidPhoneNumber?.(false);
                                     return Promise.reject(new Error('Phone # doesn’t match country’s pattern'));
                                 }
                                 return Promise.resolve();

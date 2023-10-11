@@ -11,20 +11,11 @@ export const HeroSection = styled.section<{ detailPageCoverImage: string }>`
     background-position: center 50px;
     height: 110vw;
     @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-        height: 30vh;
+        height: 75vh;
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center top;
     }
-    @media (min-width: ${`${MediaBreakpoints.upLg}px`}) {
-        height: 30vh;
-    }
-    @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
-        height: 60vh;
-    }
-    /* @media (max-width: ${`${MediaBreakpoints.upMd}px`}) {
-    background-size: 235%;
-  } */
     .hero__container {
         padding-top: 96px;
         height: 100%;
@@ -34,9 +25,6 @@ export const HeroSection = styled.section<{ detailPageCoverImage: string }>`
         @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
             padding-top: ${PagePdngTopEqualHeaderHeight};
         }
-    }
-    @media (min-width: ${`${MediaBreakpoints.upXxl}px`}) {
-        height: 75vh;
     }
     .hnd-image-outer {
         width: 180px;

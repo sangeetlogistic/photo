@@ -135,6 +135,27 @@ export const updateUserAction = createAsyncThunk('account/updateUserAction', asy
         } as ErrorType);
     }
 });
+export const userUnboxingVideoAction = createAsyncThunk('account/userUnboxingVideoAction', async (payload: any, { rejectWithValue }) => {
+    try {
+        const response: any = await AccountServices.userUnboxingVideo(payload);
+
+        if (response.status === statusCode.success) {
+            return response.data;
+        }
+        return rejectWithValue({
+            message: response.message,
+            code: response.code,
+        } as ErrorType);
+    } catch (err: any) {
+        if (!err.response) {
+            throw err;
+        }
+        return rejectWithValue({
+            message: err.response.data.message,
+            code: err.response.data.code,
+        } as ErrorType);
+    }
+});
 
 export interface AccountState {
     loading: boolean;
@@ -143,6 +164,7 @@ export interface AccountState {
     userData: any;
     myOrderData: any;
     cardListData: any;
+    remainingPaymentError: any;
 }
 
 const initialState: AccountState = {
@@ -152,6 +174,7 @@ const initialState: AccountState = {
     userData: null,
     myOrderData: null,
     cardListData: null,
+    remainingPaymentError: null,
 };
 
 export const accountSlice = createSlice({
@@ -163,6 +186,7 @@ export const accountSlice = createSlice({
         },
         clearErrors: (state) => {
             state.error = null;
+            state.remainingPaymentError = null;
         },
         clearOrderDataCardListData: (state) => {
             state.myOrderData = null;
@@ -233,9 +257,9 @@ export const accountSlice = createSlice({
             .addCase(remainingPaymentCardAction.rejected, (state, action: any) => {
                 state.loading = false;
                 if (action.payload) {
-                    state.error = action.payload;
+                    state.remainingPaymentError = action.payload;
                 } else {
-                    state.error = action.error as ErrorType;
+                    state.remainingPaymentError = action.error as ErrorType;
                 }
             })
             .addCase(saveAddressAction.pending, (state) => {
@@ -269,6 +293,14 @@ export const accountSlice = createSlice({
                 } else {
                     state.error = action.error as ErrorType;
                 }
+            })
+            .addCase(userUnboxingVideoAction.rejected, (state, action: any) => {
+                state.loading = false;
+                if (action.payload) {
+                    state.error = action.payload;
+                } else {
+                    state.error = action.error as ErrorType;
+                }
             });
     },
 });
@@ -281,5 +313,6 @@ export const selectedWebToken = (state: RootState) => state.account.webToken;
 export const selectedUserData = (state: RootState) => state.account.userData;
 export const selectedMyOrderData = (state: RootState) => state.account.myOrderData;
 export const selectedCardListData = (state: RootState) => state.account.cardListData;
+export const selectedRemainingPaymentError = (state: RootState) => state.account.remainingPaymentError;
 
 export default accountSlice.reducer;

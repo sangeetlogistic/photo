@@ -1,12 +1,24 @@
+/* eslint-disable consistent-return */
 import { useState, useEffect, useRef } from 'react';
 import { MediaBreakpoints } from '../theme';
 
 export const useDeviceDetect = () => {
     const checkForDevice = () => {
-        const windowWidth = window.innerWidth;
-        return windowWidth < MediaBreakpoints.upMd;
+        // Check if window is defined before using it
+        if (typeof window !== 'undefined') {
+            const windowWidth = window.innerWidth;
+            return windowWidth < MediaBreakpoints.upMd;
+        }
+        return false; // Default value for server-side rendering
     };
-    const getDeviceHeight = () => window.innerHeight;
+
+    const getDeviceHeight = () => {
+        // Check if window is defined before using it
+        if (typeof window !== 'undefined') {
+            return window.innerHeight;
+        }
+        return 0; // Default value for server-side rendering
+    };
 
     const [isMobile, setIsMobile] = useState(checkForDevice());
     const [orientation, setOrientation] = useState(getDeviceHeight());
@@ -25,17 +37,19 @@ export const useDeviceDetect = () => {
             }
             setOrientation(getDeviceHeight());
         };
-        window.addEventListener('resize', handlePageResized);
-        window.addEventListener('orientationchange', handlePageResized);
-        window.addEventListener('load', handlePageResized);
-        window.addEventListener('reload', handlePageResized);
+        if (typeof window !== 'undefined') {
+            window.addEventListener('resize', handlePageResized);
+            window.addEventListener('orientationchange', handlePageResized);
+            window.addEventListener('load', handlePageResized);
+            window.addEventListener('reload', handlePageResized);
 
-        return () => {
-            window.removeEventListener('resize', handlePageResized);
-            window.removeEventListener('orientationchange', handlePageResized);
-            window.removeEventListener('load', handlePageResized);
-            window.removeEventListener('reload', handlePageResized);
-        };
+            return () => {
+                window.removeEventListener('resize', handlePageResized);
+                window.removeEventListener('orientationchange', handlePageResized);
+                window.removeEventListener('load', handlePageResized);
+                window.removeEventListener('reload', handlePageResized);
+            };
+        }
     }, []);
 
     return {

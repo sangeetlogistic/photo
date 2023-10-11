@@ -9,7 +9,6 @@ import { Images } from '../../theme';
 import FilledButton from '../FilledButton';
 import { AfterBeforeCmp } from './AfterBefore.component';
 import { IAfterBefore } from './AfterBefore.type';
-import LazyImage from '../LazyImage';
 import { useAppDispatch } from '../../app/hooks';
 import { setIsAfterBeforeSliderMoving } from '../Layout/Layout.slice';
 import { debounceTime } from '../../constants/general';
@@ -54,7 +53,7 @@ const AfterBefore = (props: IAfterBefore) => {
                                     leftImage={leftImage}
                                     rightImage={rightImage}
                                     sliderPositionPercentage={0.7}
-                                    handle={<LazyImage src={Images.IconAfterBeforeArrow} alt="" effect="opacity" />}
+                                    handle={<img src={Images.IconAfterBeforeArrow?.src} alt="" />}
                                     leftImageLabel="photo"
                                     rightImageLabel="painting"
                                     rightImageCss={{}}
@@ -64,26 +63,26 @@ const AfterBefore = (props: IAfterBefore) => {
                             </LazyLoadComponent>
                             <div className="mobile-dobule-arrow-row">
                                 <span className="mobil-icon mobile-icon-left">
-                                    <img src={Images.IconMobileDubleArrowLeft} alt="" className="" />
+                                    <img src={Images.IconMobileDubleArrowLeft?.src} alt="" className="" />
                                 </span>
                                 <span className="mobil-icon mobile-icon-right">
-                                    <img src={Images.IconMobileDubleArrowRight} alt="" className="" />
+                                    <img src={Images.IconMobileDubleArrowRight?.src} alt="" className="" />
                                 </span>
                             </div>
                             <div className="swiper-text-block">
                                 <span className="text-block-wrap">
                                     <i className="icon-arrow icon-arrow-1">
-                                        <LazyImage effect="opacity" src={Images.AfterBeforeArrow1} alt="" className="" />
+                                        <img src={Images.AfterBeforeArrow1} alt="" className="" />
                                     </i>
                                     <i className="icon-arrow icon-arrow-2">
-                                        <LazyImage effect="opacity" src={Images.AfterBeforeArrow2} alt="" className="" />
+                                        <img src={Images.AfterBeforeArrow2} alt="" className="" />
                                     </i>
                                     <span className="text-block">SWIPE</span>
                                     <i className="icon-arrow icon-arrow-3">
-                                        <LazyImage effect="opacity" src={Images.AfterBeforeArrow3} alt="" className="" />
+                                        <img src={Images.AfterBeforeArrow3} alt="" className="" />
                                     </i>
                                     <i className="icon-arrow icon-arrow-2">
-                                        <LazyImage effect="opacity" src={Images.AfterBeforeArrow4} alt="" className="" />
+                                        <img src={Images.AfterBeforeArrow4} alt="" className="" />
                                     </i>
                                 </span>
                             </div>

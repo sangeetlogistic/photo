@@ -2,7 +2,6 @@ import { Col, Row } from 'antd';
 import React from 'react';
 import { Images } from '../../theme';
 import FilledButton from '../FilledButton';
-import LazyImage from '../LazyImage';
 import { FeatureInfoBlockCmp } from './FetureInfo.component';
 
 const FetureInfo = () => (
@@ -16,7 +15,7 @@ const FetureInfo = () => (
             <Col className="gutter-row" xs={12} md={4}>
                 <div className="feature-inner-block">
                     <figure className="">
-                        <LazyImage effect="opacity" src={Images.HandPainted} alt="" />
+                        <img src={Images.HandPainted?.src} alt="" />
                     </figure>
                     <span>100% Hand-Painted by Experienced Artists</span>
                 </div>
@@ -24,7 +23,7 @@ const FetureInfo = () => (
             <Col className="gutter-row" xs={12} md={4}>
                 <div className="feature-inner-block">
                     <figure className="">
-                        <LazyImage effect="opacity" src={Images.OnlineProofing} alt="" />
+                        <img src={Images.OnlineProofing?.src} alt="" />
                     </figure>
                     <span>FREE Online Proofing</span>
                 </div>
@@ -32,7 +31,7 @@ const FetureInfo = () => (
             <Col className="gutter-row" xs={12} md={4}>
                 <div className="feature-inner-block">
                     <figure className="">
-                        <LazyImage effect="opacity" src={Images.RatedIcon} alt="" />
+                        <img src={Images.RatedIcon?.src} alt="" />
                     </figure>
                     <span>Rated 5/5 on TrustPilot.com</span>
                 </div>
@@ -40,7 +39,7 @@ const FetureInfo = () => (
             <Col className="gutter-row" xs={12} md={4}>
                 <div className="feature-inner-block">
                     <figure className="">
-                        <LazyImage effect="opacity" src={Images.Time} alt="" />
+                        <img src={Images.Time?.src} alt="" />
                     </figure>
                     <span>Satisfaction Guaranteed or Your Money Back</span>
                 </div>
@@ -48,7 +47,7 @@ const FetureInfo = () => (
             <Col className="gutter-row" xs={12} md={4}>
                 <div className="feature-inner-block">
                     <figure className="">
-                        <LazyImage effect="opacity" src={Images.Shipping} alt="" />
+                        <img src={Images.Shipping?.src} alt="" />
                     </figure>
                     <span>FREE Shipping</span>
                 </div>
@@ -56,7 +55,7 @@ const FetureInfo = () => (
             <Col className="gutter-row" xs={12} md={4}>
                 <div className="feature-inner-block">
                     <figure className="">
-                        <LazyImage effect="opacity" src={Images.HappyFace} alt="" />
+                        <img src={Images.HappyFace?.src} alt="" />
                     </figure>
                     <span>Excellent Customer Service Experience</span>
                 </div>

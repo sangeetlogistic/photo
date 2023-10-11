@@ -1,6 +1,7 @@
 import { rgba } from 'polished';
 import styled from 'styled-components';
 import { Colors, Fonts, MediaBreakpoints } from '../../../theme';
+import { convertPxToVw } from '../../../utils/func';
 
 export const FooterCmp = styled.footer`
     background: ${Colors.footerBg};
@@ -164,21 +165,30 @@ export const FooterCmp = styled.footer`
                 overflow: hidden;
                 border: 0 !important;
                 padding: 1px;
-                background: linear-gradient(180deg, #181b24 0%, #1d1e24 100%);
+                border-radius: 16px;
+                border: 1px solid ${Colors.gray100} !important;
+                background: none;
                 @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-                    max-width: 22.917vw;
+                    border: 1px solid rgba(217, 224, 242, 0.5) !important;
+                    max-width: 24.917vw;
                     width: 100%;
                     margin: 0;
                     margin-top: 1.301vw;
+                    border-radius: ${convertPxToVw('16')}vw;
                 }
                 .ant-card-body {
-                    background-color: ${Colors.gray120};
+                    background-color: transparent;
                     border-radius: 1.042vw;
                     min-height: unset;
                     border: none;
                     .single-review-wrapper {
+                        text-align: center;
                         .single-reviwe-title {
                             color: ${Colors.white};
+                            @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                                margin-top: ${convertPxToVw('16')}vw;
+                                margin-bottom: ${convertPxToVw('16')}vw;
+                            }
                         }
                         .customer-review-and-rate {
                             .review-and-rate-wrap {
@@ -186,6 +196,15 @@ export const FooterCmp = styled.footer`
                                     color: ${Colors.white};
                                 }
                             }
+                        }
+                    }
+                    .single-review-btm-logo {
+                        border-radius: 16px;
+                        background: ${Colors.pureBlack};
+                        @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                            padding: ${convertPxToVw('16')}vw ${convertPxToVw('32')}vw;
+                            margin-top: ${convertPxToVw('16')}vw;
+                            margin-bottom: ${convertPxToVw('8')}vw;
                         }
                     }
                 }
@@ -342,6 +361,8 @@ export const FooterCmp = styled.footer`
                         border: 1px solid ${Colors.transparent};
                         background-color: ${Colors.transparent};
                         padding: 0;
+                        height: unset;
+                        align-items: center;
                         @media (min-width: ${`${MediaBreakpoints.upXxl}px`}) {
                             height: 1.667vw;
                         }
@@ -351,7 +372,11 @@ export const FooterCmp = styled.footer`
                             font-weight: 700;
                             color: ${Colors.white};
                             padding-right: 20px;
-                            line-height: 2.25;
+                            line-height: 48px;
+                            @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                                font-size: 1.25vw;
+                                line-height: 2.25;
+                            }
                             @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
                                 font-size: 0.729vw;
                             }

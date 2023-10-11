@@ -15,9 +15,9 @@ export const OrderPageWrappCmp = styled.div`
         flex-direction: column;
         padding-top: ${PagePdngTopEqualHeaderHeight};
     }
-    .mobile_comp_data-block {
+    /* .mobile_comp_data-block {
         overflow: auto;
-    }
+    } */
     .order-data-block {
         /* height: 70vh; */
         display: flex;
@@ -175,8 +175,10 @@ export const OrderStep1Cmp = styled.div`
                 font-size: 12px;
                 color: ${Colors.gray40};
                 margin: 0;
+                display: none;
                 @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
                     line-height: 1vw;
+                    display: block;
                     font-size: ${convertPxToVw('16')}vw;
                 }
             }
@@ -259,11 +261,11 @@ export const OrderStep1Cmp = styled.div`
                     }
                     &.custom-label {
                         transition: all 0.25s ease-out;
-                        perspective: 7.34vw;
-                        transform-style: preserve-3d;
+
                         .custom-front,
                         .custom-back {
-                            transform-style: preserve-3d;
+                            transition: transform 0.5s ease;
+                            -webkit-backface-visibility: hidden;
                             backface-visibility: hidden;
                             .custom-fields {
                                 width: 6.7vw;
@@ -372,22 +374,26 @@ export const OrderStep1Cmp = styled.div`
                         }
                     }
                     .custom-front {
-                        transform: rotateY(0);
+                        transform: rotateY(0deg);
                     }
                     .custom-back {
-                        transform: rotateY(-180deg);
+                        transform: rotateY(180deg);
                         display: flex;
                         flex-flow: column nowrap;
                         align-items: center;
                         position: absolute;
                         left: 0;
                         top: 0;
+                        background-color: #fff;
                         width: 100%;
-                        height: 100%;
                     }
                     &.flipped {
-                        transform: rotateY(180deg);
-                        cursor: auto;
+                        .custom-front {
+                            transform: rotateY(180deg);
+                        }
+                        .custom-back {
+                            transform: rotateY(0deg);
+                        }
                     }
                     .selection-popular {
                         background: ${Colors.blueMenu};
@@ -513,7 +519,6 @@ export const OrderStep1Cmp = styled.div`
             }
         }
     }
-
     .btn-selected {
         font-family: ${Fonts.primaryFont};
         position: absolute;
@@ -651,11 +656,14 @@ export const OrderStep1Cmp = styled.div`
                     padding: 0;
                 }
                 .medium-collapse-content {
-                    margin-top: 1.562vw;
-                    margin-bottom: ${convertPxToVw('46')}vw;
-                    height: ${convertPxToVw('236')}vw;
+                    margin-top: 1vw;
                     overflow: auto;
                     padding: 0 12px;
+                    height: 190px;
+                    @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
+                        margin-bottom: ${convertPxToVw('10')}vw;
+                        height: ${convertPxToVw('180')}vw;
+                    }
                     .img-responsive {
                         width: 100%;
                         img {
@@ -1085,9 +1093,17 @@ export const UserLoginPopupCmp = styled(Popup)`
                     margin-bottom: 12px;
                 }
             }
+            .ant-form-item-explain-error {
+                @media (max-width: ${`${MediaBreakpoints.downMd}px`}) {
+                    bottom: -24px;
+                }
+            }
         }
         .ant-modal-content {
-            border-radius: 32px;
+            border-radius: 20px;
+            @media (min-width: ${`${MediaBreakpoints.upXxl}px`}) {
+                border-radius: 32px;
+            }
         }
         .ant-modal-body {
             min-height: auto;
@@ -1105,6 +1121,9 @@ export const UserLoginPopupCmp = styled(Popup)`
                 font-size: 28px;
                 line-height: normal;
                 margin-bottom: 12px;
+                @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+                    margin-top: 14px;
+                }
                 @media (min-width: ${`${MediaBreakpoints.upLg}px`}) {
                     margin-bottom: 14px;
                     line-height: 39px;
@@ -1595,7 +1614,7 @@ export const OrderStep3Cmp = styled.div`
 
                     .painting-size {
                         color: ${Colors.gray60};
-                        font-size: 12px;
+                        font-size: 13px;
                         @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
                             font-size: ${convertPxToVw('12')}vw;
                         }
@@ -2265,7 +2284,6 @@ export const OrderStep1InfoBlockCmp = styled.div`
         align-items: center;
         justify-content: center;
         .customer-single-review-block {
-            background: ${Colors.transparent};
             padding: 0;
             align-self: end;
             @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
@@ -2277,11 +2295,10 @@ export const OrderStep1InfoBlockCmp = styled.div`
                 min-height: unset;
                 border-radius: 0.833vw !important;
                 align-items: center;
-                background-color: ${rgba(Colors.white, 0.7)};
+                background-color: none;
                 padding: 1.5rem !important;
                 @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
-                    border: none;
-                    padding: 1vw 3.123vw 1vw 3.123vw !important;
+                    margin-bottom: 0;
                 }
                 .single-reviwe-title {
                     font-size: 18px;
@@ -2302,15 +2319,22 @@ export const OrderStep1InfoBlockCmp = styled.div`
                     .ant-rate {
                         line-height: normal;
                         font-size: 1.30208vw;
+                        color: #fff;
                         .ant-rate-star-second {
                             line-height: normal;
                         }
                     }
                 }
                 .single-review-btm-logo {
+                    @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                        margin-top: ${convertPxToVw('30')}vw;
+                        margin-bottom: ${convertPxToVw('5')}vw;
+                    }
                     .lazy-load-image-loaded {
-                        @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
-                            max-width: 4.685vw;
+                        img {
+                            @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
+                                height: 1.5vw;
+                            }
                         }
                     }
                 }
@@ -2329,7 +2353,7 @@ export const OrderStepFooterCmp = styled.footer`
     &.order-footer {
         margin: 0 2.5vw;
         @media (max-width: ${`${MediaBreakpoints.downLg}px`}) {
-            height: 12vh;
+            height: 15vh;
         }
         @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
             height: 20vh;
@@ -2645,10 +2669,11 @@ export const OrderCheckOutCmp = styled.div`
                     align-items: center;
                 }
                 .checkout-selection-item {
-                    margin: 0 1vw;
-                    border-radius: 1vw;
+                    margin-right: 16px;
                     text-align: center;
                     @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
+                        margin: 0 1vw;
+                        border-radius: 1vw;
                         width: 6vw;
                         height: 6vw;
                     }
@@ -2854,8 +2879,8 @@ export const OrderCheckOutCmp = styled.div`
         .ant-checkbox,
         .ant-checkbox-inner {
             @media (max-width: ${`${MediaBreakpoints.upXl}px`}) {
-                width: 14px;
-                height: 14px;
+                width: 16px;
+                height: 16px;
             }
         }
         .ant-checkbox + span {
@@ -2983,11 +3008,15 @@ export const ContactDetailCmp = styled.div`
     .checkout_contac_form {
         width: 100%;
         .ant-form-item {
-            margin-bottom: 12px;
+            margin-bottom: 18px;
             @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                 margin-bottom: 24px;
             }
         }
+        .ant-form-item-explain-error {
+            bottom: -10px;
+        }
+
         .ant-input {
             border-radius: 0.417vw;
             color: ${Colors.gray80};
@@ -3000,9 +3029,9 @@ export const ContactDetailCmp = styled.div`
             }
         }
         /* .position_select {
-      position: absolute;
-      z-index: 1;
-    } */
+        position: absolute;
+        z-index: 1;
+        } */
         .ant-select {
             .ant-select-selection-search-input {
                 height: 100%;
@@ -3013,9 +3042,12 @@ export const ContactDetailCmp = styled.div`
                 align-items: center;
                 padding-right: 0;
             }
+
             .ant-select-arrow {
+                @media (max-width: ${`${MediaBreakpoints.downMd}px`}) {
+                    right: 0;
+                }
                 color: ${Colors.gray100};
-                right: 0;
             }
             .ant-select-selector {
                 border-radius: 0.417vw;
@@ -3111,11 +3143,12 @@ export const ContactDetailCmp = styled.div`
             .que-icon {
                 margin-left: 0;
                 color: #5b87e0;
-                font-size: 16px;
+                font-size: 14px;
                 background-color: #fff;
                 @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
                     width: 0.985vw;
                     height: 0.985vw;
+                    font-size: 0.833vw;
                 }
             }
             .text_check {
@@ -3147,6 +3180,9 @@ export const ContactDetailCmp = styled.div`
 
 export const OrderStepPayment = styled.div`
     &.checkout-add_carditcard {
+        @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+            margin-top: 2rem;
+        }
         .ant-collapse {
             border: none;
             .ant-collapse-content {
@@ -3158,30 +3194,42 @@ export const OrderStepPayment = styled.div`
             }
         }
         .checkout_contactDetails_title {
-            font-weight: 700;
-            color: ${Colors.black};
-            text-transform: uppercase;
-            font-size: 14px;
-            margin-top: 1rem;
+            display: none;
             @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                font-weight: 700;
+                color: ${Colors.black};
+                text-transform: uppercase;
                 font-size: 1vw;
                 line-height: 1.822vw;
                 margin-top: 1.041vw;
+                display: block;
+            }
+        }
+        .checkout_contactDetails_title_mobile {
+            font-size: 14px;
+            margin-top: 1rem;
+            margin-bottom: 1.25rem;
+            text-align: center;
+            display: block;
+            font-weight: 700;
+            color: ${Colors.black};
+            text-transform: uppercase;
+            @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                display: none;
             }
         }
         .ant-form-item {
             margin-bottom: 12px;
             button {
                 box-shadow: 0 0.26vw 1.041vw -0.781vw rgb(238 66 102 / 40%), 0 0.26vw 1.041vw -0.26vw rgb(250 94 126 / 40%);
-                border-radius: 0.625vw;
                 width: 100%;
-                font-weight: 500;
                 text-align: center;
                 text-transform: uppercase;
-                font-size: 12px;
-                /* padding: 14px; */
-                /* height: 42px; */
-                @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
+                border-radius: 12px;
+                font-size: 14px;
+                font-weight: 600;
+                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                    border-radius: 0.625vw;
                     font-size: 0.833vw;
                 }
             }
@@ -3190,13 +3238,15 @@ export const OrderStepPayment = styled.div`
             line-height: 0;
             .card-input-control {
                 padding: 14px 12px;
-                border-radius: 0.417vw;
+                border-radius: 8px;
                 line-height: unset;
                 font-size: 14px;
+                height: 48px;
                 @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
+                    border-radius: 0.417vw;
                     padding: 0.7vw;
                     font-size: 0.729vw;
-                    /* height: 48px; */
+                    height: unset;
                 }
             }
             .error-input-control {
@@ -3215,13 +3265,17 @@ export const OrderStepPayment = styled.div`
                 margin-bottom: 1rem;
                 width: 100%;
                 .ant-select-selector {
-                    padding: 0.5rem 1rem;
-                    border-radius: 12px;
-                    width: 100%;
                     border: 1px solid #ee4266;
                     color: ${Colors.primary};
                     height: auto;
                     text-transform: uppercase;
+                    border-radius: 6px;
+                    @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                        border-radius: ${convertPxToVw('12')}vw;
+                    }
+                    @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
+                        padding: 0.5rem 1rem;
+                    }
                 }
                 .ant-select-arrow {
                     color: ${Colors.primary};
@@ -3230,6 +3284,13 @@ export const OrderStepPayment = styled.div`
             }
             button {
                 text-transform: uppercase;
+                @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
+                    font-size: 14px;
+                }
+            }
+            .btn_gray {
+                background-color: ${Colors.gray40};
+                box-shadow: unset;
             }
             .ant-select-selection-item {
                 font-weight: 600;
@@ -3240,6 +3301,92 @@ export const OrderStepPayment = styled.div`
             .ant-select-single.ant-select-open .ant-select-selection-item {
                 color: ${Colors.primary};
             }
+        }
+    }
+    /* .paypal_button {
+        height: ${convertPxToVw('52')}vw;
+        background: red;
+        > div {
+            height: 100% !important;
+            > iframe {
+                > html {
+                    > body {
+                        .buttons-container {
+                            .paypal-button-containe {
+                                .paypal-button-row {
+                                    height: 100% !important;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } */
+    .payment_buttons {
+        .paypal_button {
+            height: 42px;
+            width: 100%;
+            margin-bottom: 1rem;
+            @media (min-width: ${`${MediaBreakpoints.upLg}px`}) {
+                height: 40px;
+            }
+        }
+        .affirm_button_box {
+            display: flex;
+            align-items: center;
+            .affirm_btn {
+                margin-bottom: 1rem;
+                width: 100%;
+                background-color: #4a4aeb;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 42px;
+                border-radius: 4px;
+                @media (min-width: ${`${MediaBreakpoints.upLg}px`}) {
+                    height: 40px;
+                }
+                img {
+                    width: 200px;
+                    @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
+                        width: 80%;
+                    }
+                }
+            }
+        }
+        .zippay_button_box {
+            display: flex;
+            align-items: center;
+            .zippay_btn {
+                margin-bottom: 1rem;
+                width: 100%;
+                background-color: #e4dbff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 42px;
+                border-radius: 4px;
+                box-shadow: none;
+                @media (min-width: ${`${MediaBreakpoints.upLg}px`}) {
+                    height: 40px;
+                }
+            }
+        }
+        .que-icon {
+            font-size: 14px;
+            width: 22px;
+            margin-bottom: 1rem;
+            height: 22px;
+            margin-left: 6px;
+        }
+        .icon_affirm {
+            background-color: #4a4aeb;
+            color: ${Colors.white};
+        }
+        .icon_zippay {
+            background-color: #e4dbff;
+            color: ${Colors.black};
         }
     }
 `;

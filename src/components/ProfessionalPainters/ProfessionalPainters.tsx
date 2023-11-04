@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useRef } from 'react';
 import { Col, Row } from 'antd';
 import Image from 'next/image';
+import useIntersectionObserver from '@react-hook/intersection-observer';
 
 import AnalogClock from '../AnalogClock';
 import { timezone } from './ProfessionalPainters.data';
@@ -11,12 +12,28 @@ import SliderCarousel from '../SliderCarousel';
 import { Images } from '../../theme';
 import { useDeviceDetect } from '../../hooks';
 
+const ProfessionalPaintersImage = ({ obj, handleSlideClick, index }: { obj: any; handleSlideClick: any; index: any }) => {
+    return (
+        <figure className="professional-painter-slider-img-block" onClick={() => handleSlideClick(index)}>
+            <Image src={obj.profilePicUrl} alt={obj?.profileImageAlt || ''} fill className="" loading="lazy" />
+        </figure>
+    );
+};
+
 const ProfessionalPainters = ({ detail }: any) => {
     const { isMobile } = useDeviceDetect();
+
+    const containerRef = useRef<any>();
+    const lockRef = useRef<any>(false);
+    const { isIntersecting } = useIntersectionObserver(containerRef);
 
     const [nav1, setNav1] = useState<any>();
     const [nav2, setNav2] = useState();
     const [currentSlide, setCurrentSlide] = useState(0);
+
+    if (isIntersecting) {
+        lockRef.current = true;
+    }
 
     const settings = {
         infinite: true,
@@ -107,16 +124,17 @@ const ProfessionalPainters = ({ detail }: any) => {
             </Row>
             <Row>
                 <Col>
-                    <div className="professional-painter-slider-block">
+                    <div className="professional-painter-slider-block" ref={containerRef}>
                         <PrevBtn handlePrevious={handlePrevious} />
                         <div className="professional-painter-slider-block-inner">
                             {detail?.length > 0 && (
                                 <SliderCarousel settings={settings} ref={(slider1: any) => setNav1(slider1)} asNavFor={nav2}>
                                     {detail?.map((obj: any, index: number) => (
                                         <React.Fragment key={index}>
-                                            <figure className="professional-painter-slider-img-block" onClick={() => handleSlideClick(index)}>
-                                                <Image src={obj.profilePicUrl} alt={obj?.profileImageAlt || ''} fill className="" loading="lazy" />
-                                            </figure>
+                                            {lockRef.current && (
+                                                <ProfessionalPaintersImage obj={obj} handleSlideClick={handleSlideClick} index={index} />
+                                            )}
+
                                             <div className="professional-painter-slide-data">
                                                 <h3>Meet</h3>
                                                 <h3 className="painter-name">{`${obj.firstName || ''} ${obj.lastName || ''}`}</h3>

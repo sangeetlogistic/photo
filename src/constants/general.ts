@@ -48,7 +48,7 @@ export const MobileHeaderHeight = '70px';
 export const PagePdngTopEqualHeaderHeight = '5.521vw';
 export const parallaxTranslateY: [string, string] = ['30px', '-30px'];
 export const debounceTime = 500;
-export const delayTimeForSpeed = 3000;
+export const delayTimeForSpeed = 5000;
 export const countingForMb = 1024;
 export const uploadDocumentSizeLimit = 15;
 export const dateFormat = 'YYYY-MM-DD';
@@ -66,5 +66,3 @@ export enum CountryCodeName {
     AU = 'AU',
     GB = 'GB',
 }
-
-export const siteName = 'https://image2painting.com';

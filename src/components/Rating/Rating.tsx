@@ -3,7 +3,9 @@ import { Rate } from 'antd';
 import styled from 'styled-components';
 
 import { Colors } from '../../theme';
-import { StarSvg } from '../../assets/customSVG';
+import dynamic from 'next/dynamic';
+
+const StarSvg = dynamic(() => import('../../assets/customSVG').then((module) => module.StarSvg));
 
 const RatingCmp = styled(Rate)`
     color: ${Colors.reviewRating} !important;

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { PageBackground } from './Home.component';
 import BannerVideo from '../../components/BannerVideo';
 import { Images } from '../../theme';
-import { delayTimeForSpeed, homeHeroVideo } from '../../constants/general';
+import { delayTimeForSpeed } from '../../constants/general';
 
 const Background = () => {
     const [bgVideo, setBgVideo] = useState('');
@@ -13,7 +13,7 @@ const Background = () => {
     useEffect(() => {
         const functionForAsync = async () => {
             if (typeof window !== 'undefined') {
-                await setBgVideo(homeHeroVideo);
+                await setBgVideo(require('../../../public/hero.mp4'));
 
                 if (homeVideo) {
                     homeVideo.children[0].src = homeVideo.children[0].dataset.src;

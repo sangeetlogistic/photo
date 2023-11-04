@@ -11,7 +11,7 @@ import { statusCode } from '../../constants/statusCode';
 import { Routes } from '../../navigation/Routes';
 import { useDeviceDetect, useRedirectOrder } from '../../hooks';
 import { checkForDevice, roundOff } from '../../utils/func';
-import { portraitsGallery, separateNotToGoNoFound, siteName, sketchGallery, windowSize } from '../../constants/general';
+import { portraitsGallery, separateNotToGoNoFound, sketchGallery, windowSize } from '../../constants/general';
 import { setHeaderFAQs, setRecentBlogs, setTotalRating } from '../../services/API/GeneralSettings/GeneralSettings.slice';
 import { useRouter } from 'next/router';
 import {

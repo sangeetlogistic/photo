@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 import { useAppSelector } from '../../app/hooks';
 import { Routes } from '../../navigation/Routes';
 import { Images } from '../../theme';
-import { dateMonthFormat, siteName } from '../../constants/general';
+import { dateMonthFormat } from '../../constants/general';
 import { selectedSaveOrderData } from '../../features/OrderStep/OrderStep.slice';
 import { ThankYouCmp, ThankYouWrap } from '../../features/Thankyou/Thankyou.components';
 import { CouponCodeDiscount, PaymentWays, multipleCombinePhotosPrice } from '../../features/OrderStep/OrderStep.constants';

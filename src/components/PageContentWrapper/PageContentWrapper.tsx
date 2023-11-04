@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { Colors, MediaBreakpoints } from '../../theme';
 
 const PageContentWrapper = styled.section`

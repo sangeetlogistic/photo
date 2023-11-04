@@ -135,6 +135,27 @@ export const drawingPictureAction = createAsyncThunk('settings/drawingPictureAct
         } as ErrorType);
     }
 });
+export const subscribeMemberAction = createAsyncThunk('settings/subscribeMemberAction', async (payload: any, { rejectWithValue }) => {
+    try {
+        const response: any = await GeneralSettingsServices.subscribeMember(payload);
+
+        if (response.status === statusCode.success) {
+            return response.data;
+        }
+        return rejectWithValue({
+            message: response.message,
+            code: response.code,
+        } as ErrorType);
+    } catch (err: any) {
+        if (!err.response) {
+            throw err;
+        }
+        return rejectWithValue({
+            message: err.response.data.message,
+            code: err.response.data.code,
+        } as ErrorType);
+    }
+});
 
 // Define a type for the slice state
 interface SettingState {
@@ -151,7 +172,7 @@ interface SettingState {
     termsConditions: any;
     cCPAPrivacy: any;
     drawDetail: any;
-    totalRating: number;
+    totalRating: number | undefined;
     recentBlogs: any;
     recentBlogDraw: any;
     headerFAQs: any;
@@ -166,7 +187,7 @@ const initialState: SettingState = {
     termsConditions: '',
     cCPAPrivacy: '',
     drawDetail: undefined,
-    totalRating: 0,
+    totalRating: undefined,
     recentBlogs: null,
     recentBlogDraw: undefined,
     headerFAQs: undefined,
@@ -185,20 +206,38 @@ export const settingSlice = createSlice({
         setHeaderFAQs: (state, action) => {
             state.headerFAQs = action.payload;
         },
+        setCcpaDetail: (state, action) => {
+            state.cCPAPrivacy = action.payload.detail;
+            state.error = action.payload.error;
+        },
+        setCookieDetail: (state, action) => {
+            state.cookiePolicy = action.payload.detail;
+            state.error = action.payload.error;
+        },
+        setDrawDetail: (state, action) => {
+            state.drawDetail = action.payload.detail;
+            state.recentBlogDraw = action.payload.recentBlog;
+            state.error = action.payload.error;
+        },
+        setPrivacyDetail: (state, action) => {
+            state.privacyPolicy = action.payload.detail;
+            state.error = action.payload.error;
+        },
+        setTermDetail: (state, action) => {
+            state.termsConditions = action.payload.detail;
+            state.error = action.payload.error;
+        },
     },
     extraReducers: (builder) => {
         builder
             .addCase(cookiePolicyAction.pending, (state) => {
                 state.error = null;
-                state.loading = true;
             })
             .addCase(cookiePolicyAction.fulfilled, (state, action) => {
                 state.cookiePolicy = action.payload;
                 state.error = null;
-                state.loading = false;
             })
             .addCase(cookiePolicyAction.rejected, (state, action: any) => {
-                state.loading = false;
                 if (action.payload) {
                     state.error = action.payload;
                 } else {
@@ -207,15 +246,12 @@ export const settingSlice = createSlice({
             })
             .addCase(privacyPolicyAction.pending, (state) => {
                 state.error = null;
-                state.loading = true;
             })
             .addCase(privacyPolicyAction.fulfilled, (state, action) => {
                 state.privacyPolicy = action.payload;
                 state.error = null;
-                state.loading = false;
             })
             .addCase(privacyPolicyAction.rejected, (state, action: any) => {
-                state.loading = false;
                 if (action.payload) {
                     state.error = action.payload;
                 } else {
@@ -224,15 +260,12 @@ export const settingSlice = createSlice({
             })
             .addCase(termsConditionsAction.pending, (state) => {
                 state.error = null;
-                state.loading = true;
             })
             .addCase(termsConditionsAction.fulfilled, (state, action) => {
                 state.termsConditions = action.payload;
                 state.error = null;
-                state.loading = false;
             })
             .addCase(termsConditionsAction.rejected, (state, action: any) => {
-                state.loading = false;
                 if (action.payload) {
                     state.error = action.payload;
                 } else {
@@ -241,15 +274,12 @@ export const settingSlice = createSlice({
             })
             .addCase(cCPAPrivacyNoticeAction.pending, (state) => {
                 state.error = null;
-                state.loading = true;
             })
             .addCase(cCPAPrivacyNoticeAction.fulfilled, (state, action) => {
                 state.cCPAPrivacy = action.payload;
                 state.error = null;
-                state.loading = false;
             })
             .addCase(cCPAPrivacyNoticeAction.rejected, (state, action: any) => {
-                state.loading = false;
                 if (action.payload) {
                     state.error = action.payload;
                 } else {
@@ -264,10 +294,8 @@ export const settingSlice = createSlice({
                 state.drawDetail = action.payload;
                 state.recentBlogDraw = action.payload.recentBlog;
                 state.error = null;
-                state.loading = false;
             })
             .addCase(drawingPictureAction.rejected, (state, action: any) => {
-                state.loading = false;
                 if (action.payload) {
                     state.error = action.payload;
                 } else {
@@ -276,16 +304,29 @@ export const settingSlice = createSlice({
             })
             .addCase(getTotalRatingAction.pending, (state) => {
                 state.error = null;
-                state.loading = true;
             })
             .addCase(getTotalRatingAction.fulfilled, (state, action) => {
                 state.totalRating = action.payload.trustPilotTotalRating;
                 state.recentBlogs = action.payload.recentBlog;
                 state.headerFAQs = action.payload.faqOnHover;
                 state.error = null;
-                state.loading = false;
             })
             .addCase(getTotalRatingAction.rejected, (state, action: any) => {
+                if (action.payload) {
+                    state.error = action.payload;
+                } else {
+                    state.error = action.error as ErrorType;
+                }
+            })
+            .addCase(subscribeMemberAction.pending, (state) => {
+                state.error = null;
+                state.loading = true;
+            })
+            .addCase(subscribeMemberAction.fulfilled, (state, action) => {
+                state.error = null;
+                state.loading = false;
+            })
+            .addCase(subscribeMemberAction.rejected, (state, action: any) => {
                 state.loading = false;
                 if (action.payload) {
                     state.error = action.payload;
@@ -296,7 +337,8 @@ export const settingSlice = createSlice({
     },
 });
 
-export const { setTotalRating, setRecentBlogs, setHeaderFAQs } = settingSlice.actions;
+export const { setTotalRating, setRecentBlogs, setHeaderFAQs, setCcpaDetail, setCookieDetail, setDrawDetail, setPrivacyDetail, setTermDetail } =
+    settingSlice.actions;
 
 export const selectLoading = (state: RootState) => state.settings.loading;
 export const selectError = (state: RootState) => state.settings.error;

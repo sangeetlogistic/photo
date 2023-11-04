@@ -11,7 +11,7 @@ const CustomerReview = (props: ICustomerReview) => {
     return (
         <CustomerReviewCardCmp className={className}>
             <div className="single-review-wrapper">
-                <h2 className="single-reviwe-title">{title}</h2>
+                <p className="single-reviwe-title">{title}</p>
                 <div className="customer-review-and-rate">
                     <div className="review-and-rate-wrap">
                         <span className="customer-rating">{rate}</span>
@@ -20,14 +20,32 @@ const CustomerReview = (props: ICustomerReview) => {
                 </div>
             </div>
             <div className="single-review-btm-logo">
-                <span className="lazy-load-image-loaded">
-                    <img src={footerLogo ? Images.TrustpilotFooterLogo?.src : Images.TrustpilotLogo?.src} alt="" className="" width="" height="" />
+                <span className="lazy-load-image-loaded img-1">
+                    <img
+                        src={footerLogo ? Images.TrustpilotFooterLogo?.src : Images.TrustpilotLogo?.src}
+                        alt=""
+                        className="img-trust"
+                        width=""
+                        height=""
+                    />
                 </span>
-                <span className="lazy-load-image-loaded">
-                    <img src={footerLogo ? Images.YelpLogoReviewWhite?.src : Images.YelpLogoReview?.src} alt="" className="" width="" height="" />
+                <span className="lazy-load-image-loaded img-2">
+                    <img
+                        src={footerLogo ? Images.YelpLogoReviewWhite?.src : Images.YelpLogoReview?.src}
+                        alt=""
+                        className="img-yelp"
+                        width=""
+                        height=""
+                    />
                 </span>
-                <span className="lazy-load-image-loaded">
-                    <img src={footerLogo ? Images.GoogleLogoReviewWhite?.src : Images.GoogleLogoReview?.src} alt="" className="" width="" height="" />
+                <span className="lazy-load-image-loaded img-3">
+                    <img
+                        src={footerLogo ? Images.GoogleLogoReviewWhite?.src : Images.GoogleLogoReview?.src}
+                        alt=""
+                        className="img-google"
+                        width=""
+                        height=""
+                    />
                 </span>
             </div>
         </CustomerReviewCardCmp>

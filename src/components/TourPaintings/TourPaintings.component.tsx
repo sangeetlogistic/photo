@@ -1,13 +1,14 @@
 import styled from 'styled-components';
+
 import { Colors, Fonts, MediaBreakpoints } from '../../theme';
 
 export const TourPaintingsBlock = styled.div`
-    /* padding: 8.594vw 0; */
     padding: 42px 0;
     @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
         padding: 3vw 0 9.787vw;
     }
     .title {
+        font-size: 18px;
         line-height: 25px;
         margin-bottom: 20px;
         text-align: center;
@@ -16,6 +17,7 @@ export const TourPaintingsBlock = styled.div`
             text-align: left;
             line-height: 1.823vw;
             margin-bottom: 2.969vw;
+            font-size: 2.5vw;
         }
     }
     .video-react,
@@ -26,7 +28,6 @@ export const TourPaintingsBlock = styled.div`
         background-size: cover;
         background-color: ${Colors.gray110};
         @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-            /* height: 31vw; */
             border-radius: 0.521vw;
         }
         .video-react-video,

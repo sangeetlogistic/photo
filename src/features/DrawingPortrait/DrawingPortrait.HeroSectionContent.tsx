@@ -1,7 +1,7 @@
 import React from 'react';
+
 import FilledButton from '../../components/FilledButton';
 import { DraWingHeroSection, DrawingPortraitsHeroSectionCmp } from './DrawingPortrait.component';
-import Image from 'next/image';
 
 const DrawingPortraitsHeroSectionContent = ({ detailPageCoverImage, handImage, coverTitle, coverSubTitle, coverButtonTitle, onClick }: any) => (
     <DraWingHeroSection detailPageCoverImage={detailPageCoverImage}>
@@ -20,7 +20,7 @@ const DrawingPortraitsHeroSectionContent = ({ detailPageCoverImage, handImage, c
                 </div>
             </DrawingPortraitsHeroSectionCmp>
             <figure className="hnd-image-outer">
-                <Image fill src={handImage} alt="" className=''/>
+                <img src={handImage} alt="" className="" />
             </figure>
         </div>
     </DraWingHeroSection>

@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
 import { statusCode } from '../../constants/statusCode';
 import FaqServices from '../../services/API/Faq/Faq.services';
 import { RootState } from '../../app/store';
@@ -54,7 +55,12 @@ const initialState: FaqState = {
 export const faqSlice = createSlice({
     name: 'faq',
     initialState,
-    reducers: {},
+    reducers: {
+        setFaqDetail: (state, action) => {
+            state.faqs = action.payload.detail.data;
+            state.error = action.payload.error;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getFaqAction.pending, (state) => {
@@ -76,6 +82,8 @@ export const faqSlice = createSlice({
             });
     },
 });
+
+export const { setFaqDetail } = faqSlice.actions;
 
 export const selectLoading = (state: RootState) => state.faq.loading;
 export const selectError = (state: RootState) => state.faq.error;

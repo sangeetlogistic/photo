@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Card, Col } from 'antd';
+import { Card } from 'antd';
 
 import { IIndividualReviewSlider } from './IndividualReviewSlider.types';
 import CustomerReview from '../CustomerReview';
@@ -10,14 +10,12 @@ import { NextBtn, PrevBtn } from '../PrevNextBtn';
 import SliderCarousel from '../SliderCarousel';
 import FilledButton from '../FilledButton';
 import { useDeviceDetect } from '../../hooks/useDeviceDetect';
-import { TRUSTPILOT_REVIEW } from '../../constants/predicates';
-import Image from 'next/image';
 
-const ReviewCard = (props: { obj: any; onClick: any }) => {
-    const { obj, onClick } = props;
+const ReviewCard = (props: { obj: any }) => {
+    const { obj } = props;
     const { isMobile } = useDeviceDetect();
     return (
-        <Card className="review-slide-card" onClick={onClick}>
+        <Card className="review-slide-card">
             <div className="reviw-top-sec">
                 <Rating disabled value={Number(obj?.ratings || 0)} allowHalf />
                 <p className="reviewer-title">{obj?.title}</p>
@@ -29,7 +27,7 @@ const ReviewCard = (props: { obj: any; onClick: any }) => {
                         {obj?.firstName} {obj?.lastName}
                     </p>
                     <div className="country ">
-                        <Image className="country-icon" src={obj?.country?.countryFlagImageUrl} alt="" width="75" height="20" />
+                        <img className="country-icon" src={obj?.country?.countryFlagImageUrl} alt="" width="75" height="20" />
                         {obj?.country?.country_name}
                     </div>
                 </div>
@@ -67,38 +65,31 @@ const IndividualReviewSlider = ({ title, subTitle, trustPilots, totalRating }: I
 
     const handlePrevious = () => sliderRef?.current?.slickPrev();
     const handleNext = () => sliderRef?.current?.slickNext();
-    const onClick = () => window.open(TRUSTPILOT_REVIEW, '_blank');
 
     return (
         <CustomerReviewBlock className="customer-review-block">
-            {trustPilots?.length > 0 ? (
-                <>
-                    <h2 className="sec-sub-title">{title}</h2>
-                    <p className="sub-title-text">{subTitle}</p>
-                    <IndivdualSliderRowCmp gutter={{ lg: 40 }} className="customer_review-row">
-                        <Col sm={18} md={7} className="customer-single-review-col">
-                            <CustomerReview
-                                className="customer-single-review-block"
-                                title="Excellent Customer Reviews"
-                                rate={totalRating || trustPilots?.TotalRating}
-                            />
-                        </Col>
-                        <Col sm={24} md={17} className="cusotmer-review-slider-col gutter-row">
-                            <div className="individual-review-slider-block">
-                                <PrevBtn handlePrevious={handlePrevious} />
-                                <div className="individual-review-slider-block-wrapp">
-                                    <SliderCarousel settings={settings} ref={sliderRef}>
-                                        {trustPilots?.map((obj: any, index: number) => (
-                                            <ReviewCard key={index} obj={obj} onClick={onClick} />
-                                        ))}
-                                    </SliderCarousel>
-                                </div>
-                                <NextBtn handleNext={handleNext} />
-                            </div>
-                        </Col>
-                    </IndivdualSliderRowCmp>
-                </>
-            ) : null}
+            <>
+                <h2 className="sec-sub-title">{title}</h2>
+                <p className="sub-title-text">{subTitle}</p>
+                <IndivdualSliderRowCmp className="customer_review-row">
+                    <div className="customer-single-review-col">
+                        <CustomerReview
+                            className="customer-single-review-block"
+                            title="Excellent Customer Reviews"
+                            rate={totalRating || trustPilots?.TotalRating}
+                        />
+                    </div>
+                    <div className="individual-review-slider-block-wrapp">
+                        <PrevBtn handlePrevious={handlePrevious} darkArrow />
+                        <SliderCarousel settings={settings} ref={sliderRef}>
+                            {trustPilots?.map((obj: any, index: number) => (
+                                <ReviewCard key={index} obj={obj} />
+                            ))}
+                        </SliderCarousel>
+                        <NextBtn handleNext={handleNext} darkArrow />
+                    </div>
+                </IndivdualSliderRowCmp>
+            </>
         </CustomerReviewBlock>
     );
 };

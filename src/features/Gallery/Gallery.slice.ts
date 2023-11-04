@@ -2,7 +2,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { RootState } from '../../app/store';
-
 import { statusCode } from '../../constants/statusCode';
 import GalleryServices from '../../services/API/Gallery';
 
@@ -78,6 +77,16 @@ export const gallerySlice = createSlice({
         setLoading: (state, action) => {
             state.loading = action.payload;
         },
+        setGalleryDetail: (state, action) => {
+            state.galleryData = action?.payload?.detail?.Gallery;
+
+            state.galleryDataLength = action?.payload?.detail?.Gallery;
+
+            state.filteredOptions = action.payload.detail?.FilteredOptions;
+            state.sliderData = action.payload.detail?.sliderData;
+            state.totalGalleryRecord = action.payload.detail?.totalGalleryRecord;
+            state.error = action?.payload?.error;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -114,7 +123,7 @@ export const gallerySlice = createSlice({
     },
 });
 
-export const { clearGalleryData, setResult, setLoading } = gallerySlice.actions;
+export const { clearGalleryData, setResult, setLoading, setGalleryDetail } = gallerySlice.actions;
 
 export const selectLoading = (state: RootState) => state.gallery.loading;
 export const selectError = (state: RootState) => state.gallery.error;

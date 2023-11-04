@@ -1,3 +1,11 @@
-# https://www.robotstxt.org/robotstxt.html
+# *
 User-agent: *
-Disallow:
+Allow: /
+
+# Host
+Host: https://image2painting.com/
+
+# Sitemaps
+Sitemap: https://image2painting.com/sitemap.xml
+Sitemap: https://image2painting.com/sitemap-0.xml
+Sitemap: https://image2painting.com/sitemapdynamic.xml

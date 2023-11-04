@@ -323,7 +323,7 @@ const MobileStep3 = ({
                         <div onClick={() => setViewOrderSummary(true)} tabIndex={0} role="button" className="orderSummary_button">
                             <button type="button" className="summary_button">
                                 VIEW ORDER SUMMARY
-                                <img src={Images.BoxIcon} alt="boxicon" className="mx-3" />
+                                <img src={Images.BoxIcon?.src} alt="boxicon" className="mx-3" />
                             </button>
                         </div>
                     </div>
@@ -350,8 +350,8 @@ const MobileStep3 = ({
                 <OrderStep3Cmp className="mobile-order-inner-block step-3 px-0 py-0 slider_slide_bottom">
                     <div className="mobile_fram_selection">
                         <div className="frame-select-preview">
-                            <img src={Images.OrderPaintingImgBg} alt="" className="f-s-bg" />
-                            <img src={Images.OrderPaintingImgLight} alt="" className="f-s-light" />
+                            <img src={Images.OrderPaintingImgBg?.src} alt="" className="f-s-bg" />
+                            <img src={Images.OrderPaintingImgLight?.src} alt="" className="f-s-light" />
                         </div>
                         <div className={`slider_top ${selectSize.painting && selectPaintingSize ? 'slider_show' : ''}`}>
                             <PrevBtn handlePrevious={handlePrevious} />
@@ -360,7 +360,7 @@ const MobileStep3 = ({
                                     <div key={index}>
                                         <img
                                             src={preview?.size_id?.sizeImageUrl}
-                                            alt=""
+                                            alt={preview?.size_id?.sizeImageAlt || ''}
                                             className={`f-painting ${classWithPaintingSize[`${preview.size_id.height}x${preview.size_id.width}`]} ${
                                                 preview?.id === selectPaintingSizeAndPrice?.id ? 'active' : ''
                                             }`}

@@ -2,7 +2,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { RootState } from '../../app/store';
-
 import { statusCode } from '../../constants/statusCode';
 import HomeServices from '../../services/API/Home';
 
@@ -59,6 +58,10 @@ export const homeSlice = createSlice({
             state.homeDetail = undefined;
             state.error = null;
         },
+        setHomeDetail: (state, action) => {
+            state.homeDetail = action.payload.detail;
+            state.error = action.payload.error;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -82,7 +85,7 @@ export const homeSlice = createSlice({
     },
 });
 
-export const { clearHomeDetail } = homeSlice.actions;
+export const { clearHomeDetail, setHomeDetail } = homeSlice.actions;
 
 export const selectLoading = (state: RootState) => state.home.loading;
 export const selectError = (state: RootState) => state.home.error;

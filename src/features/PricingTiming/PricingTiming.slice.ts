@@ -2,7 +2,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { RootState } from '../../app/store';
-
 import { statusCode } from '../../constants/statusCode';
 import PriceTimeServices from '../../services/API/PriceTime';
 
@@ -81,15 +80,21 @@ const initialState: GalleryState = {
 export const pricingTimingSlice = createSlice({
     name: 'pricingTiming',
     initialState,
-    reducers: {},
+    reducers: {
+        setPriceTimedetail: (state, action) => {
+            state.price = action.payload.detail.PriceList.price;
+            state.size = action.payload.detail.PriceList.size;
+            state.themeObject = action.payload.detail.PriceList.themeObject;
+            state.serviceAndShipping = action.payload.detail.serviceAndshipping;
+            state.error = action.payload.error;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getPriceTimeAction.pending, (state) => {
-                state.loading = true;
                 state.error = null;
             })
             .addCase(getPriceTimeAction.fulfilled, (state, action) => {
-                state.loading = false;
                 state.error = null;
                 state.price = action.payload.PriceList.price;
                 state.size = action.payload.PriceList.size;
@@ -97,7 +102,6 @@ export const pricingTimingSlice = createSlice({
                 state.serviceAndShipping = action.payload.serviceAndshipping;
             })
             .addCase(getPriceTimeAction.rejected, (state, action: any) => {
-                state.loading = false;
                 if (action.payload) {
                     state.error = action.payload;
                 } else {
@@ -123,6 +127,8 @@ export const pricingTimingSlice = createSlice({
             });
     },
 });
+
+export const { setPriceTimedetail } = pricingTimingSlice.actions;
 
 export const selectLoading = (state: RootState) => state.pricingTiming.loading;
 export const selectError = (state: RootState) => state.pricingTiming.error;

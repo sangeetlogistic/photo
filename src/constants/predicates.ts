@@ -9,3 +9,4 @@ export const AWS_UPLOAD_PATH = process.env.NEXT_PUBLIC_AWS_UPLOAD_PATH || '';
 export const PAYPAL_CLIENT_KEY = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_KEY || '';
 export const GOOGLE_AUTOCOMPLETE_KEY = process.env.NEXT_PUBLIC_GOOGLE_AUTOCOMPLETE_KEY || '';
 export const TRUSTPILOT_REVIEW = 'https://www.trustpilot.com/review/photo2painting.com';
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || '';

@@ -63,6 +63,7 @@ export enum PaymentWays {
     applePay = 'applePay',
     affirm = 'affirm',
     payPal = 'paypal',
+    zip = 'zip',
 }
 
 export const estimatedDays = 22;

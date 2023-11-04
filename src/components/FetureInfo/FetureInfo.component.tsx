@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { Colors, Fonts, MediaBreakpoints } from '../../theme';
 
 export const FeatureInfoBlockCmp = styled.section`

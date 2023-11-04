@@ -1,16 +1,16 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useParams } from 'next/navigation';
 
 import SliderCarousel from '../../../components/SliderCarousel';
 import { NextBtn, PrevBtn } from '../../../components/PrevNextBtn/PrevNextBtn';
 import { PhotosPaintingThemeSliderBlock } from '../Gallery.component';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { clearGalleryData, selectSliderData } from '../Gallery.slice';
-import Image from 'next/image';
+import { useAppDispatch } from '../../../app/hooks';
+import { clearGalleryData } from '../Gallery.slice';
 
-const GalleryThemeSlider = ({ storeSelectedData, setStoreSelectedData }: any) => {
+const GalleryThemeSlider = ({ storeSelectedData, setStoreSelectedData, sliderData, isInitial }: any) => {
+    const param: { mediumId?: string; themeId?: string } | null = useParams();
     const sliderRef = useRef<any>(null);
     const dispatch = useAppDispatch();
-    const sliderData = useAppSelector(selectSliderData);
 
     const settings = {
         className: 'center',
@@ -40,9 +40,20 @@ const GalleryThemeSlider = ({ storeSelectedData, setStoreSelectedData }: any) =>
                 currentSlide: next,
                 selectedData: { obj: selectedData, index: next },
             }));
-            dispatch(clearGalleryData());
+
+            if (!isInitial) {
+                dispatch(clearGalleryData());
+            }
         },
     };
+
+    useEffect(() => {
+        sliderData?.forEach((data: any, index: any) => {
+            if (data?.slug === param?.themeId) {
+                sliderRef?.current?.slickGoTo(index);
+            }
+        });
+    }, []);
 
     const handlePrevious = () => {
         sliderRef?.current?.slickPrev();
@@ -72,32 +83,32 @@ const GalleryThemeSlider = ({ storeSelectedData, setStoreSelectedData }: any) =>
 
     return (
         <PhotosPaintingThemeSliderBlock>
-            <PrevBtn handlePrevious={handlePrevious} />
-            <div className="blur_div left"></div>
-            {sliderData?.length > 0 && (
-                <SliderCarousel settings={settings} ref={sliderRef}>
-                    {sliderData?.map((obj: any, index: number) => (
-                        <div
-                            key={index}
-                            onClick={() => handleSlideClick(index)}
-                            className={`slider-theme-item-box ${storeSelectedData.currentSlide === index ? 'active-item' : ''}`}
-                            role="button"
-                            tabIndex={0}
-                        >
-                            <figure className="fig_sqr">
-                                <span className="lazy-load-image-loaded ">
-                                    <Image fill src={obj.sliderImageUrl} alt={obj.sliderImageAlt} className="theme-carousel-image" />
-                                </span>
-                            </figure>
-                            <div className="slider-text-wrap">
-                                <p className="title-font title-color">{obj.name}</p>
+            {sliderData?.length > 0 ? (
+                <>
+                    <PrevBtn handlePrevious={handlePrevious} />
+                    <div className="blur_div left"></div>
+                    <SliderCarousel settings={settings} ref={sliderRef}>
+                        {sliderData?.map((obj: any, index: number) => (
+                            <div
+                                key={index}
+                                onClick={() => handleSlideClick(index)}
+                                className={`slider-theme-item-box ${storeSelectedData.currentSlide === index ? 'active-item' : ''}`}
+                                role="button"
+                                tabIndex={0}
+                            >
+                                <figure className="fig_sqr">
+                                    <img src={obj.sliderImageUrl} alt={obj.sliderImageAlt} className="theme-carousel-image" />
+                                </figure>
+                                <div className="slider-text-wrap">
+                                    <p className="title-font title-color">{obj.name}</p>
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </SliderCarousel>
-            )}
-            <div className="blur_div right"></div>
-            <NextBtn handleNext={handleNext} />
+                        ))}
+                    </SliderCarousel>
+                    <div className="blur_div right"></div>
+                    <NextBtn handleNext={handleNext} />
+                </>
+            ) : null}
         </PhotosPaintingThemeSliderBlock>
     );
 };

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { PagePdngTopEqualHeaderHeight } from '../../constants/general';
 import { Colors, Fonts, MediaBreakpoints } from '../../theme';
 
@@ -48,7 +49,6 @@ export const DraWingHeroSection = styled.section<{ detailPageCoverImage: string 
 `;
 export const DrawingPortraitsHeroSectionCmp = styled.div`
     padding: 0 3.646vw;
-    /* height: 24.479vw; */
     height: 100%;
     color: ${Colors.white};
     position: relative;
@@ -261,7 +261,6 @@ export const DrawingPortraitsFAQCmp = styled.section`
         }
         .portraits-accordian {
             font-size: 16px;
-            /* background: ${Colors.white}; */
             border: 0;
             .ant-collapse-item {
                 margin-top: 20px;
@@ -312,9 +311,6 @@ export const DrawingPortraitsFAQCmp = styled.section`
                             transform: rotate(0deg);
                         }
                     }
-                }
-                ~ .ant-collapse-item {
-                    /* margin-top: 20px; */
                 }
             }
         }

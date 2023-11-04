@@ -39,12 +39,12 @@ const PaintingRevealProcess = ({ detail }: any) => {
 
     return (
         <PaintingRevealProcessBlockCmp className="painting-reveal-process-section">
-            <h2 className="sec-sub-title">
+            <h3 className="sec-sub-title">
                 <i className="icon">
-                    <img src={Images.IconHeart} alt="" className="" />
+                    <img src={Images.IconHeart?.src} alt="" className="" />
                 </i>
                 Enjoy the painting reveal process..
-            </h2>
+            </h3>
             <div className="painting-reveal-process-slider-wrap">
                 <PrevBtn handlePrevious={handlePrevious} />
                 <div className="painting-reveal-process-slider-block">

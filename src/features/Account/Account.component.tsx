@@ -1,5 +1,6 @@
 import { rgba } from 'polished';
 import styled from 'styled-components';
+
 import Popup from '../../components/Popup';
 import { PagePdngTopEqualHeaderHeight } from '../../constants/general';
 import { Colors, Fonts, MediaBreakpoints } from '../../theme';
@@ -361,12 +362,10 @@ export const AccountOrderBlock = styled.div`
     }
     .account-order-row {
         display: flex;
-        /* padding: 0 1.458vw 0.781vw 1.458vw; */
         @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
             flex-wrap: wrap;
             justify-content: center;
         }
-        /* border-bottom: 2px solid ${Colors.pageContetBg}; */
         .product-img {
             width: 220px;
             @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
@@ -638,7 +637,6 @@ export const AccountOrderBlock = styled.div`
                         margin: 1rem 0;
                         border: 2px dashed ${Colors.primary};
                         border-radius: 14px;
-                        /* background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%23EE43679C' stroke-width='3' stroke-dasharray='7' stroke-dashoffset='8' stroke-linecap='square'/%3e%3c/svg%3e"); */
                         @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                             font-size: ${convertPxToVw('16')}vw;
                             margin: 0;
@@ -1184,7 +1182,6 @@ export const ViewOrderDetailPopupCmp = styled(Popup)`
                                 &:last-child {
                                     td,
                                     th {
-                                        /* border-bottom: 1px dashed ${Colors.gray100}; */
                                         border-bottom: 0;
                                     }
                                 }
@@ -1228,10 +1225,8 @@ export const AccountReviewModalCmp = styled(Popup)`
     max-width: 100%;
     @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
         height: 100%;
-        /* position: fixed; */
         bottom: 0;
         top: 0;
-        /* overflow: auto; */
         .ant-modal-content {
             padding-bottom: 3rem;
             min-height: 100%;
@@ -1599,7 +1594,6 @@ export const ShippingAddressDetail = styled.div`
             padding-left: 1.2vw;
             padding-right: 1.2vw;
             border-radius: 0.7vw;
-            /* justify-content: space-between; */
         }
         svg {
             margin-left: 10px;

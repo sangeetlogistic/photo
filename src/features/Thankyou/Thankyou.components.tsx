@@ -1,5 +1,6 @@
 import { rgba } from 'polished';
 import styled from 'styled-components';
+
 import { PagePdngTopEqualHeaderHeight } from '../../constants/general';
 import { Colors, Fonts, MediaBreakpoints } from '../../theme';
 import { convertPxToVw } from '../../utils/func';
@@ -286,7 +287,6 @@ export const ThankYouCmp = styled.div`
                             &:last-child {
                                 td,
                                 th {
-                                    /* border-bottom: 1px dashed ${Colors.gray100}; */
                                     border-bottom: 0;
                                 }
                             }

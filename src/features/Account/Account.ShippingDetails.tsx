@@ -4,13 +4,12 @@ import type { RadioChangeEvent } from 'antd';
 
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { loadStripe } from '@stripe/stripe-js/pure';
 import { Elements } from '@stripe/react-stripe-js';
 import { ShippingAddressDetail } from './Account.component';
 import PaymentMod from '../OrderStep/OrderStep.Payment';
 import { STRIPE_PUBLIC_KEY } from '../../constants/predicates';
-import { tipPercentages } from './Accout.constants';
+import { tipPercentages } from './Account.constants';
 import { useDeviceDetect } from '../../hooks';
 import FilledButton from '../../components/FilledButton';
 

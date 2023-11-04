@@ -77,7 +77,7 @@ const MobileStep1 = ({
                             <h4 className="card-title">
                                 Select Themes
                                 <span className="icon" onClick={() => setSelectThemesAns(true)} tabIndex={0} role="button">
-                                    <img src={Images.QuestionIcon} alt="" width="23" height="23" />
+                                    <img src={Images.QuestionIcon?.src} alt="" width="23" height="23" />
                                 </span>
                             </h4>
                             <FilledButton className="btn-selected" onClick={handleThemeEditSelection} disabled={selectThemesBtnDisabled}>
@@ -142,7 +142,13 @@ const MobileStep1 = ({
                                         />
                                         <figure className="step-img-block select_theme_image">
                                             <img src={theme?.objDeselectImageUrl} alt="" className="img-view" width="60" height="60" />
-                                            <img src={theme?.objSelectImageUrl} alt="" className="img-view-active" width="60" height="60" />
+                                            <img
+                                                src={theme?.objSelectImageUrl}
+                                                alt={theme?.selectedImageAlt || ''}
+                                                className="img-view-active"
+                                                width="60"
+                                                height="60"
+                                            />
                                         </figure>
                                         <p className="step-inn-label">{theme.thmObj}</p>
                                     </label>
@@ -160,8 +166,14 @@ const MobileStep1 = ({
                                                 onClick={handleCustomThemeSelection}
                                             />
                                             <figure className="step-img-block">
-                                                <img src={Images.OrderIconCustom} alt="" className="img-view" width="60" height="60" />
-                                                <img src={Images.OrderIconCustomActive} alt="" className="img-view-active" width="60" height="60" />
+                                                <img src={Images.OrderIconCustom?.src} alt="" className="img-view" width="60" height="60" />
+                                                <img
+                                                    src={Images.OrderIconCustomActive?.src}
+                                                    alt=""
+                                                    className="img-view-active"
+                                                    width="60"
+                                                    height="60"
+                                                />
                                             </figure>
                                             <p className="step-inn-label">CUSTOM</p>
                                         </div>
@@ -181,7 +193,7 @@ const MobileStep1 = ({
                             <h4 className="card-title">
                                 Select Medium
                                 <span className="icon" onClick={() => setSelectMediumAns(true)} tabIndex={0} role="button">
-                                    <img src={Images.QuestionIcon} alt="" width="23" height="23" />
+                                    <img src={Images.QuestionIcon?.src} alt="" width="23" height="23" />
                                 </span>
                             </h4>
                             <FilledButton className="btn-selected" onClick={handleMediumEditSelection} disabled={selectMediumBtnDisabled}>
@@ -213,7 +225,7 @@ const MobileStep1 = ({
                                                 >
                                                     <Col className="gutter-row" md={8} xl={10}>
                                                         <figure className="img-responsive">
-                                                            <img src={Images.StepMediumImg} alt="" className="" />
+                                                            <img src={Images.StepMediumImg?.src} alt="" className="" />
                                                         </figure>
                                                     </Col>
                                                     <Col className="gutter-row" md={16} xl={14}>
@@ -260,7 +272,7 @@ const MobileStep1 = ({
                                                 >
                                                     <Col className="gutter-row" md={8} xl={10}>
                                                         <figure className="img-responsive">
-                                                            <img src={Images.acrylicMedium} alt="" className="" />
+                                                            <img src={Images.acrylicMedium?.src} alt="" className="" />
                                                         </figure>
                                                     </Col>
                                                     <Col className="gutter-row" md={16} xl={14}>
@@ -304,7 +316,7 @@ const MobileStep1 = ({
                                                 >
                                                     <Col className="gutter-row" md={8} xl={10}>
                                                         <figure className="img-responsive">
-                                                            <img src={Images.watercolorMedium} alt="" className="" />
+                                                            <img src={Images.watercolorMedium?.src} alt="" className="" />
                                                         </figure>
                                                     </Col>
                                                     <Col className="gutter-row" md={16} xl={14}>
@@ -337,7 +349,7 @@ const MobileStep1 = ({
                                                 >
                                                     <Col className="gutter-row" md={8} xl={10}>
                                                         <figure className="img-responsive">
-                                                            <img src={Images.charcoalMedium} alt="" className="" />
+                                                            <img src={Images.charcoalMedium?.src} alt="" className="" />
                                                         </figure>
                                                     </Col>
                                                     <Col className="gutter-row" md={16} xl={14}>
@@ -382,7 +394,7 @@ const MobileStep1 = ({
                                                 >
                                                     <Col className="gutter-row" md={8} xl={10}>
                                                         <figure className="img-responsive">
-                                                            <img src={Images.blackPencilMedium} alt="" className="" />
+                                                            <img src={Images.blackPencilMedium?.src} alt="" className="" />
                                                         </figure>
                                                     </Col>
                                                     <Col className="gutter-row" md={16} xl={14}>
@@ -429,7 +441,7 @@ const MobileStep1 = ({
                                                 >
                                                     <Col className="gutter-row" md={8} xl={10}>
                                                         <figure className="img-responsive">
-                                                            <img src={Images.colorPencilMedium} alt="" className="" />
+                                                            <img src={Images.colorPencilMedium?.src} alt="" className="" />
                                                         </figure>
                                                     </Col>
                                                     <Col className="gutter-row" md={16} xl={14}>
@@ -543,7 +555,7 @@ const MobileStep1 = ({
                                                     role="button"
                                                     tabIndex={0}
                                                 >
-                                                    <img src={Images.BtnMinusIcon} alt="" width="25" height="25" className="" />
+                                                    <img src={Images.BtnMinusIcon?.src} alt="" width="25" height="25" className="" />
                                                 </i>
                                                 <Form.Item name="persons">
                                                     <NumericInput id="custom-persons-input" onChange={setPersonsCount} className="custom-number" />
@@ -555,7 +567,7 @@ const MobileStep1 = ({
                                                     role="button"
                                                     tabIndex={0}
                                                 >
-                                                    <img src={Images.BtnPlusIcon} alt="" width="25" height="25" className="" />
+                                                    <img src={Images.BtnPlusIcon?.src} alt="" width="25" height="25" className="" />
                                                 </i>
                                             </div>
                                         </Popover>
@@ -571,7 +583,7 @@ const MobileStep1 = ({
                                                     role="button"
                                                     tabIndex={0}
                                                 >
-                                                    <img src={Images.BtnMinusIcon} alt="" width="25" height="25" className="" />
+                                                    <img src={Images.BtnMinusIcon?.src} alt="" width="25" height="25" className="" />
                                                 </i>
                                                 <Form.Item name="pets">
                                                     <NumericInput id="custom-pets-input" onChange={setPetsCount} className="custom-number" />
@@ -583,7 +595,7 @@ const MobileStep1 = ({
                                                     role="button"
                                                     tabIndex={0}
                                                 >
-                                                    <img src={Images.BtnPlusIcon} alt="" width="25" height="25" className="" />
+                                                    <img src={Images.BtnPlusIcon?.src} alt="" width="25" height="25" className="" />
                                                 </i>
                                             </div>
                                         </Popover>

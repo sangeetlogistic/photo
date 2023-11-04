@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 import { Colors, MediaBreakpoints } from '../../theme';
+import Images from '../../theme/Images';
 
 const SliderBtnCmp = styled.span`
     &.slider-btn {
@@ -40,14 +39,14 @@ const SliderBtnCmp = styled.span`
     }
 `;
 
-export const PrevBtn = (props: { handlePrevious: () => void }) => (
+export const PrevBtn = (props: { handlePrevious: () => void; darkArrow?: boolean }) => (
     <SliderBtnCmp className="slider-btn slider-prev" onClick={props.handlePrevious} role="button" tabIndex={0}>
-        <FontAwesomeIcon icon={faAngleLeft} size="xl" className="arrow_icon" />
+        <img src={!props?.darkArrow ? Images.SliderArrowPrev.src : Images.SliderPrevIconWhite.src} alt="" className="" />
     </SliderBtnCmp>
 );
 
-export const NextBtn = (props: { handleNext: () => void }) => (
+export const NextBtn = (props: { handleNext: () => void; darkArrow?: boolean }) => (
     <SliderBtnCmp className="slider-btn slider-next" onClick={props.handleNext} role="button" tabIndex={0}>
-        <FontAwesomeIcon icon={faAngleRight} size="xl" className="arrow_icon" />
+        <img src={!props?.darkArrow ? Images.SliderArrowNext.src : Images.SliderNextIconWhite.src} alt="" className="" />
     </SliderBtnCmp>
 );

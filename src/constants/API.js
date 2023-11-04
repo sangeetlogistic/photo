@@ -92,6 +92,15 @@ const API = {
     getTotalRating: {
         get: 'get-trust-pilot-rating',
     },
+    seoDetail: {
+        get: 'seodetail',
+    },
+    siteMapSlugs: {
+        get: 'slugs',
+    },
+    subscribeMember: {
+        post: 'subscribe/member',
+    },
 };
 
 export default API;

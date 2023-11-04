@@ -35,19 +35,14 @@ export const layoutSlice = createSlice({
         setIsAfterBeforeSliderMoving: (state, action) => {
             state.isAfterBeforeSliderMoving = action.payload;
         },
-        setNotShowingFooter: (state, action) => {
-            const temp = state.notShowingFooter;
-            state.notShowingFooter = [...temp, action.payload];
-        },
     },
 });
 
-export const { setMobileOpenMenu, setIsAfterBeforeSliderMoving, setNotShowingFooter } = layoutSlice.actions;
+export const { setMobileOpenMenu, setIsAfterBeforeSliderMoving } = layoutSlice.actions;
 
 export const selectLoading = (state: RootState) => state.layout.loading;
 export const selectError = (state: RootState) => state.layout.error;
 export const selectMobileOpenMenu = (state: RootState) => state.layout.mobileOpenMenu;
 export const selectIsAfterBeforeSliderMoving = (state: RootState) => state.layout.isAfterBeforeSliderMoving;
-export const selectNotShowingFooter = (state: RootState) => state.layout.notShowingFooter;
 
 export default layoutSlice.reducer;

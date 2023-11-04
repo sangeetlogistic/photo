@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Select } from 'antd';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+
 import { country, currency, language } from './Footer.data';
+import Images from '../../../theme/Images';
 
 const { Option } = Select;
 
@@ -119,7 +119,7 @@ const Filters = () => {
                             role="button"
                             tabIndex={0}
                         >
-                            <FontAwesomeIcon icon={faAngleRight} />
+                            <img src={Images.SliderNextIconWhite.src} alt="" className="" />
                         </span>
                     }
                     onChange={(value) =>
@@ -176,7 +176,7 @@ const Filters = () => {
                             role="button"
                             tabIndex={0}
                         >
-                            <FontAwesomeIcon icon={faAngleRight} />
+                            <img src={Images.SliderNextIconWhite.src} alt="" className="" />
                         </span>
                     }
                     onChange={(value) =>
@@ -233,7 +233,7 @@ const Filters = () => {
                             role="button"
                             tabIndex={0}
                         >
-                            <FontAwesomeIcon icon={faAngleRight} />
+                            <img src={Images.SliderNextIconWhite.src} alt="" className="" />
                         </span>
                     }
                     onChange={(value) =>

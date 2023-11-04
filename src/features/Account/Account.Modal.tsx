@@ -2,11 +2,10 @@
 import React, { useMemo, useState } from 'react';
 import Magnifier from 'react-magnifier';
 import { Col, Input, Row } from 'antd';
-import { Images } from '../../theme';
 
+import { Images } from '../../theme';
 import FilledButton from '../../components/FilledButton';
 import { AccountReviewModalCmp } from './Account.component';
-import Image from 'next/image';
 
 const AccoutReviewModal = ({
     onCancel,
@@ -40,7 +39,7 @@ const AccoutReviewModal = ({
                             ) : (
                                 <div className="magnifier img-length">
                                     <span className="lazy-load-image-loaded ">
-                                        <Image fill src={openPopup.editedImage} alt="" className=''/>
+                                        <img src={openPopup.editedImage} alt="" className="" />
                                     </span>
                                 </div>
                             )}
@@ -48,14 +47,14 @@ const AccoutReviewModal = ({
                     ) : (
                         <div className="magnifier img-length">
                             <span className="lazy-load-image-loaded ">
-                                <Image fill src={openPopup.originalImage} alt="" className=''/>
+                                <img src={openPopup.originalImage} alt="" className="" />
                             </span>
                         </div>
                     )}
                     <div className="buttons_bottom">
                         <FilledButton className="btn_view_photo" onClick={() => setOriginalViewImg(!originalViewImg)}>
                             {!originalViewImg ? `View Original ${statusWiseContent}` : `View The ${statusWiseContent} Edit`}{' '}
-                            <img src={Images.EyeIcon} alt="eyicon" />{' '}
+                            <img src={Images.EyeIcon?.src} alt="eyicon" />{' '}
                         </FilledButton>
                         {!originalViewImg && (
                             <FilledButton className="btn_view_photo" onClick={() => setOpenMagnifire(!openMagnifire)}>

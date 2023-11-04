@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Col, Row, Card, Input } from 'antd';
+import { useRouter } from 'next/router';
 
 import { LoadingOutlined, CloseOutlined } from '@ant-design/icons';
 import { Elements } from '@stripe/react-stripe-js';
@@ -15,15 +16,12 @@ import CheckboxGroup from '../../components/CheckboxGroup';
 import PaymentMod from './OrderStep.Payment';
 import { multipleCombinePhotosPrice, videoCreatedPrice, SelectThemes, CouponCodeDiscount, depositDue } from './OrderStep.constants';
 import ContactDetails from './OrderStep.Checkout.ContactDetails';
-
 import { Routes } from '../../navigation/Routes';
 import { STRIPE_PUBLIC_KEY } from '../../constants/predicates';
 import { calculateFun } from '../../utils/func';
-
 import FilledButton from '../../components/FilledButton';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectStep3Detail, setSelectSize } from './OrderStep.slice';
-import { useRouter } from 'next/router';
 
 loadStripe.setLoadParameters({ advancedFraudSignals: false });
 const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
@@ -67,7 +65,7 @@ const Checkout = ({
     validPhoneNumber,
     setValidPhoneNumber,
 }: any) => {
-    const history = useRouter();
+    const route = useRouter();
     const dispatch = useAppDispatch();
     const step3Detail = useAppSelector(selectStep3Detail);
 
@@ -93,7 +91,7 @@ const Checkout = ({
                                         <h5 className="title">Selected Theme & Medium</h5>
                                         <span
                                             className="edit-link"
-                                            onClick={() => history.push(Routes.orderStep.replace(':id', '1'))}
+                                            onClick={() => route.push(Routes.orderStep.replace(':id', '1'))}
                                             role="button"
                                             tabIndex={0}
                                         >
@@ -128,7 +126,7 @@ const Checkout = ({
                                         <h5 className="title">Photos Uploaded</h5>
                                         <span
                                             className="edit-link"
-                                            onClick={() => history.push(Routes.orderStep.replace(':id', '2'))}
+                                            onClick={() => route.push(Routes.orderStep.replace(':id', '2'))}
                                             role="button"
                                             tabIndex={0}
                                         >
@@ -145,13 +143,13 @@ const Checkout = ({
                                     ) : (
                                         <div
                                             className="checkout-selection-block attachments-block"
-                                            onClick={() => history.push(Routes.orderStep.replace(':id', '2'))}
+                                            onClick={() => route.push(Routes.orderStep.replace(':id', '2'))}
                                             role="button"
                                             tabIndex={0}
                                         >
                                             <div className="attachment-placeholder">
                                                 <div className="attachment-upload-icon-block">
-                                                    <img src={Images.IconUploadFiles} alt="" width="33" height="33" className="" />
+                                                    <img src={Images.IconUploadFiles?.src} alt="" width="33" height="33" className="" />
                                                     <span className="text">Upload Photos</span>
                                                 </div>
                                                 <div className="attachment-upload-text">
@@ -169,7 +167,7 @@ const Checkout = ({
                                         <h5 className="title">Size & Frame</h5>
                                         <span
                                             className="edit-link"
-                                            onClick={() => history.push(Routes.orderStep.replace(':id', '3'))}
+                                            onClick={() => route.push(Routes.orderStep.replace(':id', '3'))}
                                             role="button"
                                             tabIndex={0}
                                         >
@@ -381,7 +379,7 @@ const Checkout = ({
                                                 <>
                                                     Apply{' '}
                                                     {!couponLoading ? (
-                                                        <img src={Images.AddPluseIcon} alt="add-icon-plus" />
+                                                        <img src={Images.AddPluseIcon?.src} alt="add-icon-plus" />
                                                     ) : (
                                                         <LoadingOutlined spin />
                                                     )}

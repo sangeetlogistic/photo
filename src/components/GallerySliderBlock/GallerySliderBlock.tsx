@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 import { portraitsGallery, sketchGallery } from '../../constants/general';
 import { Routes } from '../../navigation/Routes';
@@ -63,7 +63,7 @@ export const HomeGalleryBlock = styled.div`
 const GallerySliderBlock = (props: IGallerySliderBlock) => {
     const { heading, subHeading, themedTitle, mediumsTitle, themeDetail, mediumDetail, className } = props;
 
-    const pathname = usePathname();
+    const route = useRouter();
 
     return (
         <HomeGalleryBlock className={className}>
@@ -72,16 +72,16 @@ const GallerySliderBlock = (props: IGallerySliderBlock) => {
                 <p className="mb-0">{subHeading}</p>
             </div>
 
-            {(Routes.home === pathname || sketchGallery.includes(pathname)) && (
+            {(Routes.home === route.asPath || sketchGallery.includes(route.asPath)) && (
                 <>
-                    <h2 className="sec-sub-title sub-title-1">{themedTitle}</h2>
+                    <h3 className="sec-sub-title sub-title-1">{themedTitle}</h3>
                     {themeDetail && <PicturesIntoPaintingsTheme detail={themeDetail || []} />}
                 </>
             )}
 
-            {(Routes.home === pathname || portraitsGallery.includes(pathname)) && (
+            {(Routes.home === route.asPath || portraitsGallery.includes(route.asPath)) && (
                 <>
-                    <h2 className="sec-sub-title sub-title-2">{mediumsTitle}</h2>
+                    <h3 className="sec-sub-title sub-title-2">{mediumsTitle}</h3>
                     {mediumDetail && <PhotosIntoPaintingsMedium detail={mediumDetail || []} />}
                 </>
             )}

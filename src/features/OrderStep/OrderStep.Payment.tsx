@@ -12,16 +12,34 @@ import { PayPalScriptProvider, PayPalButtons, FUNDING } from '@paypal/react-payp
 import FilledButton from '../../components/FilledButton';
 import { OrderStepPayment } from './OrderPage.component';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { clearErrors, getAllCardAction, selectedCardListData, selectedRemainingPaymentError } from '../Account/Account.slice';
+import {
+    clearErrors,
+    getAllCardAction,
+    selectedCardListData,
+    selectedRemainingPaymentError,
+    selectedShippingData,
+    selectedUserData,
+    setShowAddressError,
+} from '../Account/Account.slice';
 import { PAYPAL_CLIENT_KEY } from '../../constants/predicates';
 import { useDeviceDetect, useLocalStorage } from '../../hooks';
 import { LocalStorageKeys } from '../../constants/keys';
-import { clearSaveOrderError, googleApplePayAction, selectSaveOrderError, setLoading, zipPayAction } from './OrderStep.slice';
+import {
+    clearError,
+    clearSaveOrderError,
+    googleApplePayAction,
+    selectSaveOrderError,
+    selectedIntentError,
+    setLoading,
+    zipPayAction,
+} from './OrderStep.slice';
 import { PaymentWays, normalDebounce } from './OrderStep.constants';
 import { Images } from '../../theme';
 import { Routes } from '../../navigation/Routes';
 import { emailRegex } from '../../utils/func';
 import Toast from '../../components/Toast/Toast';
+import { getCountryCallingCode } from 'react-phone-number-input';
+import { CountryCode } from 'libphonenumber-js';
 
 const scriptId = 'zip-integrate-api';
 
@@ -39,6 +57,8 @@ const Payment = ({
     handleGift,
     showGiftContent,
     giftCardAmount,
+    phoneNumber,
+    countryCode,
 }: {
     handleSubmitCheckOut?: (
         paymentId: string | undefined,
@@ -68,15 +88,18 @@ const Payment = ({
         thankYou: boolean;
     };
     giftCardAmount?: number;
+    phoneNumber?: string;
+    countryCode?: CountryCode;
 }) => {
+    const now = new Date();
     const stripe: any = useStripe();
     const elements: any = useElements();
     const localStorage = useLocalStorage();
     const dispatch = useAppDispatch();
     const { isMobile } = useDeviceDetect();
-    const authUser = localStorage.getItem(LocalStorageKeys.authUser);
-    const orderPageDetailStorage = localStorage.getItem(LocalStorageKeys.orderPageDetail)
-        ? JSON.parse(localStorage.getItem(LocalStorageKeys.orderPageDetail) || '')
+    const authUser = localStorage?.getItem(LocalStorageKeys.authUser);
+    const giftCardPayloadStorage = localStorage?.getItem(LocalStorageKeys.giftCardPayload)
+        ? JSON.parse(localStorage?.getItem(LocalStorageKeys.giftCardPayload) || '')
         : '';
 
     const advancedPaymentAmountRef = useRef(advancedPaymentAmount);
@@ -86,6 +109,9 @@ const Payment = ({
     const cardListData = useAppSelector(selectedCardListData);
     const saveOrderError = useAppSelector(selectSaveOrderError);
     const remainingPaymentError = useAppSelector(selectedRemainingPaymentError);
+    const intentError = useAppSelector(selectedIntentError);
+    const selectShippingData = useAppSelector(selectedShippingData);
+    const userData = useAppSelector(selectedUserData);
 
     const [cardError, setCardError] = useState<{
         cardNumber?: string;
@@ -110,6 +136,7 @@ const Payment = ({
     }>({ open: false, data: null });
     const [saveCardError, setSaveCardError] = useState(false);
     const [show, setShow] = useState(false);
+    const [showIntentError, setShowIntentError] = useState(false);
     const [errorPaymentMethodShow, setErrorPaymentMethodShow] = useState(false);
 
     useEffect(() => {
@@ -123,6 +150,12 @@ const Payment = ({
             document.head.appendChild(script);
         }
     }, []);
+
+    useEffect(() => {
+        if (intentError) {
+            setShowIntentError(true);
+        }
+    }, [intentError]);
 
     useEffect(() => {
         if (cardListData && cardListData?.length > 0) {
@@ -153,6 +186,10 @@ const Payment = ({
 
     useEffect(() => {
         if (authUser) dispatch(getAllCardAction());
+
+        return () => {
+            dispatch(clearError());
+        };
     }, []);
 
     useEffect(() => {
@@ -278,6 +315,11 @@ const Payment = ({
             return;
         }
 
+        if (paymentPopup && !selectShippingData.validate) {
+            dispatch(setShowAddressError(true));
+            return;
+        }
+
         if (paymentRequest) {
             paymentRequest.on('paymentmethod', async (ev: any) => {
                 const payload = {
@@ -350,6 +392,10 @@ const Payment = ({
             setShow(true);
         }
 
+        if (paymentPopup && !selectShippingData.validate) {
+            dispatch(setShowAddressError(true));
+            return;
+        }
         const validation = await form?.validateFields();
         const cardElement = elements.getElement(CardNumberElement);
 
@@ -375,8 +421,15 @@ const Payment = ({
     };
 
     const onClickPayment = () => {
+        if (paymentPopup && !selectShippingData.validate) {
+            dispatch(setShowAddressError(true));
+            return;
+        }
+
         if (selectDefaultPaymentId) {
-            if (paymentPopup) {
+            if (showGiftContent?.payment) {
+                handleGift?.(selectDefaultPaymentId, PaymentWays.stripe, PaymentWays.creditCard);
+            } else if (paymentPopup) {
                 handlePayment?.(selectDefaultPaymentId, PaymentWays.stripe, PaymentWays.creditCard);
             } else {
                 handleSubmitCheckOut?.(selectDefaultPaymentId, PaymentWays.stripe, PaymentWays.creditCard, undefined);
@@ -411,6 +464,11 @@ const Payment = ({
 
     const createOrder = async (data: any, actions: any) => {
         const validation = await form?.validateFields();
+
+        if (paymentPopup && !selectShippingData.validate) {
+            dispatch(setShowAddressError(true));
+            return;
+        }
 
         if (!paymentPopup && validation) {
             return actions.order.create({
@@ -462,6 +520,12 @@ const Payment = ({
             e.preventDefault();
             return;
         }
+
+        if (paymentPopup && !selectShippingData.validate) {
+            dispatch(setShowAddressError(true));
+            return;
+        }
+
         const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: 'affirm',
         });
@@ -469,7 +533,7 @@ const Payment = ({
             setErrorPaymentMethodShow(true);
         }
 
-        await localStorage.setItem(LocalStorageKeys.paymentID, paymentMethod.id);
+        await localStorage?.setItem(LocalStorageKeys.paymentID, paymentMethod.id);
 
         const payload = {
             paymentMethodId: paymentMethod.id,
@@ -565,29 +629,36 @@ const Payment = ({
             e.preventDefault();
             return;
         }
+
+        if (paymentPopup && !selectShippingData.validate) {
+            dispatch(setShowAddressError(true));
+            return;
+        }
+
         const payload = {
             shopper: {
-                email,
-                phone: '4154154455',
+                email: email || giftCardPayloadStorage?.senderEmail || userData?.email,
+                phone: `+${countryCode ? getCountryCallingCode?.(countryCode) || countryCode : countryCode} ${phoneNumber}`,
             },
             order: {
-                reference: 'ref_12345',
-                amount: (amountToShowRef.current || advancedPaymentAmountRef.current) * 100,
+                reference: `ORD-${now
+                    .toISOString()
+                    .replace(/[-T:Z.]/g, '')
+                    .slice(2)}-${Math.floor(Math.random() * 9000) + 1000}`,
+                amount: amountToShowRef.current || advancedPaymentAmountRef.current || giftCardAmountRef.current,
                 currency: 'USD',
-                items: [
-                    {
-                        name: orderPageDetailStorage?.personTheme?.thmObj,
-                    },
-                ],
                 shipping: {
                     pickup: false,
                 },
             },
             config: {
-                redirect_uri: window.location.origin,
+                redirect_uri: `${window.location.origin}${Routes.return}${paymentPopup?.id ? `?orderId=${paymentPopup?.id}` : ''}${
+                    showGiftContent?.payment ? `?priceTime=${true}` : ''
+                }`,
             },
         };
-        dispatch(zipPayAction(payload));
+        const result = await dispatch(zipPayAction({ payload }));
+        window.open(result.payload.result.data.data.uri, '_blank');
     };
 
     return (
@@ -721,7 +792,7 @@ const Payment = ({
                                     <Col span={22}>
                                         <div className="affirm_button_box">
                                             <FilledButton className="affirm_btn" onClick={handleCheckoutAffirm}>
-                                                <img src={Images.affirmButton} alt="" />
+                                                <img src={Images.affirmButton?.src} alt="" />
                                             </FilledButton>
                                         </div>
                                     </Col>
@@ -742,7 +813,7 @@ const Payment = ({
                                     <Col span={22}>
                                         <div className="zippay_button_box">
                                             <FilledButton className="zippay_btn" onClick={handleCheckoutZip}>
-                                                <img src={Images.ZipPayButton} alt="" />
+                                                <img src={Images.ZipPayButton?.src} alt="" />
                                             </FilledButton>
                                         </div>
                                     </Col>
@@ -768,6 +839,7 @@ const Payment = ({
                 </Row>
             </OrderStepPayment>
             {isMobile && show && <Toast show={show} setShow={setShow} message="Please, fill in contact details" type="error" showIcon />}
+            {showIntentError && <Toast show={showIntentError} setShow={setShowIntentError} message={intentError?.message} type="error" showIcon />}
             {errorPaymentMethodShow && (
                 <Toast
                     show={errorPaymentMethodShow}

@@ -228,7 +228,7 @@ const ViewOrderDetailPopup = ({ viewOrderDetailPopup, setViewOrderDetailPopup }:
                     {viewOrderDetailPopup.individualOrderData?.status < 11 && (
                         <div className="account-order-card estimated-delivery-card">
                             <i className="icon">
-                                <img src={Images.IconEstimateDelivery} alt="" className="" width="53" height="53" />
+                                <img src={Images.IconEstimateDelivery?.src} alt="" className="" width="53" height="53" />
                             </i>
 
                             <div className="estimated-delivery-data">
@@ -288,7 +288,6 @@ const ViewOrderDetailPopup = ({ viewOrderDetailPopup, setViewOrderDetailPopup }:
 
     return (
         <div>
-            {/* {viewOrderDetailPopup.open && ( */}
             <ViewOrderDetailPopupCmp
                 onCancel={() =>
                     setViewOrderDetailPopup((prevState) => ({
@@ -300,7 +299,6 @@ const ViewOrderDetailPopup = ({ viewOrderDetailPopup, setViewOrderDetailPopup }:
                 closable={false}
                 content={viewOrderDetailPopupContent}
             />
-            {/* )} */}
         </div>
     );
 };

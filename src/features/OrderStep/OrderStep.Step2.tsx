@@ -252,14 +252,14 @@ const Step2 = ({
         setRepeatStep2(false);
 
         if (isLocalStorageValid(LocalStorageKeys.savedCardProccessComplete)) {
-            const data: any = localStorage.getItem(LocalStorageKeys.savedCardProccessComplete)
-                ? JSON.parse(localStorage.getItem(LocalStorageKeys.savedCardProccessComplete) || '')
+            const data: any = localStorage?.getItem(LocalStorageKeys.savedCardProccessComplete)
+                ? JSON.parse(localStorage?.getItem(LocalStorageKeys.savedCardProccessComplete) || '')
                 : '';
 
             setSavedCardProccessComplete?.(data?.data);
         } else {
-            localStorage.removeItem(LocalStorageKeys.savedCardProccessComplete);
-            localStorage.removeItem(LocalStorageKeys.savedCardDetail);
+            localStorage?.removeItem(LocalStorageKeys.savedCardProccessComplete);
+            localStorage?.removeItem(LocalStorageKeys.savedCardDetail);
         }
 
         intervalProgress = setInterval(() => {
@@ -510,7 +510,7 @@ const Step2 = ({
                                                 combine several photos into a single portrait! We will show you a draft before we start the actual
                                                 painting.
                                             </p>
-                                            <img src={Images.ImgInfoUpload} alt="" className="infoUpload-img" width="157" height="68" />
+                                            <img src={Images.ImgInfoUpload?.src} alt="" className="infoUpload-img" width="157" height="68" />
                                         </div>
                                     </Col>
                                     <Col md={14} xl={24} className="info-step-customer-review">

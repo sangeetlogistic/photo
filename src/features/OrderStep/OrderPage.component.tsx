@@ -1,5 +1,6 @@
 import { rgba } from 'polished';
 import styled from 'styled-components';
+
 import { PagePdngTopEqualHeaderHeight } from '../../constants/general';
 import { Colors, Fonts, MediaBreakpoints } from '../../theme';
 import Popup from '../../components/Popup';
@@ -15,11 +16,7 @@ export const OrderPageWrappCmp = styled.div`
         flex-direction: column;
         padding-top: ${PagePdngTopEqualHeaderHeight};
     }
-    /* .mobile_comp_data-block {
-        overflow: auto;
-    } */
     .order-data-block {
-        /* height: 70vh; */
         display: flex;
         flex: auto;
         margin: 1rem;
@@ -154,7 +151,6 @@ export const OrderStep1Cmp = styled.div`
                 }
             }
         }
-        /* width: 100%; */
         .order-select-setp-1-card {
             position: relative;
             background: #fff;
@@ -508,7 +504,6 @@ export const OrderStep1Cmp = styled.div`
                     text-transform: uppercase;
                     transition: all 0.1s ease;
                     font-size: 12px;
-                    /* font-family: ${Fonts.titleFont}; */
                     margin: 12px 0 0 0;
                     @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
                         line-height: 1.28vw;
@@ -995,7 +990,6 @@ export const OrderStep2Cmp = styled.div`
                     color: ${Colors.blueMenu};
                     .ant-collapse-arrow {
                         transition: all 0.3s ease;
-                        /* margin: 0; */
                         @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
                             font-size: 1vw;
                         }
@@ -1149,7 +1143,6 @@ export const UserLoginPopupCmp = styled(Popup)`
                 font-size: 14px;
                 padding: 14px 12px;
                 border-radius: 8px;
-                /* border-color: #D9E0F2; */
                 @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
                     border-radius: 0.417vw;
                     font-size: 16px;
@@ -1535,15 +1528,9 @@ export const OrderStep3Cmp = styled.div`
                 display: flex;
                 align-items: center;
                 border-radius: 1.042vw;
-                /* z-index: 2; */
                 padding: 1px;
                 transition: all 0.3s ease;
                 border: 1px solid rgb(217 224 242 / 100%);
-                /* background-image: linear-gradient(
-          to bottom,
-          #d9e0f2 0%,
-          rgba(217, 224, 242, 0) 148.26%
-        ); */
                 &::after {
                     content: ' ';
                     left: 0;
@@ -1936,9 +1923,6 @@ export const OrderStep4Cmp = styled.div`
             border-radius: 0.625vw;
         }
     }
-    /* .order-summary-block {
-    min-height: 100%;
-  } */
 `;
 export const OrderSummaryBlockCmp = styled.div`
     &.order-summary-block {
@@ -2048,7 +2032,6 @@ export const OrderSummaryBlockCmp = styled.div`
                         font-size: ${convertPxToVw('15')}vw;
                     }
                     &.text-number {
-                        /* margin-left: 1.3vw; */
                         color: ${Colors.primary};
                     }
                     &.discount-price {
@@ -2457,7 +2440,6 @@ export const OrderStepFooterCmp = styled.footer`
                 }
                 &:not(.order-nav-last) {
                     border-right: 1px solid ${rgba(Colors.reviewCardbrd, 0.7)};
-                    /* flex-direction: column; */
                     &.active {
                         background-color: #215dd5;
                         border-radius: 0.73vw 0.73vw 0vw 0vw;
@@ -2755,12 +2737,14 @@ export const OrderCheckOutCmp = styled.div`
                 }
 
                 img {
-                    width: auto;
+                    width: 110px;
                     object-fit: cover;
-                    border-radius: 1vw;
-                    height: 70px;
+                    height: 100px;
+                    border-radius: 10px;
                     @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
+                        border-radius: 1vw;
                         height: 4.5vw;
+                        width: ${convertPxToVw('118')}vw;
                     }
                 }
             }
@@ -3028,10 +3012,6 @@ export const ContactDetailCmp = styled.div`
                 font-size: 0.729vw;
             }
         }
-        /* .position_select {
-        position: absolute;
-        z-index: 1;
-        } */
         .ant-select {
             .ant-select-selection-search-input {
                 height: 100%;
@@ -3063,12 +3043,6 @@ export const ContactDetailCmp = styled.div`
                 }
             }
         }
-        /* .phone_num_input {
-      padding-left: 100px;
-      @media (min-width: ${`${MediaBreakpoints.upXl}px`}) {
-        padding-left: 6.5vw;
-      }
-    } */
     }
     .estimate_detail-content-box {
         background-color: #ffffff;
@@ -3303,26 +3277,6 @@ export const OrderStepPayment = styled.div`
             }
         }
     }
-    /* .paypal_button {
-        height: ${convertPxToVw('52')}vw;
-        background: red;
-        > div {
-            height: 100% !important;
-            > iframe {
-                > html {
-                    > body {
-                        .buttons-container {
-                            .paypal-button-containe {
-                                .paypal-button-row {
-                                    height: 100% !important;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    } */
     .payment_buttons {
         .paypal_button {
             height: 42px;

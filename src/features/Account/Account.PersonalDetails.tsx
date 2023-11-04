@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { ShippingAddressCmp } from './Account.component';
 import { getMyOrderAction, selectedUserData, updateUserAction } from './Account.slice';
 import PhoneNumber from '../../components/PhoneNumber';
-import { TabActiveKey } from './Accout.constants';
+import { TabActiveKey } from './Account.constants';
 import GoogleAutocomplete from '../../components/GoogleAutocomplete/GoogleAutocomplete';
 
 const PersonalDetails = ({ handleChangeKey, status }: { handleChangeKey: (key: TabActiveKey) => void; status: boolean }) => {

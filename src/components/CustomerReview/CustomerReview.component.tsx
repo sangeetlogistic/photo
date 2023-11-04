@@ -1,5 +1,6 @@
 import { Card } from 'antd';
 import styled from 'styled-components';
+
 import { Colors, Fonts, MediaBreakpoints } from '../../theme';
 import { convertPxToVw } from '../../utils/func';
 
@@ -25,7 +26,6 @@ export const CustomerReviewCardCmp = styled(Card)`
         @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
             border: 0.078vw solid #d9e0f2;
             justify-content: space-between;
-            /* min-height: 15vw; */
             flex-direction: column;
             padding: ${convertPxToVw('16')}vw ${convertPxToVw('30')}vw !important;
             border-radius: 1.042vw !important;
@@ -39,6 +39,8 @@ export const CustomerReviewCardCmp = styled(Card)`
         .single-reviwe-title {
             font-size: 18px;
             display: none;
+            font-weight: 700;
+            color: ${Colors.gray110};
             @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
                 display: block;
                 font-family: ${Fonts.titleFont};

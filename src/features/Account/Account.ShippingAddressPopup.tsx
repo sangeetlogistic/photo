@@ -11,11 +11,20 @@ import FilledButton from '../../components/FilledButton';
 import { ShippingAddressPopupCmp, ShippingAddressCmp } from './Account.component';
 import ShippingAddressDetails from './Account.ShippingDetails';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { getMyOrderAction, remainingPaymentCardAction, saveAddressAction, selectedUserData } from './Account.slice';
+import {
+    getMyOrderAction,
+    remainingPaymentCardAction,
+    saveAddressAction,
+    selectedShippingData,
+    selectedShowAddressError,
+    selectedUserData,
+    setSelectShippingData,
+    setShowAddressError,
+} from './Account.slice';
 import GoogleAutocomplete from '../../components/GoogleAutocomplete/GoogleAutocomplete';
-import { useDeviceDetect } from '../../hooks';
+import { useDeviceDetect, useLocalStorage } from '../../hooks';
 import { dateSeparation } from '../../utils/func';
-import { estimatedAccountDeliveryDays, estimatedAccountExpressDeliveryDays } from './Accout.constants';
+import { estimatedAccountDeliveryDays, estimatedAccountExpressDeliveryDays } from './Account.constants';
 import { monthDayFormat } from '../../constants/general';
 import Toast from '../../components/Toast';
 import { LocalStorageKeys } from '../../constants/keys';
@@ -23,22 +32,21 @@ import { LocalStorageKeys } from '../../constants/keys';
 const ShippingAddressPopup = ({ setPaymentPopup, paymentPopup, setThankyouPopup, status }: any) => {
     const [form] = Form.useForm();
     const dispatch = useAppDispatch();
+    const localStorage = useLocalStorage();
 
     const userData = useAppSelector(selectedUserData);
+    const selectShippingData = useAppSelector(selectedShippingData);
+    const showAddressError = useAppSelector(selectedShowAddressError);
+
     const { isMobile } = useDeviceDetect();
 
     const [shippingAddressDetail, setShippingAddressDetail] = useState(false);
     const [country, setCountry] = useState('US');
-    const [selectShippingData, setSelectShippingData] = useState<any>({
-        address: null,
-        validate: false,
-    });
     const [isDefaultAddress, setIsDefaultAddress] = useState<string | null>(null);
     const [shippingValue, setShippingValue] = useState(0);
     const [activeButton, setActiveButton] = useState<null | number>(0);
     const [amountToShow, setAmountToShow] = useState<number | string | null>(null);
     const [initialValues, setInitialValues] = useState({});
-    const [showError, setShowError] = useState(false);
     const [estimatedDeliveryDays, setEstimatedDeliveryDays] = useState<{ formattedFutureDate: string; formattedFuture4Date: string }>({
         formattedFutureDate: '',
         formattedFuture4Date: '',
@@ -67,12 +75,12 @@ const ShippingAddressPopup = ({ setPaymentPopup, paymentPopup, setThankyouPopup,
 
     useEffect(() => {
         const payload = { activeButton, shippingValue, estimatedDeliveryDays, adressId: userData?.adress?.id };
-        localStorage.setItem(LocalStorageKeys.remainingOrderDetail, JSON.stringify(payload));
+        localStorage?.setItem(LocalStorageKeys.remainingOrderDetail, JSON.stringify(payload));
     }, [activeButton, shippingValue, estimatedDeliveryDays, userData?.adress?.id]);
 
     useEffect(() => {
-        const data: any = localStorage.getItem(LocalStorageKeys.remainingOrderDetail)
-            ? JSON.parse(localStorage.getItem(LocalStorageKeys.remainingOrderDetail) || '')
+        const data: any = localStorage?.getItem(LocalStorageKeys.remainingOrderDetail)
+            ? JSON.parse(localStorage?.getItem(LocalStorageKeys.remainingOrderDetail) || '')
             : '';
         if (data) {
             setShippingValue(data?.shippingValue);
@@ -87,10 +95,7 @@ const ShippingAddressPopup = ({ setPaymentPopup, paymentPopup, setThankyouPopup,
         }
 
         if (userData?.adress?.address) {
-            setSelectShippingData((prevState: any) => ({
-                ...prevState,
-                validate: true,
-            }));
+            dispatch(setSelectShippingData({ ...selectShippingData, validate: true }));
         }
     }, [userData]);
 
@@ -141,8 +146,6 @@ const ShippingAddressPopup = ({ setPaymentPopup, paymentPopup, setThankyouPopup,
                 dispatch(getMyOrderAction());
                 setThankyouPopup(true);
             }
-        } else {
-            setShowError(true);
         }
     };
 
@@ -164,7 +167,7 @@ const ShippingAddressPopup = ({ setPaymentPopup, paymentPopup, setThankyouPopup,
             zipCode: values.zipCode,
         };
 
-        setSelectShippingData({ address: payload, validate: true });
+        dispatch(setSelectShippingData({ address: payload, validate: true }));
         setIsDefaultAddress(data);
 
         await dispatch(saveAddressAction(payload));
@@ -173,10 +176,7 @@ const ShippingAddressPopup = ({ setPaymentPopup, paymentPopup, setThankyouPopup,
         setShippingAddressDetail(false);
     };
     const onFinishFailed = (values: any) => {
-        setSelectShippingData((prevState: any) => ({
-            ...prevState,
-            validate: false,
-        }));
+        dispatch(setSelectShippingData({ ...selectShippingData, validate: false }));
     };
     const handleSetAddress = (data: any) => {
         // Extracting country, state, and city from the placed object
@@ -351,7 +351,9 @@ const ShippingAddressPopup = ({ setPaymentPopup, paymentPopup, setThankyouPopup,
 
     return (
         <>
-            {showError && <Toast show={showError} setShow={setShowError} message="Select Shipping Address" type="error" showIcon />}
+            {showAddressError && (
+                <Toast show={showAddressError} setShow={setShowAddressError} message="Select Shipping Address" type="error" showIcon reduxStyle />
+            )}
             <ShippingAddressPopupCmp
                 onCancel={() => {
                     if (shippingAddressDetail) {

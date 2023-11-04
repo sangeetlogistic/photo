@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button, Checkbox, Col, Row } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
+
 import BannerVideo from '../../components/BannerVideo';
 import { paintingProcess } from '../../constants/general';
 import { Images } from '../../theme';
@@ -56,7 +57,7 @@ const MobileStep4 = ({
                     </Row>
                     <Row gutter={{ md: 24 }}>
                         <Col className="gutter-row" span={24}>
-                            <img src={Images.SelectAttributesImg} alt="" width="444" height="182" className="attr-img" />
+                            <img src={Images.SelectAttributesImg?.src} alt="" width="444" height="182" className="attr-img" />
                         </Col>
                         <Col className="gutter-row" span={24}>
                             <div className="select-attrs--info">
@@ -71,7 +72,7 @@ const MobileStep4 = ({
                 <div onClick={() => setViewOrderSummary(true)} tabIndex={0} role="button" className="orderSummary_button">
                     <button type="button" className="summary_button">
                         VIEW ORDER SUMMARY
-                        <img src={Images.BoxIcon} alt="boxicon" className="mx-3" />
+                        <img src={Images.BoxIcon?.src} alt="boxicon" className="mx-3" />
                     </button>
                 </div>
             </Col>

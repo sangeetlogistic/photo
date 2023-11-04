@@ -1,5 +1,6 @@
 import { Col, Row } from 'antd';
 import React from 'react';
+
 import { Images } from '../../theme';
 import FilledButton from '../FilledButton';
 import { FeatureInfoBlockCmp } from './FetureInfo.component';
@@ -15,7 +16,7 @@ const FetureInfo = () => (
             <Col className="gutter-row" xs={12} md={4}>
                 <div className="feature-inner-block">
                     <figure className="">
-                        <img src={Images.HandPainted?.src} alt="" />
+                        <img src={Images.HandPainted?.src} alt="hand-painted" />
                     </figure>
                     <span>100% Hand-Painted by Experienced Artists</span>
                 </div>
@@ -23,7 +24,7 @@ const FetureInfo = () => (
             <Col className="gutter-row" xs={12} md={4}>
                 <div className="feature-inner-block">
                     <figure className="">
-                        <img src={Images.OnlineProofing?.src} alt="" />
+                        <img src={Images.OnlineProofing?.src} alt="online-proofing" />
                     </figure>
                     <span>FREE Online Proofing</span>
                 </div>
@@ -31,7 +32,7 @@ const FetureInfo = () => (
             <Col className="gutter-row" xs={12} md={4}>
                 <div className="feature-inner-block">
                     <figure className="">
-                        <img src={Images.RatedIcon?.src} alt="" />
+                        <img src={Images.RatedIcon?.src} alt="rated-icon" />
                     </figure>
                     <span>Rated 5/5 on TrustPilot.com</span>
                 </div>
@@ -39,7 +40,7 @@ const FetureInfo = () => (
             <Col className="gutter-row" xs={12} md={4}>
                 <div className="feature-inner-block">
                     <figure className="">
-                        <img src={Images.Time?.src} alt="" />
+                        <img src={Images.Time?.src} alt="time-icon" />
                     </figure>
                     <span>Satisfaction Guaranteed or Your Money Back</span>
                 </div>
@@ -47,7 +48,7 @@ const FetureInfo = () => (
             <Col className="gutter-row" xs={12} md={4}>
                 <div className="feature-inner-block">
                     <figure className="">
-                        <img src={Images.Shipping?.src} alt="" />
+                        <img src={Images.Shipping?.src} alt="shipping-icon" />
                     </figure>
                     <span>FREE Shipping</span>
                 </div>
@@ -55,7 +56,7 @@ const FetureInfo = () => (
             <Col className="gutter-row" xs={12} md={4}>
                 <div className="feature-inner-block">
                     <figure className="">
-                        <img src={Images.HappyFace?.src} alt="" />
+                        <img src={Images.HappyFace?.src} alt="happy-face" />
                     </figure>
                     <span>Excellent Customer Service Experience</span>
                 </div>

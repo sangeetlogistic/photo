@@ -64,6 +64,11 @@ export const paintingSlice = createSlice({
             state.mediumDetail = undefined;
             state.error = null;
         },
+        setMediumDetail: (state, action) => {
+            state.mediumDetail = action.payload?.detail.Medium;
+            state.recentBlog = action.payload?.detail.recentBlog;
+            state.error = action.payload?.error;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -88,7 +93,7 @@ export const paintingSlice = createSlice({
     },
 });
 
-export const { clearMediumDetail } = paintingSlice.actions;
+export const { clearMediumDetail, setMediumDetail } = paintingSlice.actions;
 
 export const selectLoading = (state: RootState) => state.paintings.loading;
 export const selectError = (state: RootState) => state.paintings.error;

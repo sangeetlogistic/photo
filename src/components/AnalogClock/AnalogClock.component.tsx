@@ -1,5 +1,6 @@
 import { rgba } from 'polished';
 import styled from 'styled-components';
+
 import { Colors, MediaBreakpoints } from '../../theme';
 
 export const AnalogClockBlock = styled.div`

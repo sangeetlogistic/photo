@@ -7,6 +7,13 @@ import AccountServices from '../../services/API/Account/Account.services';
 
 export interface ErrorType {
     message: any;
+    code: string | number;
+}
+
+interface IUpdateStatus {
+    orderId: number;
+    orderstatus: number;
+    customerNote: string;
 }
 
 export const getMyOrderAction = createAsyncThunk('account/getMyOrderAction', async (payload, { rejectWithValue }) => {
@@ -30,7 +37,8 @@ export const getMyOrderAction = createAsyncThunk('account/getMyOrderAction', asy
         } as ErrorType);
     }
 });
-export const updateStatusAction = createAsyncThunk('account/updateStatusAction', async (payload: any, { rejectWithValue }) => {
+
+export const updateStatusAction = createAsyncThunk('account/updateStatusAction', async (payload: IUpdateStatus, { rejectWithValue }) => {
     try {
         const response: any = await AccountServices.updateStatus(payload);
 
@@ -165,6 +173,8 @@ export interface AccountState {
     myOrderData: any;
     cardListData: any;
     remainingPaymentError: any;
+    selectShippingData: { address: null | string; validate: boolean };
+    showAddressError: boolean;
 }
 
 const initialState: AccountState = {
@@ -175,6 +185,8 @@ const initialState: AccountState = {
     myOrderData: null,
     cardListData: null,
     remainingPaymentError: null,
+    selectShippingData: { address: null, validate: false },
+    showAddressError: false,
 };
 
 export const accountSlice = createSlice({
@@ -192,21 +204,24 @@ export const accountSlice = createSlice({
             state.myOrderData = null;
             state.cardListData = null;
         },
+        setSelectShippingData: (state, action) => {
+            state.selectShippingData = action.payload;
+        },
+        setShowAddressError: (state, action) => {
+            state.showAddressError = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder
             .addCase(getMyOrderAction.pending, (state) => {
-                state.loading = true;
                 state.error = null;
             })
             .addCase(getMyOrderAction.fulfilled, (state, action) => {
-                state.loading = false;
                 state.error = null;
                 state.myOrderData = action.payload.artRecord;
                 state.userData = action.payload.user;
             })
             .addCase(getMyOrderAction.rejected, (state, action: any) => {
-                state.loading = false;
                 if (action.payload) {
                     state.error = action.payload;
                 } else {
@@ -230,16 +245,13 @@ export const accountSlice = createSlice({
                 }
             })
             .addCase(getAllCardAction.pending, (state) => {
-                state.loading = true;
                 state.error = null;
             })
             .addCase(getAllCardAction.fulfilled, (state, action) => {
-                state.loading = false;
                 state.error = null;
                 state.cardListData = action.payload?.cardListData?.data;
             })
             .addCase(getAllCardAction.rejected, (state, action: any) => {
-                state.loading = false;
                 if (action.payload) {
                     state.error = action.payload;
                 } else {
@@ -305,7 +317,7 @@ export const accountSlice = createSlice({
     },
 });
 
-export const { storeWebToken, clearErrors, clearOrderDataCardListData } = accountSlice.actions;
+export const { storeWebToken, clearErrors, clearOrderDataCardListData, setSelectShippingData, setShowAddressError } = accountSlice.actions;
 
 export const selectedError = (state: RootState) => state.account.error;
 export const selectedLoading = (state: RootState) => state.account.loading;
@@ -314,5 +326,7 @@ export const selectedUserData = (state: RootState) => state.account.userData;
 export const selectedMyOrderData = (state: RootState) => state.account.myOrderData;
 export const selectedCardListData = (state: RootState) => state.account.cardListData;
 export const selectedRemainingPaymentError = (state: RootState) => state.account.remainingPaymentError;
+export const selectedShippingData = (state: RootState) => state.account.selectShippingData;
+export const selectedShowAddressError = (state: RootState) => state.account.showAddressError;
 
 export default accountSlice.reducer;

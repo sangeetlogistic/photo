@@ -1,20 +1,18 @@
 import React, { useRef, useState } from 'react';
 import { Col } from 'antd';
-import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import Image from 'next/image';
 
 import { PictureThemeSliderBlock, PictureThemeSliderRow } from './PicturesIntoPaintingsTheme.component';
-import FilledButton from '../FilledButton';
 import { Images } from '../../theme';
 import { NextBtn, PrevBtn } from '../PrevNextBtn';
 import SliderCarousel from '../SliderCarousel';
 import { Routes } from '../../navigation/Routes';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 
 const PicturesIntoPaintingsTheme = ({ detail }: any) => {
-    const pathname = usePathname();
     const sliderRef = useRef<any>(null);
-    const history = useRouter();
+    const route = useRouter();
     const [currentSlide, setCurrentSlide] = useState(0);
 
     const settings = {
@@ -66,53 +64,37 @@ const PicturesIntoPaintingsTheme = ({ detail }: any) => {
     return (
         <>
             <PictureThemeSliderRow>
-                <Col>
-                    <PrevBtn handlePrevious={handlePrevious} />
-                    <PictureThemeSliderBlock className="">
-                        {detail?.length > 0 && (
-                            <SliderCarousel settings={settings} ref={sliderRef}>
-                                {detail.map((obj: any, index: number) => (
-                                    <div key={index} onClick={() => handleSlideClick(index)} tabIndex={0} role="button">
-                                        <figure className="">
-                                            <span className="lazy-load-image-loaded ">
-                                                <Image
-                                                    src={obj.sliderImageUrl}
-                                                    alt=""
-                                                    //  width="100%"
-                                                    fill
-                                                    className=''
-                                                />
+                <PrevBtn handlePrevious={handlePrevious} />
+                <PictureThemeSliderBlock className="">
+                    {detail?.length > 0 && (
+                        <SliderCarousel settings={settings} ref={sliderRef}>
+                            {detail.map((obj: any, index: number) => (
+                                <div key={index} onClick={() => handleSlideClick(index)} tabIndex={0} role="button">
+                                    <figure className="">
+                                        <Image src={obj.sliderImageUrl} alt="" fill className="" loading="lazy" />
+                                    </figure>
+                                    <div className="slider-text-wrap">
+                                        <h3 className="title-font title-color">{obj.name}</h3>
+                                        <Link
+                                            className="link-btn-blue link-btn-height-auto link-btn-no-pdng link-btn-icon-append"
+                                            type="link"
+                                            href={Routes.galleryTheme
+                                                .replace(':themeId', obj?.slug || '')
+                                                .replace(':mediumId', route.asPath === Routes.home ? 'all' : route.asPath.split('/')[1])}
+                                            rel="canonical"
+                                        >
+                                            View Gallery
+                                            <span className="icon-append">
+                                                <Image src={Images.ViewGalleryArrow?.src} alt="" fill loading="lazy" />
                                             </span>
-                                        </figure>
-                                        <div className="slider-text-wrap">
-                                            <p className="title-font title-color">{obj.name}</p>
-                                            <FilledButton
-                                                className="link-btn-blue link-btn-height-auto link-btn-no-pdng link-btn-icon-append"
-                                                type="link"
-                                                size="small"
-                                                onClick={() =>
-                                                    history.push(
-                                                        Routes.galleryTheme
-                                                            .replace(':themeId', obj?.slug || '')
-                                                            .replace(':mediumId', pathname === Routes.home ? 'all' : pathname.split('/')[1]),
-                                                    )
-                                                }
-                                            >
-                                                View Gallery
-                                                <span className="icon-append">
-                                                    <span className="lazy-load-image-loaded">
-                                                        <img src={Images.ViewGalleryArrow?.src} alt="" width="" />
-                                                    </span>
-                                                </span>
-                                            </FilledButton>
-                                        </div>
+                                        </Link>
                                     </div>
-                                ))}
-                            </SliderCarousel>
-                        )}
-                    </PictureThemeSliderBlock>
-                    <NextBtn handleNext={handleNext} />
-                </Col>
+                                </div>
+                            ))}
+                        </SliderCarousel>
+                    )}
+                </PictureThemeSliderBlock>
+                <NextBtn handleNext={handleNext} />
             </PictureThemeSliderRow>
         </>
     );

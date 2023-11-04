@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import { Images, MediaBreakpoints } from '../../theme';
 
 const FramePreviewCmp = styled.div`
@@ -81,9 +82,14 @@ const classWithPaintingSize: { [x: string]: string } = {
 
 const FramePreview = ({ classNamePriview, obj }: any) => (
     <FramePreviewCmp className={`frame-select-preview ${classNamePriview}`}>
-        <img src={Images.OrderPaintingImgBg} alt="" className="f-s-bg" />
-        <img src={Images.OrderPaintingImgLight} alt="" className="f-s-light" />
-        <img key={obj.id} src={obj?.sizeImageUrl} alt="" className={`f-painting ${classWithPaintingSize[`${obj.height}x${obj.width}`]} active`} />
+        <img src={Images.OrderPaintingImgBg?.src} alt="order-painting-img" className="f-s-bg" />
+        <img src={Images.OrderPaintingImgLight?.src} alt="order-painting-img-light" className="f-s-light" />
+        <img
+            key={obj.id}
+            src={obj?.sizeImageUrl}
+            alt={obj?.sizeImageAlt || ''}
+            className={`f-painting ${classWithPaintingSize[`${obj.height}x${obj.width}`]} active`}
+        />
     </FramePreviewCmp>
 );
 

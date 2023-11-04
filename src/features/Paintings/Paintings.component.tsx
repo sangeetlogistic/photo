@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { PagePdngTopEqualHeaderHeight } from '../../constants/general';
 import { Colors, Fonts, MediaBreakpoints } from '../../theme';
 
@@ -45,7 +46,6 @@ export const PaintingsHeroSectionCmp = styled.div`
     @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
         height: 70vh;
         padding-top: 5.57vw;
-        /* height: 80vh; */
     }
     @media (min-width: ${`${MediaBreakpoints.upXxl}px`}) {
         padding-top: 0;
@@ -108,7 +108,6 @@ export const PaintingsHeroSectionCmp = styled.div`
 export const PageBackground = styled.div<{ backgroundRepeatImage: string }>`
     position: absolute;
     z-index: 0;
-    /* top: -1.875vw; */
     left: 0;
     width: 100%;
     height: 100%;
@@ -196,6 +195,7 @@ export const PaintingsFAQCmp = styled.section`
                 line-height: 2.4vw;
             }
         }
+
         h3 {
             font-family: ${Fonts.primaryFont};
             font-weight: 700;
@@ -231,6 +231,12 @@ export const PaintingsFAQCmp = styled.section`
                 &::marker {
                     font-weight: 700;
                 }
+                h3 {
+                    font-size: 18px;
+                    line-height: 32px;
+                    margin:0;
+                    display: inline;
+                }
             }
         }
         ul {
@@ -251,6 +257,12 @@ export const PaintingsFAQCmp = styled.section`
                     background-color: rgb(57, 57, 57);
                     border-radius: 50px;
                 }
+                h3 {
+                    font-size: 18px;
+                    line-height: 32px;
+                    margin:0;
+                    display: inline;
+                }
             }
         }
         .portraits-faq-block {
@@ -258,30 +270,32 @@ export const PaintingsFAQCmp = styled.section`
         }
         .portraits-accordian {
             font-size: 16px;
-            /* background: ${Colors.white}; */
             border: 0;
             .ant-collapse-item {
                 margin-top: 20px;
                 border-color: #44596b;
                 .ant-collapse-header {
-                    font-size: 21px;
-                    font-weight: 700;
                     padding: 20px 30px 20px 0;
-                    color: ${Colors.gray120};
-                    letter-spacing: -0.04em;
-                    &::before,
-                    &::after {
-                        content: '';
-                        height: 2px;
-                        position: absolute;
-                        right: 0;
-                        top: 50%;
-                        transition: all 0.2s ease-in-out;
-                        width: 14px;
-                        background-color: #44596b;
-                    }
-                    &::before {
-                        transform: rotate(90deg);
+                    .ant-collapse-header-text {
+                        font-size: 21px;
+                        font-weight: 700;
+                        color: ${Colors.gray120};
+                        letter-spacing: -0.04em;
+                        margin: 0;
+                        &::before,
+                        &::after {
+                            content: '';
+                            height: 2px;
+                            position: absolute;
+                            right: 0;
+                            top: 50%;
+                            transition: all 0.2s ease-in-out;
+                            width: 14px;
+                            background-color: #44596b;
+                        }
+                        &::before {
+                            transform: rotate(90deg);
+                        }
                     }
                     .ant-collapse-expand-icon {
                         display: none;
@@ -305,13 +319,12 @@ export const PaintingsFAQCmp = styled.section`
                 }
                 &.ant-collapse-item-active {
                     .ant-collapse-header {
-                        &::before {
-                            transform: rotate(0deg);
+                        .ant-collapse-header-text {
+                            &::before {
+                                transform: rotate(0deg);
+                            }
                         }
                     }
-                }
-                ~ .ant-collapse-item {
-                    /* margin-top: 20px; */
                 }
             }
         }

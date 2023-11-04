@@ -170,6 +170,13 @@ export interface OrderStepState {
           }
         | undefined
         | null;
+    intentError:
+        | {
+              message: string;
+              code?: number;
+          }
+        | undefined
+        | null;
     saveOrderError:
         | {
               message: string;
@@ -223,6 +230,7 @@ const initialState: OrderStepState = {
     selectSize: { painting: true, frame: false },
     isValidCode: null,
     couponLoading: false,
+    intentError: null,
 };
 
 export const OrderStepSlice = createSlice({
@@ -272,6 +280,7 @@ export const OrderStepSlice = createSlice({
         },
         clearError: (state) => {
             state.error = null;
+            state.intentError = null;
         },
         clearStep3Detail: (state) => {
             state.step3Detail = undefined;
@@ -361,9 +370,9 @@ export const OrderStepSlice = createSlice({
             .addCase(googleApplePayAction.rejected, (state, action: any) => {
                 state.loading = false;
                 if (action.payload) {
-                    state.error = action.payload;
+                    state.intentError = action.payload;
                 } else {
-                    state.error = action.error as ErrorType;
+                    state.intentError = action.error as ErrorType;
                 }
             });
     },
@@ -401,5 +410,6 @@ export const selectedSize = (state: RootState) => state.orderStep.selectSize;
 export const selectedSaveOrderData = (state: RootState) => state.orderStep.saveOrderData;
 export const selectedIsValidCode = (state: RootState) => state.orderStep.isValidCode;
 export const selectedCouponLoading = (state: RootState) => state.orderStep.couponLoading;
+export const selectedIntentError = (state: RootState) => state.orderStep.intentError;
 
 export default OrderStepSlice.reducer;

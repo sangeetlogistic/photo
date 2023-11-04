@@ -1,11 +1,7 @@
 import React, { memo } from 'react';
-import { ContentWrapper } from './Layout.component';
-import AuthMiddleware from '../../navigation/Middleware/AuthMiddleware';
 
-const LayoutCmp = ({ children }: React.ReactPortal) => (
-    <AuthMiddleware>
-        <ContentWrapper className="page-content">{children}</ContentWrapper>
-    </AuthMiddleware>
-);
+import { ContentWrapper } from './Layout.component';
+
+const LayoutCmp = ({ children }: React.ReactPortal) => <ContentWrapper className="page-content">{children}</ContentWrapper>;
 
 export default memo(LayoutCmp);

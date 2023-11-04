@@ -1,4 +1,3 @@
-/** @type {import('next').NextConfig} */
 const withLess = require('next-with-less');
 
 const nextConfig = {
@@ -9,6 +8,9 @@ const nextConfig = {
         domains: ['media.image2painting.com', 'image2painting.com'],
     },
     lessLoaderOptions: {},
+    publicRuntimeConfig: {
+        DOMAIN: 'https://image2painting.com',
+    },
 };
 
 module.exports = withLess(nextConfig);

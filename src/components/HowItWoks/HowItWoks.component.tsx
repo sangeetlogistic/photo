@@ -1,9 +1,8 @@
 import styled from 'styled-components';
+
 import { Colors, Fonts, MediaBreakpoints } from '../../theme';
 
 export const HowItWorkBlockCmp = styled.div<any>`
-    /* margin: 0 calc((80px + 45px) * -1); */
-    /* margin: 0 calc((3.646vw + 2.344vw) * -1); */
     margin: 31px 0 0 0;
     padding: 66px 0 100px;
     border-radius: 12px;
@@ -31,13 +30,13 @@ export const HowItWorkBlockCmp = styled.div<any>`
         img {
             width: 100%;
             height: 100%;
+            position: relative !important;
         }
     }
     .text-light {
         color: ${Colors.gray10};
     }
     .section-title-block {
-        /* margin-bottom: 5.208vw; */
         text-align: left;
         padding: 0 30px;
         @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
@@ -70,7 +69,6 @@ export const HowItWorkBlockCmp = styled.div<any>`
             .slick-slide {
                 padding: 0;
                 > div {
-                    /* margin: 0 -1.301vw; */
                     @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
                         margin: 0 -1.301vw;
                     }
@@ -165,18 +163,6 @@ export const HowItWorkBlockCmp = styled.div<any>`
                     z-index: 2;
                     > div {
                         > .slide {
-                            &::after,
-                            &::before {
-                                /* visibility: hidden; */
-                                /* z-index: -1; */
-                            }
-                            .create-overlay {
-                                &::before,
-                                &::after {
-                                    /* visibility: hidden; */
-                                    /* z-index: -1; */
-                                }
-                            }
                             .how-it-work-video,
                             .video-react {
                                 transform: scale(1);
@@ -228,8 +214,6 @@ export const HowItWorkBlockCmp = styled.div<any>`
             }
             &.how-btn-prev,
             &.how-btn-next {
-                /* width: 2.083vw; */
-                /* width: 40px; */
                 width: 43px;
                 height: 43px;
                 background-color: ${Colors.gray100};
@@ -240,17 +224,23 @@ export const HowItWorkBlockCmp = styled.div<any>`
                     background-color: ${Colors.transparent};
                 }
                 .svg-inline--fa {
-                    display: block;
-                    @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-                        display: none;
-                    }
                 }
                 img {
-                    /* width: 100%; */
-                    width: 2.083vw;
-                    display: none;
-                    @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                    &.desktop-arrow-icon {
+                        width: 2.083vw !important;
+                        height: auto !important;
+                        position: relative !important;
+                        display: none;
+                        @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                            display: block;
+                        }
+                    }
+
+                    &.mob-arrow-icon {
                         display: block;
+                        @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                            display: none;
+                        }
                     }
                 }
             }

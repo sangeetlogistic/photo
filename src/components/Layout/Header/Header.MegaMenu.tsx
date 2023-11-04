@@ -1,4 +1,5 @@
 import React, { forwardRef, useMemo } from 'react';
+
 import { MenuType } from './Header.constants';
 import GalleryMenu from './Header.GalleryMenu';
 import { Images } from '../../../theme';
@@ -23,7 +24,7 @@ const MegaMenu = forwardRef((props: IMegaMenu, ref: any) => {
         if (openMenu.includes(MenuType.FAQ)) {
             return <FAQ />;
         }
-        return <GalleryMenu />;
+        return undefined;
     }, []);
 
     const closeMenu = () => {

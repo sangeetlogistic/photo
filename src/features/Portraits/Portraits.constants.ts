@@ -10,3 +10,5 @@ export const portraitsTitle = {
     [Routes.customPetPortraits]: 'Pet Portraits',
     [Routes.customLandscapePortraits]: 'Landscape Portraits',
 };
+
+

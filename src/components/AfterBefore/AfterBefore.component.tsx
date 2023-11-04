@@ -1,5 +1,6 @@
 import { rgba } from 'polished';
 import styled from 'styled-components';
+
 import { Colors, Fonts, Images, MediaBreakpoints } from '../../theme';
 
 export const AfterBeforeCmp = styled.section<any>`
@@ -93,14 +94,12 @@ export const AfterBeforeCmp = styled.section<any>`
                 border-radius: 22px;
                 overflow: hidden;
                 position: relative;
-                /* height: 92.8vw; */
                 @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
                     height: 26.042vw;
                     border-radius: 1.146vw;
                 }
 
                 > div:not(.swiper-text-block, .mobile-dobule-arrow-row) {
-                    /* height: 92.8vw !important; */
                     position: relative;
                     @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
                         height: 26.042vw !important;
@@ -206,6 +205,19 @@ export const AfterBeforeCmp = styled.section<any>`
                             justify-content: center;
                             margin: 0 1px;
                             animation: ArrowAnim 1s infinite alternate;
+                            &.icon-arrow-1,
+                            &.icon-arrow-4 {
+                                width: 6px;
+                                height: 12px;
+                            }
+                            &.icon-arrow-2,
+                            &.icon-arrow-3 {
+                                width: 7px;
+                                height: 13px;
+                            }
+                            img {
+                                position: static !important;
+                            }
                         }
                         @keyframes SwipeText {
                             0% {
@@ -219,11 +231,9 @@ export const AfterBeforeCmp = styled.section<any>`
                         }
                         @keyframes ArrowAnim {
                             0% {
-                                /* transform: scale(1); */
                                 margin: 0 0;
                             }
                             100% {
-                                /* transform: scale(1.1); */
                                 margin: 0 2px;
                             }
                         }

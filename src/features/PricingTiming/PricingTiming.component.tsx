@@ -1,5 +1,6 @@
 import { rgba } from 'polished';
 import styled from 'styled-components';
+
 import { PagePdngTopEqualHeaderHeight } from '../../constants/general';
 import { Colors, Fonts, Images, MediaBreakpoints } from '../../theme';
 import { convertPxToVw } from '../../utils/func';
@@ -295,7 +296,6 @@ export const PricingTimingWrapCmp = styled.section`
                             }
                             .star_icon {
                                 display: none;
-                                /* box-shadow: 0px 0px 12px rgba(0, 26, 255, 0.3); */
                                 @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                                     display: block;
                                     position: absolute;
@@ -1104,11 +1104,11 @@ export const PricingTimingWrapCmp = styled.section`
 export const GiftCardPopUpCmp = styled(Popup)`
     max-width: 100%;
     @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
-    height: 100%;
+        height: 100%;
     }
     .ant-modal-content {
         @media (max-width: ${`${MediaBreakpoints.downSm}px`}) {
-        min-height: 100%;
+            min-height: 100%;
         }
         .ant-modal-body {
             display: flex;
@@ -1130,7 +1130,7 @@ export const GiftCardPopUpCmp = styled(Popup)`
                     width: 100%;
                     background-size: 100%;
                     background-repeat: no-repeat;
-                    background-image: url(${Images.GiftCardImg});
+                    background-image: url(${Images.GiftCardImg?.src});
                     display: flex;
                     align-items: flex-end;
                     height: 270px;
@@ -1273,11 +1273,11 @@ export const GiftCardPopUpCmp = styled(Popup)`
                         }
                     }
                     .desc {
-                        color: color: ${Colors.gray80};
+                        color: ${Colors.gray80};
                         text-align: center;
                         font-family: ${Fonts.titleFont};
                         font-size: 16px;
-                        line-height: 23px; 
+                        line-height: 23px;
                         letter-spacing: 0.16px;
                         text-transform: capitalize;
                         margin-top: 40px;
@@ -1287,7 +1287,7 @@ export const GiftCardPopUpCmp = styled(Popup)`
                             margin-top: ${convertPxToVw('58')}vw;
                         }
                     }
-                    .btn-place-order{
+                    .btn-place-order {
                         margin-top: 30px;
                         margin-bottom: 30px;
                         @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
@@ -1310,7 +1310,7 @@ export const GiftCardPopUpCmp = styled(Popup)`
                         margin-top: ${convertPxToVw('24')}vw;
                         overflow-y: unset;
                     }
-                    span.ant-radio + *{
+                    span.ant-radio + * {
                         padding-right: 0;
                         line-height: normal;
                     }
@@ -1332,7 +1332,7 @@ export const GiftCardPopUpCmp = styled(Popup)`
                             font-size: ${convertPxToVw('20')}vw;
                             padding: ${convertPxToVw('20')}vw ${convertPxToVw('20')}vw;
                         }
-                        .ant-radio{
+                        .ant-radio {
                             top: 0;
                         }
                         .ant-radio-inner::after {

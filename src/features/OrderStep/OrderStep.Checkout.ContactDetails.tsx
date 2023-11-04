@@ -46,14 +46,14 @@ const ContactDetails = ({
     const localStorage = useLocalStorage();
     const { isMobile } = useDeviceDetect();
 
-    const data: any = localStorage.getItem(LocalStorageKeys.orderPageDetail)
-        ? JSON.parse(localStorage.getItem(LocalStorageKeys.orderPageDetail) || '')
+    const data: any = localStorage?.getItem(LocalStorageKeys.orderPageDetail)
+        ? JSON.parse(localStorage?.getItem(LocalStorageKeys.orderPageDetail) || '')
         : '';
-    const contectDetail: any = localStorage.getItem(LocalStorageKeys.contectDetail)
-        ? JSON.parse(localStorage.getItem(LocalStorageKeys.contectDetail) || '')
+    const contectDetail: any = localStorage?.getItem(LocalStorageKeys.contectDetail)
+        ? JSON.parse(localStorage?.getItem(LocalStorageKeys.contectDetail) || '')
         : '';
-    const savedCardDetail = localStorage.getItem(LocalStorageKeys.savedCardDetail)
-        ? JSON.parse(localStorage.getItem(LocalStorageKeys.savedCardDetail) || '')
+    const savedCardDetail = localStorage?.getItem(LocalStorageKeys.savedCardDetail)
+        ? JSON.parse(localStorage?.getItem(LocalStorageKeys.savedCardDetail) || '')
         : '';
 
     useEffect(() => {

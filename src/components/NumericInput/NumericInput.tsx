@@ -12,7 +12,6 @@ const NumericInput = forwardRef((props: any, ref: any) => {
         }
     };
 
-    // '.' at the end or only '-' in the input box.
     const handleBlur = () => {
         let valueTemp = value.toString();
 

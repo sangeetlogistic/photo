@@ -10,7 +10,6 @@ export const MainHeader = styled.header`
         width: 100%;
         top: 0;
         left: 0;
-        /* z-index: 3; */
         z-index: 1020;
         padding: 0 7px;
         @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
@@ -26,6 +25,8 @@ export const MainHeader = styled.header`
             border-radius: 0 0 14px 14px;
             position: relative;
             height: ${MobileHeaderHeight};
+            position: relative;
+            z-index: 2;
             @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
                 padding: 0 3.123vw;
                 height: ${PagePdngTopEqualHeaderHeight};
@@ -84,7 +85,9 @@ export const MainHeader = styled.header`
             .top-menu {
                 display: flex;
                 border-bottom: 0;
-                margin-left: auto;
+                list-style: none;
+                margin: 0;
+                padding: 0;
                 align-items: center;
                 height: 100%;
                 justify-content: flex-end;
@@ -92,76 +95,79 @@ export const MainHeader = styled.header`
                 &::before {
                     display: none;
                 }
-                > .ant-menu-item:not(:last-child),
-                .ant-menu-submenu:not(:last-child) {
+                .top-nav-item {
+                    &::marker {
+                        display: none;
+                    }
+                }
+                > .top-nav-item:not(:last-child) {
                     margin-right: 3vw;
                 }
-                > .ant-menu-item,
-                .ant-menu-submenu {
+                > .top-nav-item {
                     font-size: 0.85vw;
                     font-weight: 600;
-                    /* line-height: 1.042vw; */
                     line-height: 1.145vw;
                     padding: 0;
                     margin: 0;
                     top: unset;
                     bottom: unset;
+                    display: flex;
+                    align-items: center;
                     color: ${Colors.gray80};
                     border-left: 1px solid rgba(255, 255, 255, 0.1);
                     box-shadow: inset 1px 0 0 0 rgba(255, 255, 255, 0.1);
                     position: relative;
-                    > .ant-menu-title-content {
+
+                    > a {
                         font-size: 0.85vw;
                         line-height: 1.145vw;
-                    }
-                    &::after,
-                    &::before {
-                        content: '';
-                        position: absolute;
-                        border: 0;
-                        height: 0.052vw;
-                        border-radius: 50%;
-                        background-color: ${Colors.primary};
-                        bottom: -0.156vw;
-                        transition: all 0.3s ease-in;
-                        width: 0;
-                    }
-                    &::after {
-                        left: 0;
-                    }
-                    &::before {
-                        right: 0;
-                        transition-delay: 0.1s;
-                    }
-                    &.ant-menu-submenu-open,
-                    &.ant-menu-submenu-active,
-                    &.ant-menu-item-active,
-                    &.p2p-menu-item-selected {
-                        /* color: ${Colors.gray100}; */
                         color: ${Colors.gray80};
-                        .ant-menu-title-content {
-                            color: ${Colors.gray80} !important;
-                        }
-                        &::before {
-                            width: 2px;
-                        }
-                        &::after {
-                            width: calc(100% - 6px);
-                        }
-                        .ant-menu-title-content {
-                            color: ${Colors.gray100};
-                        }
-                    }
-                    &.user-icon {
-                        padding: 0;
-                        display: flex;
-                        align-items: center;
+                        position: relative;
                         &::after,
                         &::before {
-                            display: none;
+                            content: '';
+                            position: absolute;
+                            border: 0;
+                            height: 0.052vw;
+                            border-radius: 50%;
+                            background-color: ${Colors.primary};
+                            bottom: -0.156vw;
+                            transition: all 0.3s ease-in;
+                            width: 0;
                         }
-                        .ant-menu-title-content {
+                        &::after {
+                            left: 0;
+                        }
+                        &::before {
+                            right: 0;
+                            transition-delay: 0.1s;
+                        }
+                        &:hover,
+                        &:active,
+                        &.active {
+                            color: ${Colors.gray80};
+                            .ant-menu-title-content {
+                                color: ${Colors.gray80} !important;
+                            }
+                            &::before {
+                                width: 2px;
+                            }
+                            &::after {
+                                width: calc(100% - 6px);
+                            }
+                            .ant-menu-title-content {
+                                color: ${Colors.gray100};
+                            }
+                        }
+                        &.user-icon {
+                            padding: 0;
+                            &::after,
+                            &::before {
+                                display: none;
+                            }
                             .lazy-load-image-background {
+                                display: flex;
+                                align-items: center;
                                 width: 2.448vw;
                                 height: 2.5vw;
                                 display: flex !important;
@@ -177,6 +183,7 @@ export const MainHeader = styled.header`
                             }
                         }
                     }
+
                     &.get-started-btn-li {
                         display: flex;
                         align-items: center;

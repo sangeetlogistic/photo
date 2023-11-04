@@ -1,15 +1,35 @@
+import React, { useState } from 'react';
 import { Form, Input, Row, Col } from 'antd';
-import React from 'react';
+
 import { Images } from '../../../theme';
+import { useAppDispatch } from '../../../app/hooks';
+import { subscribeMemberAction } from '../../../services/API/GeneralSettings/GeneralSettings.slice';
+import Toast from '../../Toast';
 
 const Subscribe = () => {
-    const onFinish = (values: any) => {
-        // console.log('Success:', values);
+    const [show, setShow] = useState(false);
+    const [form] = Form.useForm();
+
+    const dispatch = useAppDispatch();
+    const onFinish = async (values: any) => {
+        const payload = {
+            name: values.username,
+            email: values.email,
+            tag: ['20% Footer'],
+        };
+        const result = await dispatch(subscribeMemberAction(payload));
+
+        if (result.type === subscribeMemberAction.fulfilled.toString()) {
+            setShow(true);
+            form.resetFields();
+        }
     };
     return (
         <div className="footer-subscribe">
-            <h2 className="title text-center">Subscribe &amp; get 20 % off</h2>
-            <Form className="subscription-form" onFinish={onFinish} autoComplete="off">
+            {show && <Toast show={show} setShow={setShow} message="User subscribe successfully" type="success" showIcon />}
+
+            <p className="title text-center">Subscribe &amp; get 20 % off</p>
+            <Form className="subscription-form" onFinish={onFinish} autoComplete="off" form={form}>
                 <Row gutter={24}>
                     <Col className="gutter-row" xs={24} md={12}>
                         <Form.Item

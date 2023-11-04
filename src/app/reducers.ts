@@ -1,5 +1,4 @@
 import { combineReducers } from '@reduxjs/toolkit';
-// import { connectRouter } from 'connected-react-router';
 import LayoutSlice from '../components/Layout/Layout.slice';
 import AccountSlice from '../features/Account/Account.slice';
 import HomeSlice from '../features/Home/Home.slice';
@@ -27,7 +26,6 @@ const createRootReducer = () =>
         pricingTiming: pricingTimingSlice,
         settings: settingSlice,
         faq: faqSlice,
-        // router: connectRouter(history),
     });
 
 export default createRootReducer;

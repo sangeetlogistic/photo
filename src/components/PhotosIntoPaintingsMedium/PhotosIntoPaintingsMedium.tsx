@@ -1,21 +1,19 @@
 import React, { useRef, useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import Image from 'next/image';
 
 import { NextBtn, PrevBtn } from '../PrevNextBtn';
 import { PhotosPaintingMediumSliderBlock } from './PhotosIntoPaintingsMedium.component';
-import FilledButton from '../FilledButton';
 import { Images } from '../../theme';
 import SliderCarousel from '../SliderCarousel';
 import { useDeviceDetect } from '../../hooks';
 import { Routes } from '../../navigation/Routes';
-import { useRouter } from 'next/router';
-import Image from 'next/image';
 
 const PhotosIntoPaintingsMedium = ({ detail }: any) => {
-    const pathname = usePathname();
     const sliderRef = useRef<any>(null);
     const { isMobile } = useDeviceDetect();
-    const history = useRouter();
+    const route = useRouter();
     const [currentSlide, setCurrentSlide] = useState(0);
 
     const settings = {
@@ -101,8 +99,9 @@ const PhotosIntoPaintingsMedium = ({ detail }: any) => {
                                             src={obj.sliderHoverImageUrl}
                                             alt=""
                                             // width="100%"
-                                            className="mediums-carousel-image-active "
                                             fill
+                                            className="mediums-carousel-image-active"
+                                            loading="lazy"
                                         />
                                     </span>
                                     <span className="lazy-load-image-loaded">
@@ -110,33 +109,31 @@ const PhotosIntoPaintingsMedium = ({ detail }: any) => {
                                             src={obj.sliderImageUrl}
                                             alt=""
                                             // width="100%"
-                                            className="mediums-carousel-image "
                                             fill
+                                            className="mediums-carousel-image"
+                                            loading="lazy"
                                         />
                                     </span>
                                 </figure>
                                 <div className="slider-text-wrap">
-                                    <p className="title-font title-color">{obj.name}</p>
+                                    <h3 className="title-font title-color">{obj.name}</h3>
 
-                                    <FilledButton
+                                    <Link
                                         className="link-btn-blue link-btn-height-auto link-btn-no-pdng link-btn-icon-append"
                                         type="link"
-                                        size="small"
-                                        onClick={() =>
-                                            history.push(
-                                                Routes.galleryMedium
-                                                    .replace(':mediumId', obj?.slug || '')
-                                                    .replace(':themeId', pathname === Routes.home ? 'all' : pathname.split('/')[1]),
-                                            )
-                                        }
+                                        href={Routes.galleryMedium
+                                            .replace(':mediumId', obj?.slug || '')
+                                            .replace(
+                                                ':themeId',
+                                                route.asPath === Routes.home || Routes.drawingPortrait ? 'all' : route.asPath.split('/')[1],
+                                            )}
+                                        rel="canonical"
                                     >
                                         View Gallery
                                         <span className="icon-append">
-                                            <span className="lazy-load-image-loaded">
-                                                <img src={Images.ViewGalleryArrow?.src} alt="" width="" />
-                                            </span>
+                                            <Image src={Images.ViewGalleryArrow?.src} alt="" fill loading="lazy" />
                                         </span>
-                                    </FilledButton>
+                                    </Link>
                                 </div>
                             </div>
                         ))}

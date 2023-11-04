@@ -1,4 +1,5 @@
 import React from 'react';
+
 import FilledButton from '../../components/FilledButton';
 import { HeroSection, PaintingsHeroSectionCmp } from './Paintings.component';
 

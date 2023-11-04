@@ -1,6 +1,8 @@
 import { rgba } from 'polished';
 import styled from 'styled-components';
+
 import { Colors, Fonts, MediaBreakpoints } from '../../theme';
+import { convertPxToVw } from '../../utils/func';
 
 export const PhotosPaintingMediumSliderBlock = styled.div`
     position: relative;
@@ -38,14 +40,12 @@ export const PhotosPaintingMediumSliderBlock = styled.div`
         align-items: flex-start;
         justify-content: space-between;
         padding: 0 0;
-        /* margin: 0 0.781vw; */
-        height: 210px;
+        height: auto;
         max-height: 53.33vw;
         margin-left: 31vw;
-        @media (min-width: ${`${MediaBreakpoints.upSm}px`}) {
-            height: 16vw;
-        }
+
         @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+            height: 16vw;
             margin: 0;
             padding: 1.9vw 0;
             margin-left: 0;
@@ -55,7 +55,6 @@ export const PhotosPaintingMediumSliderBlock = styled.div`
         cursor: pointer;
         transition: all 0.3s ease-in-out;
         transform-origin: center center;
-        /* transform: scale(1); */
         position: relative;
         z-index: 2;
         min-width: calc(40vw);
@@ -64,7 +63,6 @@ export const PhotosPaintingMediumSliderBlock = styled.div`
         height: unset;
         @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
             width: 7.808vw;
-            /* width: 11.563vw; */
             min-width: unset;
             margin: 0 0.521vw;
         }
@@ -142,26 +140,28 @@ export const PhotosPaintingMediumSliderBlock = styled.div`
                         white-space: nowrap;
                     }
                 }
-                .ant-btn-sm {
+                .link-btn-blue {
                     font-family: ${Fonts.titleFont};
                     font-weight: 700;
                     opacity: 0;
                     transition: all 0.5s ease-in;
                     display: inline-flex;
                     height: unset;
+                    color: ${Colors.secondary};
                     .icon-append {
-                        width: 20px;
+                        width: 25px;
+                        height: 22px;
+                        margin-left: 3px;
                         @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-                            width: 1.406vw;
-                            height: 1.145vw;
+                            width: ${convertPxToVw('30')}vw;
+                            height: ${convertPxToVw('28')}vw;
+                            margin-left: 0.521vw;
                         }
-                        .lazy-load-image-loaded {
-                            display: block !important;
-                            width: 100%;
-                            height: 100%;
-                        }
+
                         img {
                             width: 100%;
+                            height: 100%;
+                            position: static !important;
                         }
                     }
                 }
@@ -175,7 +175,7 @@ export const PhotosPaintingMediumSliderBlock = styled.div`
                     @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
                         transform: scale(1.15);
 
-                        .ant-btn-sm {
+                        .link-btn-blue {
                             transform: scale(0.75) translate3d(0, 0, 0);
                             font-size: 0.833vw;
                         }
@@ -191,14 +191,8 @@ export const PhotosPaintingMediumSliderBlock = styled.div`
                     }
                     .slider-text-wrap {
                         transform: scale(1.25);
-                        /* .title-font {
-              color: ${Colors.gray120};
-              @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-                font-size: 1.301vw;
-                line-height: 1.823vw;
-              }
-            } */
-                        .ant-btn-sm {
+
+                        .link-btn-blue {
                             opacity: 1;
                         }
                     }

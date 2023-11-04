@@ -1,5 +1,7 @@
 import styled from 'styled-components';
+
 import { Colors, Fonts, MediaBreakpoints } from '../../theme';
+import { convertPxToVw } from '../../utils/func';
 
 export const ProfessionalPaintersCmp = styled.div`
     position: 'relative';
@@ -32,11 +34,10 @@ export const ProfessionalPaintersCmp = styled.div`
         @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
             margin-bottom: 0.781vw;
         }
-        .info-painters-title {
+        .info-painters-title-block {
             display: flex;
             align-items: center;
             margin-bottom: 15px;
-            font-size: 24px;
             margin-left: -7px;
             margin-right: -7px;
             font-family: ${Fonts.primaryFont};
@@ -44,22 +45,30 @@ export const ProfessionalPaintersCmp = styled.div`
                 margin-left: 0;
                 margin-right: 0;
                 margin-bottom: 1.406vw;
-                font-size: 2.5vw;
             }
             .info-paing-number {
                 font-size: 68px;
                 line-height: 35px;
                 margin-left: -7px;
+                color: ${Colors.gray110};
+                font-weight: 700;
                 @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
                     font-size: 5.62vw;
                     line-height: 3.9vw;
                     margin-left: 0;
                 }
             }
-            .info-paint-title-text {
+            h2.info-paint-title-text {
+                font-size: 24px;
                 line-height: 22px;
                 font-weight: 700;
+                font-family: ${Fonts.titleFont};
+                margin-bottom: 0;
+                font-size: 26px;
+                line-height: 28px;
+                margin-left: 8px;
                 @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                    font-size: 2.5vw;
                     line-height: 1.823vw;
                     margin-left: 16px;
                 }
@@ -191,16 +200,12 @@ export const ProfessionalPaintersCmp = styled.div`
                                 cursor: pointer;
                                 transition: height 0.5s ease;
                                 @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-                                    height: 100%;
+                                    width: ${convertPxToVw('200')}vw;
+                                    height: ${convertPxToVw('300')}vw;
                                     margin: 0;
                                     transform: scale(1);
                                 }
-                                .lazy-load-image-loaded {
-                                    display: block !important;
-                                    width: 100% !important;
-                                    height: 100% !important;
-                                    transition: height 0.5s ease;
-                                }
+
                                 img {
                                     width: 100%;
                                     height: 100%;
@@ -208,6 +213,7 @@ export const ProfessionalPaintersCmp = styled.div`
                                     object-position: center center;
                                     border-radius: 15px;
                                     transition: height 0.5s ease;
+                                    position: relative !important;
                                     @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
                                         border-radius: 0.625vw;
                                     }
@@ -229,14 +235,15 @@ export const ProfessionalPaintersCmp = styled.div`
                                     line-height: 1.823vw;
                                     font-family: ${Fonts.primaryFont};
                                     margin: 0;
+                                    &.painter-name {
+                                        font-size: 0.833vw;
+                                        font-weight: 700;
+                                        line-height: 1.146vw;
+                                        font-family: ${Fonts.primaryFont};
+                                        margin-bottom: 0.625vw;
+                                    }
                                 }
-                                h4 {
-                                    font-size: 0.833vw;
-                                    font-weight: 700;
-                                    line-height: 1.146vw;
-                                    font-family: ${Fonts.primaryFont};
-                                    margin-bottom: 0.625vw;
-                                }
+
                                 p {
                                     font-size: 0.625vw;
                                     line-height: 0.833vw;
@@ -306,7 +313,6 @@ export const ProfessionalPaintersCmp = styled.div`
                                     display: flex;
                                     align-items: flex-start;
                                     width: var(--ProfPainterSlidActiveWidth) !important;
-                                    /* height: 100%; */
                                     position: absolute;
                                     left: 0;
                                     bottom: 0;
@@ -321,8 +327,9 @@ export const ProfessionalPaintersCmp = styled.div`
                                     margin: 0;
                                     @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
                                         margin-right: 2.083vw;
-                                        flex: 0 0 18.75vw;
-                                        width: 18.75vw;
+                                        flex: 0 0 ${convertPxToVw('360')}vw;
+                                        width: ${convertPxToVw('360')}vw;
+                                        height: ${convertPxToVw('532')}vw;
                                     }
                                 }
                                 .professional-painter-slide-data {
@@ -336,13 +343,6 @@ export const ProfessionalPaintersCmp = styled.div`
                                 }
                             }
                         }
-                        /* &.slick-active:not(.slick-current) {
-              ~ .slick-slide {
-                @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-                  transform: translateX(20.042vw);
-                }
-              }
-            } */
                         &.slick-active {
                             ~ .slick-slide {
                                 @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {

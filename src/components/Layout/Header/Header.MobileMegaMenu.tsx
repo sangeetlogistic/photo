@@ -1,9 +1,7 @@
 import React from 'react';
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import GalleryMenu from './Header.GalleryMenu';
-import PriceAndTimingMenu from './Header.PriceAndTimingMenu';
+import GalleryMenu from './Header.MobileGalleryMenu';
+import PriceAndTimingMenu from './Header.MobilePriceAndTimingMenu';
 import { MenuType } from './Header.constants';
 import BannerVideo from '../../BannerVideo';
 import { paintingProcess } from '../../../constants/general';
@@ -30,15 +28,21 @@ const MobileMegaMenu = ({
             <div className="mobile-menu-list">
                 <div className="mobile-menu-link" onClick={() => setShowGallery(true)} tabIndex={0} role="button">
                     {MenuType.Gallery.toUpperCase()}
-                    <FontAwesomeIcon className="icon-next" icon={faChevronRight} />
+                    <i className="icon-next">
+                        <img src={Images.IconChevronRightBlack.src} alt="" className="" />
+                    </i>
                 </div>
                 <div className="mobile-menu-link" onClick={() => setShowPricing(true)} tabIndex={0} role="button">
                     {MenuType.PricingAndTiming.toUpperCase()}
-                    <FontAwesomeIcon className="icon-next" icon={faChevronRight} />
+                    <i className="icon-next">
+                        <img src={Images.IconChevronRightBlack.src} alt="" className="" />
+                    </i>
                 </div>
                 <div className="mobile-menu-link" onClick={() => setShowHowItWorks(true)} tabIndex={0} role="button">
                     {MenuType.HOWITWORKS.toUpperCase()}
-                    <FontAwesomeIcon className="icon-next" icon={faChevronRight} />
+                    <i className="icon-next">
+                        <img src={Images.IconChevronRightBlack.src} alt="" className="" />
+                    </i>
                 </div>
                 <div className="mega-menu-video">
                     {paintingProcess && <BannerVideo bannerVideo={paintingProcess} poster={Images.TourPaintingVideoThumb?.src} />}

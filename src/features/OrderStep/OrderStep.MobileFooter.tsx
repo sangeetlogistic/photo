@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import FilledButton from '../../components/FilledButton';
 import { Routes } from '../../navigation/Routes';
@@ -7,7 +8,7 @@ import { OrderSteps } from './OrderStep.constants';
 import { selectedSize, selectMediumItems, selectOrderStep, selectThemesItems, setSelectSize } from './OrderStep.slice';
 import { useLocalStorage } from '../../hooks';
 import { LocalStorageKeys } from '../../constants/keys';
-import { usePathname } from 'next/navigation';
+
 import { useRouter } from 'next/router';
 
 export interface IMobileFooter {
@@ -41,21 +42,21 @@ const MobileFooter = ({
     setViewOrderSummary,
 }: IMobileFooter) => {
     const dispatch = useAppDispatch();
-    const history = useRouter();
-    const pathname = usePathname();
+    const route = useRouter();
+
     const step = useAppSelector(selectOrderStep);
     const themesItems = useAppSelector(selectThemesItems);
     const mediumItems = useAppSelector(selectMediumItems);
     const selectSize = useAppSelector(selectedSize);
     const localStorage = useLocalStorage();
-    const authUser = localStorage.getItem(LocalStorageKeys.authUser);
+    const authUser = localStorage?.getItem(LocalStorageKeys.authUser);
 
     const handleBack = () => {
         if (step === OrderSteps.step4) {
             if (viewOrderSummary) {
                 setViewOrderSummary?.(false);
             } else {
-                history.push(Routes.orderStep.replace(':id', '3'));
+                route.push(Routes.orderStep.replace(':id', '3'));
             }
         } else if (step === OrderSteps.step3) {
             if (viewOrderSummary) {
@@ -67,19 +68,19 @@ const MobileFooter = ({
                 setSelectSizeSlider?.(null);
                 setSelectPaintingSize?.(false);
             } else {
-                history.push(Routes.orderStep.replace(':id', '2'));
+                route.push(Routes.orderStep.replace(':id', '2'));
             }
         } else if (step === OrderSteps.step2) {
-            history.push(Routes.orderStep.replace(':id', '1'));
+            route.push(Routes.orderStep.replace(':id', '1'));
         }
     };
 
     const handleForword = async () => {
         if (step === OrderSteps.step1) {
-            history.push(Routes.orderStep.replace(':id', '2'));
+            route.push(Routes.orderStep.replace(':id', '2'));
         } else if (step === OrderSteps.step2) {
             if (savedCardProccessComplete || authUser) {
-                history.push(Routes.orderStep.replace(':id', '3'));
+                route.push(Routes.orderStep.replace(':id', '3'));
             } else {
                 await setSavedCardPopup?.(true);
             }
@@ -94,13 +95,13 @@ const MobileFooter = ({
                     dispatch(setSelectSize({ painting: false, frame: true }));
                 }
             } else {
-                history.push(Routes.orderStep.replace(':id', '4'));
+                route.push(Routes.orderStep.replace(':id', '4'));
             }
         } else if (step === OrderSteps.step4) {
             if (viewOrderSummary) {
                 setViewOrderSummary?.(false);
             }
-            history.push(Routes.orderStep.replace(':id', 'checkout'));
+            route.push(Routes.orderStep.replace(':id', 'checkout'));
         }
     };
 
@@ -130,7 +131,7 @@ const MobileFooter = ({
 
     return (
         <>
-            {pathname !== Routes.orderStep.replace(':id', 'checkout') && (
+            {route.asPath !== Routes.orderStep.replace(':id', 'checkout') && (
                 <MobileOrderFooterCmp step1={step === OrderSteps.step1}>
                     <div className="btn-row">
                         {step !== OrderSteps.step1 && (

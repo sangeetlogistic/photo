@@ -78,6 +78,16 @@ export const blogSlice = createSlice({
         clearBlogList: (state) => {
             state.blogList = null;
         },
+        setBlogDetail: (state, action) => {
+            state.blogList = action.payload.detail.data;
+            state.error = action.payload.error;
+            state.filteredBlogTag = action.payload.detail.filteredBlogTag;
+            state.totalRecord = action.payload.detail.totalRecord;
+        },
+        setBlogContent: (state, action) => {
+            state.blogList = action.payload.detail;
+            state.error = action.payload.error;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -120,7 +130,7 @@ export const blogSlice = createSlice({
     },
 });
 
-export const { clearBlogList } = blogSlice.actions;
+export const { clearBlogList, setBlogDetail, setBlogContent } = blogSlice.actions;
 
 export const selectedLoading = (state: RootState) => state.blog.loading;
 export const selectedError = (state: RootState) => state.blog.error;

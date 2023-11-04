@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Alert } from 'antd';
+
 import { convertPxToVw } from '../../utils/func';
+import { useAppDispatch } from '../../app/hooks';
 
 const ToastCmp = styled(Alert)`
     padding: 8.5px 16px !important;
@@ -48,9 +50,14 @@ const ToastCmp = styled(Alert)`
 const Toast = (props: any) => {
     const autoDisappearIn = 5000;
     let timeId: any;
+    const dispatch = useAppDispatch();
     useEffect(() => {
         timeId = setTimeout(() => {
-            props.setShow(false);
+            if (props?.reduxStyle) {
+                dispatch(props.setShow(false));
+            } else {
+                props.setShow(false);
+            }
         }, autoDisappearIn);
         return () => {
             clearTimeout(timeId);

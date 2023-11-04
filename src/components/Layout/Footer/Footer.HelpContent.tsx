@@ -1,6 +1,7 @@
 import React from 'react';
-import { Routes } from '../../../navigation/Routes';
 import Link from 'next/link';
+
+import { Routes } from '../../../navigation/Routes';
 
 const helpContent = [
     { id: 1, path: Routes.aboutUs, name: 'About Us' },
@@ -8,7 +9,7 @@ const helpContent = [
     { id: 3, path: Routes.drawingPortrait, name: 'Drawings of Pictures' },
     { id: 4, path: Routes.ccpa, name: 'CCPA Privacy Notice' },
     { id: 5, path: Routes.cookiePolicy, name: 'Cookies Policy' },
-    { id: 6, path: Routes.blog.replace(':id', ''), name: 'Blog' },
+    { id: 6, path: Routes.blog.replace(':slug', ''), name: 'Blog' },
     { id: 7, path: Routes.termsCondition, name: 'Terms & Conditions' },
 ];
 
@@ -19,7 +20,7 @@ const HelpContent = () => (
             <ul className="footer-link-list">
                 {helpContent.map((obj) => (
                     <li key={obj.id}>
-                        <Link className="footer-link" href={obj.path}>
+                        <Link className="footer-link" href={obj.path} rel="canonical">
                             {obj.name}
                         </Link>
                     </li>

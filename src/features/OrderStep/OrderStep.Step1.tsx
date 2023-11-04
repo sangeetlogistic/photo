@@ -360,7 +360,7 @@ const Step1 = ({
                                     <h4 className="card-title">
                                         Select Themes
                                         <span className="icon" onClick={() => setSelectThemesAns(true)} tabIndex={0} role="button">
-                                            <img src={Images.QuestionIcon} alt="" width="23" height="23" />
+                                            <img src={Images.QuestionIcon?.src} alt="" width="23" height="23" />
                                         </span>
                                     </h4>
                                     {selectThemesAns && (
@@ -433,14 +433,14 @@ const Step1 = ({
                                                         />
                                                         <figure className="step-img-block">
                                                             <img
-                                                                src={Images.OrderIconCustom}
+                                                                src={Images.OrderIconCustom?.src}
                                                                 alt=""
                                                                 className="img-view custom_padding"
                                                                 width="60"
                                                                 height="60"
                                                             />
                                                             <img
-                                                                src={Images.OrderIconCustomActive}
+                                                                src={Images.OrderIconCustomActive?.src}
                                                                 alt=""
                                                                 className="img-view-active custom_padding"
                                                                 width="60"
@@ -488,7 +488,7 @@ const Step1 = ({
                                                                                 tabIndex={0}
                                                                             >
                                                                                 <img
-                                                                                    src={Images.BtnMinusIcon}
+                                                                                    src={Images.BtnMinusIcon?.src}
                                                                                     alt=""
                                                                                     width="25"
                                                                                     height="25"
@@ -502,7 +502,7 @@ const Step1 = ({
                                                                                 tabIndex={0}
                                                                             >
                                                                                 <img
-                                                                                    src={Images.BtnPlusIcon}
+                                                                                    src={Images.BtnPlusIcon?.src}
                                                                                     alt=""
                                                                                     width="25"
                                                                                     height="25"
@@ -537,7 +537,7 @@ const Step1 = ({
                                                                                 tabIndex={0}
                                                                             >
                                                                                 <img
-                                                                                    src={Images.BtnMinusIcon}
+                                                                                    src={Images.BtnMinusIcon?.src}
                                                                                     alt=""
                                                                                     width="25"
                                                                                     height="25"
@@ -551,7 +551,7 @@ const Step1 = ({
                                                                                 tabIndex={0}
                                                                             >
                                                                                 <img
-                                                                                    src={Images.BtnPlusIcon}
+                                                                                    src={Images.BtnPlusIcon?.src}
                                                                                     alt=""
                                                                                     width="25"
                                                                                     height="25"
@@ -578,8 +578,8 @@ const Step1 = ({
                                     <span className="edit">Edit Selection</span>
 
                                     <i className="icon ">
-                                        <img src={Images.OrderIconstepSelected} alt="" height="25" width="25" className="icon-selected" />
-                                        <img src={Images.OrderIconstepEdit} alt="" height="25" width="25" className="icon-edit" />
+                                        <img src={Images.OrderIconstepSelected?.src} alt="" height="25" width="25" className="icon-selected" />
+                                        <img src={Images.OrderIconstepEdit?.src} alt="" height="25" width="25" className="icon-edit" />
                                     </i>
                                 </FilledButton>
                             </Col>
@@ -592,7 +592,7 @@ const Step1 = ({
                                     <h4 className="card-title">
                                         Select Medium
                                         <span className="icon" onClick={() => setSelectMediumAns(true)} tabIndex={0} role="button">
-                                            <img src={Images.QuestionIcon} alt="" width="23" height="23" />
+                                            <img src={Images.QuestionIcon?.src} alt="" width="23" height="23" />
                                         </span>
                                     </h4>
                                     {selectMediumAns && (
@@ -618,7 +618,7 @@ const Step1 = ({
                                                             >
                                                                 <Col className="gutter-row" md={8} xl={10}>
                                                                     <figure className="img-responsive">
-                                                                        <img src={Images.StepMediumImg} alt="" className="" />
+                                                                        <img src={Images.StepMediumImg?.src} alt="" className="" />
                                                                     </figure>
                                                                 </Col>
                                                                 <Col className="gutter-row" md={16} xl={14}>
@@ -666,7 +666,7 @@ const Step1 = ({
                                                             >
                                                                 <Col className="gutter-row" md={8} xl={10}>
                                                                     <figure className="img-responsive">
-                                                                        <img src={Images.acrylicMedium} alt="" className="" />
+                                                                        <img src={Images.acrylicMedium?.src} alt="" className="" />
                                                                     </figure>
                                                                 </Col>
                                                                 <Col className="gutter-row" md={16} xl={14}>
@@ -711,7 +711,7 @@ const Step1 = ({
                                                             >
                                                                 <Col className="gutter-row" md={8} xl={10}>
                                                                     <figure className="img-responsive">
-                                                                        <img src={Images.watercolorMedium} alt="" className="" />
+                                                                        <img src={Images.watercolorMedium?.src} alt="" className="" />
                                                                     </figure>
                                                                 </Col>
                                                                 <Col className="gutter-row" md={16} xl={14}>
@@ -744,7 +744,7 @@ const Step1 = ({
                                                             >
                                                                 <Col className="gutter-row" md={8} xl={10}>
                                                                     <figure className="img-responsive">
-                                                                        <img src={Images.charcoalMedium} alt="" className="" />
+                                                                        <img src={Images.charcoalMedium?.src} alt="" className="" />
                                                                     </figure>
                                                                 </Col>
                                                                 <Col className="gutter-row" md={16} xl={14}>
@@ -790,7 +790,7 @@ const Step1 = ({
                                                             >
                                                                 <Col className="gutter-row" md={8} xl={10}>
                                                                     <figure className="img-responsive">
-                                                                        <img src={Images.blackPencilMedium} alt="" className="" />
+                                                                        <img src={Images.blackPencilMedium?.src} alt="" className="" />
                                                                     </figure>
                                                                 </Col>
                                                                 <Col className="gutter-row" md={16} xl={14}>
@@ -838,7 +838,7 @@ const Step1 = ({
                                                             >
                                                                 <Col className="gutter-row" md={8} xl={10}>
                                                                     <figure className="img-responsive">
-                                                                        <img src={Images.colorPencilMedium} alt="" className="" />
+                                                                        <img src={Images.colorPencilMedium?.src} alt="" className="" />
                                                                     </figure>
                                                                 </Col>
                                                                 <Col className="gutter-row" md={16} xl={14}>
@@ -916,8 +916,8 @@ const Step1 = ({
                                     <span className="edit">Edit Selection</span>
 
                                     <i className="icon ">
-                                        <img src={Images.OrderIconstepSelected} alt="" height="25" width="25" className="icon-selected" />
-                                        <img src={Images.OrderIconstepEdit} alt="" height="25" width="25" className="icon-edit" />
+                                        <img src={Images.OrderIconstepSelected?.src} alt="" height="25" width="25" className="icon-selected" />
+                                        <img src={Images.OrderIconstepEdit?.src} alt="" height="25" width="25" className="icon-edit" />
                                     </i>
                                 </FilledButton>
                             </Col>

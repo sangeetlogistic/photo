@@ -1,12 +1,8 @@
 {
     "name": "p2p",
     "version": "1.1.0",
-    "private": true, 
-    "engines": {
-        "node": "18.17.1"
-    },
+    "private": true,
     "dependencies": {
-        "@craco/craco": "^6.1.2",
         "@fortawesome/fontawesome-svg-core": "^6.4.0",
         "@fortawesome/free-brands-svg-icons": "^6.4.0",
         "@fortawesome/free-solid-svg-icons": "^6.4.0",
@@ -25,7 +21,6 @@
         "@types/react": "^18.2.28",
         "@types/react-dom": "^18.2.13",
         "@types/react-gtm-module": "^2.0.1",
-        "@types/react-helmet": "^6.1.2",
         "@types/react-lazy-load-image-component": "^1.5.3",
         "@types/react-redux": "^7.1.7",
         "@types/react-responsive-masonry": "^2.1.0",
@@ -35,10 +30,6 @@
         "antd": "^4.16.0",
         "aws-sdk": "^2.1401.0",
         "axios": "^0.21.1",
-        "connected-react-router": "^6.9.1",
-        "craco-antd": "^1.19.0",
-        "cross-env": "^7.0.3",
-        "dotenv": "^10.0.0",
         "express": "^4.18.2",
         "history": "4.10.1",
         "html-react-parser": "^4.0.0",
@@ -51,6 +42,7 @@
         "luxon": "^3.3.0",
         "moment": "^2.29.4",
         "next": "^13.5.4",
+        "next-sitemap": "^4.2.3",
         "next-with-less": "^3.0.1",
         "node-sass": "^8.0.0",
         "polished": "^4.2.2",
@@ -60,7 +52,6 @@
         "react-dom": "^18",
         "react-dropzone": "^14.2.3",
         "react-gtm-module": "^2.0.11",
-        "react-helmet": "^6.1.0",
         "react-i18next": "^11.11.4",
         "react-lazy-load-image-component": "^1.5.6",
         "react-magnifier": "^3.0.4",
@@ -79,16 +70,11 @@
         "video-react": "^0.16.0"
     },
     "scripts": {
-        "start": "nodemon -w ./src/style/AntDesign/customTheme.less ./src/style/*.scss --exec \"craco start\"",
-        "server": "node server.js",
-        "build": "craco --max_old_space_size=4096 build",
-        "prod": "serve -s build",
-        "test": "craco test --watchAll=false",
-        "eject": "craco eject",
         "dev": "next dev",
-        "next:build": "next build",
-        "next:start": "next start",
-        "lint": "next lint"
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint",
+        "postbuild": "next-sitemap"
     },
     "browserslist": {
         "production": [
@@ -104,17 +90,8 @@
     },
     "devDependencies": {
         "@types/lodash": "^4.14.172",
-        "@typescript-eslint/eslint-plugin": "^4.4.1",
-        "craco-sass-resources-loader": "^1.1.0",
+        "@typescript-eslint/eslint-plugin": "^6.7.5",
         "eslint": "^8.51.0",
-        "eslint-config-airbnb-typescript": "^12.3.1",
-        "eslint-config-prettier": "^8.3.0",
-        "eslint-plugin-import": "^2.22.0",
-        "eslint-plugin-jsx-a11y": "^6.4.1",
-        "eslint-plugin-prettier": "^3.4.0",
-        "eslint-plugin-react": "^7.20.3",
-        "eslint-plugin-react-hooks": "^4.0.8",
-        "eslint-plugin-redux-saga": "^1.2.1",
         "nodemon": "^2.0.7",
         "prettier": "^2.3.0"
     },

@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { memo, useState } from 'react';
 import { Col, Row } from 'antd';
+import Image from 'next/image';
 
 import AnalogClock from '../AnalogClock';
 import { timezone } from './ProfessionalPainters.data';
@@ -9,7 +10,6 @@ import { NextBtn, PrevBtn } from '../PrevNextBtn';
 import SliderCarousel from '../SliderCarousel';
 import { Images } from '../../theme';
 import { useDeviceDetect } from '../../hooks';
-import Image from 'next/image';
 
 const ProfessionalPainters = ({ detail }: any) => {
     const { isMobile } = useDeviceDetect();
@@ -74,16 +74,16 @@ const ProfessionalPainters = ({ detail }: any) => {
             <Row gutter={{ xs: 0, lg: 16 }}>
                 <Col className="gutter-row p2p-paint-col" xs={24} md={14}>
                     <div className="pro-paint-data-block">
-                        <h3 className="info-painters-title">
+                        <div className="info-painters-title-block">
                             <span className="info-paing-number">124</span>
-                            <div className="info-paint-title-text">
+                            <h2 className="info-paint-title-text">
                                 <div className="">PROFESSIONAL</div>
                                 <div className="">
                                     PAINTERS
                                     <span>worldwide are ready to paint your photo</span>
                                 </div>
-                            </div>
-                        </h3>
+                            </h2>
+                        </div>
                         {!isMobile && (
                             <>
                                 <p className="">
@@ -115,19 +115,11 @@ const ProfessionalPainters = ({ detail }: any) => {
                                     {detail?.map((obj: any, index: number) => (
                                         <React.Fragment key={index}>
                                             <figure className="professional-painter-slider-img-block" onClick={() => handleSlideClick(index)}>
-                                                <span className="lazy-load-image-loaded ">
-                                                    <Image
-                                                        src={obj.profilePicUrl}
-                                                        alt=""
-                                                        //  width="100%"
-                                                        fill
-                                                        className=''
-                                                    />
-                                                </span>
+                                                <Image src={obj.profilePicUrl} alt={obj?.profileImageAlt || ''} fill className="" loading="lazy" />
                                             </figure>
                                             <div className="professional-painter-slide-data">
                                                 <h3>Meet</h3>
-                                                <h4>{`${obj.firstName || ''} ${obj.lastName || ''}`}</h4>
+                                                <h3 className="painter-name">{`${obj.firstName || ''} ${obj.lastName || ''}`}</h3>
                                                 <p>{obj.painterIntro}</p>
                                                 <p className="author-originate">originated from {obj.originatedFrom}</p>
                                                 <div className="hand-box-wrap">
@@ -160,7 +152,7 @@ const ProfessionalPainters = ({ detail }: any) => {
                                 <React.Fragment key={index}>
                                     <div className="professional-painter-slide-data">
                                         <h3>Meet</h3>
-                                        <h4>{`${obj.firstName || ''} ${obj.lastName || ''}`}</h4>
+                                        <h3 className="painter-name">{`${obj.firstName || ''} ${obj.lastName || ''}`}</h3>
                                         <p>{obj.painterIntro}</p>
                                         <p className="author-originate"> originated from {obj.originatedFrom}</p>
                                         <div className="hand-box-wrap">

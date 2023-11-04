@@ -1,6 +1,8 @@
 /* eslint-disable max-lines-per-function */
 /* eslint-disable complexity */
 import React from 'react';
+import { useRouter } from 'next/router';
+
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import FilledButton from '../../components/FilledButton';
 import { Routes } from '../../navigation/Routes';
@@ -11,7 +13,6 @@ import { selectedSize, selectMediumItems, selectOrderStep, selectThemesItems, se
 import { IOrderStepFooter } from './OrderStep.types';
 import { LocalStorageKeys } from '../../constants/keys';
 import { useLocalStorage } from '../../hooks';
-import { useRouter } from 'next/router';
 
 const OrderStepFooter = ({
     complateStep2,
@@ -29,10 +30,10 @@ const OrderStepFooter = ({
     setSavedCardPopup,
     savedCardProccessComplete,
 }: IOrderStepFooter) => {
-    const history = useRouter();
+    const route = useRouter();
     const dispatch = useAppDispatch();
     const localStorage = useLocalStorage();
-    const authUser = localStorage.getItem(LocalStorageKeys.authUser);
+    const authUser = localStorage?.getItem(LocalStorageKeys.authUser);
 
     const step = useAppSelector(selectOrderStep);
     const themesItems = useAppSelector(selectThemesItems);
@@ -41,10 +42,10 @@ const OrderStepFooter = ({
 
     const handleForword = async () => {
         if (step === OrderSteps.step1) {
-            history.push(Routes.orderStep.replace(':id', '2'));
+            route.push(Routes.orderStep.replace(':id', '2'));
         } else if (step === OrderSteps.step2) {
             if (savedCardProccessComplete || authUser) {
-                history.push(Routes.orderStep.replace(':id', '3'));
+                route.push(Routes.orderStep.replace(':id', '3'));
             } else {
                 await setSavedCardPopup?.(true);
             }
@@ -52,10 +53,10 @@ const OrderStepFooter = ({
             if (selectSize.painting) {
                 dispatch(setSelectSize({ painting: false, frame: true }));
             } else {
-                history.push(Routes.orderStep.replace(':id', '4'));
+                route.push(Routes.orderStep.replace(':id', '4'));
             }
         } else if (step === OrderSteps.step4) {
-            history.push(Routes.orderStep.replace(':id', 'checkout'));
+            route.push(Routes.orderStep.replace(':id', 'checkout'));
         }
     };
 
@@ -63,23 +64,23 @@ const OrderStepFooter = ({
         if (step === OrderSteps.step3 && selectSize.frame) {
             dispatch(setSelectSize({ painting: true, frame: false }));
         } else if (step === OrderSteps.step4) {
-            history.push(Routes.orderStep.replace(':id', '3'));
+            route.push(Routes.orderStep.replace(':id', '3'));
         } else if (step === OrderSteps.step3) {
-            history.push(Routes.orderStep.replace(':id', '2'));
+            route.push(Routes.orderStep.replace(':id', '2'));
         } else if (step === OrderSteps.step2) {
-            history.push(Routes.orderStep.replace(':id', '1'));
+            route.push(Routes.orderStep.replace(':id', '1'));
         }
     };
 
     const handleOrderFooter = (item: OrderSteps) => {
         if (item === OrderSteps.step1) {
-            history.push(Routes.orderStep.replace(':id', '1'));
+            route.push(Routes.orderStep.replace(':id', '1'));
         } else if (item === OrderSteps.step2) {
-            history.push(Routes.orderStep.replace(':id', '2'));
+            route.push(Routes.orderStep.replace(':id', '2'));
         } else if (item === OrderSteps.step3) {
-            history.push(Routes.orderStep.replace(':id', '3'));
+            route.push(Routes.orderStep.replace(':id', '3'));
         } else if (item === OrderSteps.step4) {
-            history.push(Routes.orderStep.replace(':id', '4'));
+            route.push(Routes.orderStep.replace(':id', '4'));
         }
     };
 
@@ -119,8 +120,8 @@ const OrderStepFooter = ({
                             </div>
                             <span className="nav-action-link">
                                 <i className="icon ">
-                                    <img src={Images.OrderIconstepSelected} alt="" height="25" width="25" className="icon-selected" />
-                                    <img src={Images.OrderIconstepEdit} alt="" height="25" width="25" className="icon-edit" />
+                                    <img src={Images.OrderIconstepSelected?.src} alt="" height="25" width="25" className="icon-selected" />
+                                    <img src={Images.OrderIconstepEdit?.src} alt="" height="25" width="25" className="icon-edit" />
                                 </i>
                             </span>
                         </>
@@ -143,14 +144,14 @@ const OrderStepFooter = ({
                         <>
                             <div className="navigation-selections">
                                 <span className="navigation-selection images">
-                                    <img src={Images.OrderNavStep2Img} alt="" className="" />
+                                    <img src={Images.OrderNavStep2Img?.src} alt="" className="" />
                                     <p className="medium-title">{`X${preview.length || 0}`}</p>
                                 </span>
                             </div>
                             <span className="nav-action-link">
                                 <i className="icon ">
-                                    <img src={Images.OrderIconstepSelected} alt="" height="25" width="25" className="icon-selected" />
-                                    <img src={Images.OrderIconstepEdit} alt="" height="25" width="25" className="icon-edit" />
+                                    <img src={Images.OrderIconstepSelected?.src} alt="" height="25" width="25" className="icon-selected" />
+                                    <img src={Images.OrderIconstepEdit?.src} alt="" height="25" width="25" className="icon-edit" />
                                 </i>
                             </span>
                         </>
@@ -180,8 +181,8 @@ const OrderStepFooter = ({
                             </div>
                             <span className="nav-action-link">
                                 <i className="icon ">
-                                    <img src={Images.OrderIconstepSelected} alt="" height="25" width="25" className="icon-selected" />
-                                    <img src={Images.OrderIconstepEdit} alt="" height="25" width="25" className="icon-edit" />
+                                    <img src={Images.OrderIconstepSelected?.src} alt="" height="25" width="25" className="icon-selected" />
+                                    <img src={Images.OrderIconstepEdit?.src} alt="" height="25" width="25" className="icon-edit" />
                                 </i>
                             </span>
                         </>
@@ -204,14 +205,14 @@ const OrderStepFooter = ({
                         <>
                             <div className="navigation-selections">
                                 <span className="navigation-selection size-frame">
-                                    <img src={Images.Attachment} alt="attachment-icon" className="attachment" />
+                                    <img src={Images.Attachment?.src} alt="attachment-icon" className="attachment" />
                                     <p className="medium-title medium-title-dark">Additional Attributes</p>
                                 </span>
                             </div>
                             <span className="nav-action-link">
                                 <i className="icon ">
-                                    <img src={Images.OrderIconstepSelected} alt="" height="25" width="25" className="icon-selected" />
-                                    <img src={Images.OrderIconstepEdit} alt="" height="25" width="25" className="icon-edit" />
+                                    <img src={Images.OrderIconstepSelected?.src} alt="" height="25" width="25" className="icon-selected" />
+                                    <img src={Images.OrderIconstepEdit?.src} alt="" height="25" width="25" className="icon-edit" />
                                 </i>
                             </span>
                         </>

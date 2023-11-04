@@ -133,7 +133,7 @@ const Step3 = ({
                                         <span className="">{selectSize.painting ? 'Select Painting Size' : 'Size Selected'}</span>
                                         <i className="icon">
                                             <IconSelectFrameSize />
-                                            <img src={Images.OrderIconstepEdit} alt="" height="25" width="25" className="icon-edit" />
+                                            <img src={Images.OrderIconstepEdit?.src} alt="" height="25" width="25" className="icon-edit" />
                                         </i>
                                     </div>
                                     <div
@@ -146,7 +146,13 @@ const Step3 = ({
                                             {!complateStep3 ? (
                                                 <IconFrameLock />
                                             ) : (
-                                                <img src={Images.OrderIconstepSelected} alt="" height="25" width="25" className="icon-selected" />
+                                                <img
+                                                    src={Images.OrderIconstepSelected?.src}
+                                                    alt=""
+                                                    height="25"
+                                                    width="25"
+                                                    className="icon-selected"
+                                                />
                                             )}
                                         </i>
                                     </div>
@@ -260,14 +266,14 @@ const Step3 = ({
                         <Col md={8} xl={6}>
                             {selectSize.painting && (
                                 <div className="frame-select-preview">
-                                    <img src={Images.OrderPaintingImgBg} alt="" className="f-s-bg" />
+                                    <img src={Images.OrderPaintingImgBg?.src} alt="" className="f-s-bg" />
 
-                                    <img src={Images.OrderPaintingImgLight} alt="" className="f-s-light" />
+                                    <img src={Images.OrderPaintingImgLight?.src} alt="" className="f-s-light" />
                                     {step3Detail?.size?.map((preview: any, index: number) => (
                                         <img
                                             key={index}
                                             src={preview?.size_id?.sizeImageUrl}
-                                            alt=""
+                                            alt={preview?.size_id?.sizeImageAlt || ''}
                                             className={`f-painting ${classWithPaintingSize[`${preview.size_id.height}x${preview.size_id.width}`]} ${
                                                 preview?.id === selectPaintingSizeAndPrice?.id ? 'active' : ''
                                             }`}

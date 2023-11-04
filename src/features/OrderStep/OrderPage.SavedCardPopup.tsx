@@ -16,7 +16,7 @@ import { useRouter } from 'next/router';
 const SavedCardPopup = ({ savedCardPopup, setSavedCardPopup, setSavedCardProccessComplete }: any) => {
     const localStorage = useLocalStorage();
     const dispatch = useAppDispatch();
-    const history = useRouter();
+    const route = useRouter();
 
     const [isAgreeInformation, setIsAgreeInformation] = useState(true);
     const [country, setCountry] = useState('US');
@@ -29,7 +29,7 @@ const SavedCardPopup = ({ savedCardPopup, setSavedCardPopup, setSavedCardProcces
             phoneNumber: values.phoneNumber,
         };
 
-        localStorage.setItem(
+        localStorage?.setItem(
             LocalStorageKeys.savedCardDetail,
             JSON.stringify({
                 email: values.email,
@@ -44,7 +44,7 @@ const SavedCardPopup = ({ savedCardPopup, setSavedCardPopup, setSavedCardProcces
             setTimeout(() => {
                 setSavedCardPopup?.(false);
                 setSavedCardProccessComplete?.(true);
-                history.push(Routes.orderStep.replace(':id', '3'));
+                route.push(Routes.orderStep.replace(':id', '3'));
             }, addMemberDebounce);
         }
     };
@@ -121,7 +121,7 @@ const SavedCardPopup = ({ savedCardPopup, setSavedCardPopup, setSavedCardProcces
                 className="link_skip"
                 onClick={async () => {
                     await setSavedCardPopup(false);
-                    history.push(Routes.orderStep.replace(':id', '3'));
+                    route.push(Routes.orderStep.replace(':id', '3'));
                 }}
                 role="button"
                 tabIndex={0}

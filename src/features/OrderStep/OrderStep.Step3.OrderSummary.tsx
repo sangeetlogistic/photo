@@ -14,7 +14,6 @@ const OrderSummary = ({
     combinePhotoPrice,
     videoCreated,
     expressService,
-    successCouponCode,
     depositSection,
     successCouponId,
     personsCount,
@@ -95,7 +94,6 @@ const OrderSummary = ({
                     </p>
                 </div>
             </div>
-            {/* {depositSection ? ( */}
             <div className="select-offer-pricing">
                 <div className="select-offer-pricing--today">
                     <p className="text-data">20% deposit due today &nbsp;</p>{' '}
@@ -103,35 +101,6 @@ const OrderSummary = ({
                 </div>
                 <p className="note">✹ Remaining balance to be paid after painting approval</p>
             </div>
-            {/* ) : ( */}
-            {/* <div className="size-info-outer">
-          <div className="size-info-left">
-            <div className="sub-total-price-block ">
-              <div className="sub-total-label">SUB TOTAL PRICE:</div>
-              <span className="sub-total-price">{`$${calculateFun(
-                selectPaintingSizeAndPrice?.price,
-                selectedFrame?.price,
-                combinePhotoPrice,
-                videoCreated,
-                expressService,
-                false,
-                successCouponCode,
-              )}`}</span>
-            </div>
-            <div className="sub-info-block-inner">
-              <h4 className="title">
-                <span className="">20% DEPOSIT DUE TODAY &nbsp;</span>
-                <span className="text-primary depositdue-number">
-                  {`$${calculateTotal(successCouponCode)}`}
-                </span>
-              </h4>
-              <p className="note">
-                ✹ Remaining balance to be paid after painting approval
-              </p>
-            </div>
-          </div>
-        </div> */}
-            {/* )} */}
         </OrderSummaryBlockCmp>
     );
 };

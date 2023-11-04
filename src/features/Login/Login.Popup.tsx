@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, Form, Input } from 'antd';
+
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import FilledButton from '../../components/FilledButton';
 import { Images } from '../../theme';
@@ -9,11 +10,9 @@ import {
     selectedLoginPopup,
     selectedSuccessEmailSend,
     setLoginPopup,
-    selectedLoading,
     selectedError,
     clearError,
 } from './Login.slice';
-import LoadingCover from '../../components/LoadingCover';
 import Toast from '../../components/Toast';
 
 const LoginPopup = () => {
@@ -23,7 +22,6 @@ const LoginPopup = () => {
 
     const loginPopup = useAppSelector(selectedLoginPopup);
     const successEmailSend = useAppSelector(selectedSuccessEmailSend);
-    const loading = useAppSelector(selectedLoading);
     const error = useAppSelector(selectedError);
 
     useEffect(() => {
@@ -88,7 +86,6 @@ const LoginPopup = () => {
                 content={loginPopupContent}
                 className="p2p-login-popup"
             />
-            <LoadingCover show={loading} />
         </>
     );
 };

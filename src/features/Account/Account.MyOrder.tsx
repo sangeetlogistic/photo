@@ -5,7 +5,7 @@ import moment from 'moment';
 import { Alert, Button, Popover, Progress } from 'antd';
 import _ from 'lodash';
 import { useDropzone } from 'react-dropzone';
-import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import FilledButton from '../../components/FilledButton';
@@ -16,7 +16,7 @@ import { awsImagePath, awsVideoPath, dateFormat } from '../../constants/general'
 import { PUBLIC_URL } from '../../constants/predicates';
 import AccoutReviewModal from './Account.Modal';
 import ViewOrderDetailPopup from './Account.ViewOrderDetailPopup';
-import { getStatusValue, socialBtnArray } from './Accout.constants';
+import { getStatusValue, socialBtnArray } from './Account.constants';
 import ShippingAddressPopup from './Account.ShippingAddressPopup';
 import ThankyouPopup from './Account.ThankyouPopup';
 import { allowedFileExtensionsForVideoSystemExtensions, validTypeVideo } from '../../constants/fileTypeValidation';
@@ -24,8 +24,6 @@ import { s3ImageUpload } from '../../utils/s3Operations';
 import Toast from '../../components/Toast';
 import { Routes } from '../../navigation/Routes';
 import { useDeviceDetect } from '../../hooks';
-import { useRouter } from 'next/router';
-import Image from 'next/image';
 
 interface IFilesArray {
     isValid: boolean;
@@ -41,10 +39,7 @@ const videoContent = (
 
 const MyOrder = ({ progress, setProgress, status: googleAutoCompleteStatus }: any) => {
     const dispatch = useAppDispatch();
-    // const { state }: any = useLocation();
-    const state: any = {};
-    const pathname: any = usePathname();
-    const history: any = useRouter();
+    const route: any = useRouter();
     const { isMobile } = useDeviceDetect();
 
     const myOrderData = useAppSelector(selectedMyOrderData);
@@ -299,7 +294,7 @@ const MyOrder = ({ progress, setProgress, status: googleAutoCompleteStatus }: an
                 }
             }
         }
-    }, [pathname, updatedOrderDataWithImage]);
+    }, [route.asPath, updatedOrderDataWithImage]);
 
     useEffect(
         () => () => {
@@ -310,12 +305,12 @@ const MyOrder = ({ progress, setProgress, status: googleAutoCompleteStatus }: an
 
     useEffect(() => {
         (async () => {
-            if (state?.remainingPaymentDone) {
+            if (route?.query?.remainingPaymentDone) {
                 await setThankyouPopup(true);
-                history.push({ pathname: Routes.account, state: null });
+                route.push({ pathname: Routes.account, state: null });
             }
         })();
-    }, [state?.remainingPaymentDone]);
+    }, [route?.query?.remainingPaymentDone]);
 
     const modificationBtnAction = async () => {
         let payload;
@@ -459,9 +454,7 @@ const MyOrder = ({ progress, setProgress, status: googleAutoCompleteStatus }: an
                                       >
                                           {orderData?.ImageURL?.length > 1 && <span className="prod-number">+{orderData?.ImageURL?.length}</span>}
                                           {orderData?.ImageURL?.length > 0 ? (
-                                              orderData?.ImageURL?.map((img: any, index: number) => (
-                                                  <Image fill src={img} alt="" key={index} className="" />
-                                              ))
+                                              orderData?.ImageURL?.map((img: any, index: number) => <img src={img} alt="" key={index} className="" />)
                                           ) : (
                                               <img src={Images.DefaultProductImg?.src} alt="" className="" />
                                           )}
@@ -632,7 +625,7 @@ const MyOrder = ({ progress, setProgress, status: googleAutoCompleteStatus }: an
             <PostUnBoxingVideoBlock>
                 <div className="unboxing-row">
                     <div className="video-block unboxing-col">
-                        <img src={Images.AccountVideoImg} alt="" className="" />
+                        <img src={Images.AccountVideoImg?.src} alt="" className="" />
                     </div>
                     <div className="unboxing-video-data unboxing-col">
                         <h3 className="text-uppercase">
@@ -646,7 +639,7 @@ const MyOrder = ({ progress, setProgress, status: googleAutoCompleteStatus }: an
                                     overlayClassName="order-step-tooltip"
                                     showArrow={false}
                                 >
-                                    <img src={Images.HelpIcon} alt="" className="" />
+                                    <img src={Images.HelpIcon?.src} alt="" className="" />
                                 </Popover>
                             </HelpIcon>
                         </h3>
@@ -663,7 +656,7 @@ const MyOrder = ({ progress, setProgress, status: googleAutoCompleteStatus }: an
                                 {socialBtnArray.map((btn, index: number) => (
                                     <div className="ub-social-icon-block" key={index}>
                                         <Button type="link" className="social-icon-link" onClick={() => window.open(btn.link, '_blank')}>
-                                            <img src={btn.img} alt="" className="" />
+                                            <img src={btn.img?.src} alt="" className="" />
                                         </Button>
                                         <Popover
                                             trigger={!isMobile ? 'hover' : 'click'}
@@ -674,7 +667,7 @@ const MyOrder = ({ progress, setProgress, status: googleAutoCompleteStatus }: an
                                             showArrow={false}
                                         >
                                             <i className="icon">
-                                                <img src={Images.HelpIcon} alt="" className="" />
+                                                <img src={Images.HelpIcon?.src} alt="" className="" />
                                             </i>
                                         </Popover>
                                     </div>
@@ -715,7 +708,7 @@ const MyOrder = ({ progress, setProgress, status: googleAutoCompleteStatus }: an
                                 >
                                     <input {...getInputProps()} />
                                     <i className="icon">
-                                        <img src={Images.IconAdd} alt="" className="" />
+                                        <img src={Images.IconAdd?.src} alt="" className="" />
                                     </i>
                                     Upload Now
                                 </Button>

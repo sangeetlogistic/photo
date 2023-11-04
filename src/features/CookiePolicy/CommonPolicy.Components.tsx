@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-// import { rgba } from 'polished';
 
 import { MediaBreakpoints } from '../../theme';
 import { convertPxToVw } from '../../utils/func';

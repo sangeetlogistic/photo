@@ -203,7 +203,7 @@ import PriceListIcon2 from '../assets/images/icons/price-list-icon-2.svg';
 import PriceListIcon3 from '../assets/images/icons/price-list-icon-3.svg';
 import PriceListIcon4 from '../assets/images/icons/price-list-icon-4.svg';
 import PriceListIcon5 from '../assets/images/icons/price-list-icon-5.svg';
-import AfterpayInstallImg1 from '../assets/images/afterpay-install-img-1.png';
+import AfterpayInstallImg1 from '../assets/images/afterpay-install-img-1.svg';
 import AfterpayInstallImg2 from '../assets/images/afterpay-install-img-2.svg';
 import AfterpayInstallHelp1 from '../assets/images/icons/afterpay-install-help-icon-1.svg';
 import AfterpayInstallHelp2 from '../assets/images/icons/afterpay-install-help-icon-2.svg';
@@ -223,6 +223,12 @@ import FormArrowIcon from '../assets/images/blog/icon-arrow.svg';
 import GiftCardImg from '../assets/images/gift-card.png';
 import GiftBoxImg from '../assets/images/gift-box.png';
 import FourZeroFour from '../assets/images/404-error.svg';
+import SliderPrevIconWhite from '../assets/images/icons/icon-chevron-left-white.svg';
+import SliderNextIconWhite from '../assets/images/icons/icon-chevron-right-white.svg';
+import IconChevronRightBlack from '../assets/images/icons/icon-chevron-right-black.svg';
+import IconBackArrowBlack from '../assets/images/icons/icon-back-arrow.svg';
+import AboutUsArtists from '../assets/images/about-us-artists.jpg';
+import AboutUsBelieve from '../assets/images/about-us-believe.jpg';
 
 const Images = {
     LogoImg,
@@ -450,6 +456,12 @@ const Images = {
     GiftCardImg,
     GiftBoxImg,
     FourZeroFour,
+    SliderPrevIconWhite,
+    SliderNextIconWhite,
+    IconChevronRightBlack,
+    IconBackArrowBlack,
+    AboutUsArtists,
+    AboutUsBelieve,
 };
 
 export default Images;

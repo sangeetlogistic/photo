@@ -32,6 +32,16 @@ const getTotalRating = async () => {
     const response = await axiosInterceptor.get(uri);
     return response;
 };
+const siteMapSlugs = async () => {
+    const uri = API.siteMapSlugs.get;
+    const response = await axiosInterceptor.get(uri);
+    return response;
+};
+const subscribeMember = async (payload: any) => {
+    const uri = API.subscribeMember.post;
+    const response = await axiosInterceptor.post(uri, payload);
+    return response;
+};
 
 export default {
     cookiePolicy,
@@ -40,4 +50,6 @@ export default {
     cCPAPrivacyNotice,
     drawingPicture,
     getTotalRating,
+    siteMapSlugs,
+    subscribeMember,
 };

@@ -1,5 +1,6 @@
 import { rgba } from 'polished';
 import styled from 'styled-components';
+
 import { Colors, Fonts, MediaBreakpoints } from '../../../theme';
 import { convertPxToVw } from '../../../utils/func';
 
@@ -29,10 +30,6 @@ export const FooterCmp = styled.footer`
             @media (min-width: ${`${MediaBreakpoints.upLg}px`}) {
                 width: calc(100% / 2);
             }
-            > .ant-row {
-                /* padding-right: 1.771vw; */
-                /* padding-right: 34px; */
-            }
             .ant-form-item {
                 .ant-form-item-control-input-content {
                     .ant-input {
@@ -52,7 +49,6 @@ export const FooterCmp = styled.footer`
                 cursor: pointer;
                 top: 0;
                 right: -18px;
-                /* width: 5.313vw; */
                 width: 102px;
                 height: 50px;
                 position: absolute;
@@ -62,7 +58,6 @@ export const FooterCmp = styled.footer`
                 z-index: 2;
                 text-align: left;
                 img {
-                    /* width: 4.375vw; */
                     width: 84px;
                     height: 50px;
                 }
@@ -124,7 +119,6 @@ export const FooterCmp = styled.footer`
                 width: 100%;
                 @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
                     max-width: 320px;
-                    /* max-width: 16.667vw; */
                 }
             }
             .footer-link-list {
@@ -138,12 +132,10 @@ export const FooterCmp = styled.footer`
                     font-size: 16px;
                     margin-bottom: 12px;
                     @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
-                        /* font-size: 0.625vw; */
                         font-size: 12px;
                         margin-bottom: 0;
                     }
                     a {
-                        /* line-height: 0.781vw; */
                         line-height: 16px;
                         @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
                             line-height: 15px;
@@ -223,7 +215,6 @@ export const FooterCmp = styled.footer`
             .footer-blog-wrap {
                 @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
                     margin: 0 auto;
-                    /* max-width: 180px; */
                     padding-top: 1.301vw;
                     max-width: 280px;
                     width: 100%;
@@ -244,11 +235,9 @@ export const FooterCmp = styled.footer`
                             margin-bottom: 0;
                         }
                         @media (min-width: ${`${MediaBreakpoints.upLg}px`}) {
-                            /* font-size: 0.625vw; */
                             font-size: 12px;
                         }
                         a {
-                            /* line-height: 0.781vw; */
                             line-height: 15px;
                         }
                     }
@@ -307,7 +296,6 @@ export const FooterCmp = styled.footer`
             justify-content: space-between;
             @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
                 margin: 0;
-                /* min-width: 320px; */
                 min-width: 17.667vw;
                 padding: 1.042vw 1.302vw;
                 border-radius: 0.521vw;
@@ -387,7 +375,6 @@ export const FooterCmp = styled.footer`
                         }
                     }
                     .ant-select-arrow {
-                        font-size: 16px;
                         color: ${Colors.white};
                         transition: all 0.3s ease;
                         right: 5px;
@@ -396,6 +383,12 @@ export const FooterCmp = styled.footer`
                             margin-top: -6px;
                             font-size: 0.833vw;
                             transform: rotate(-90deg);
+                        }
+                        img {
+                            width: 12px;
+                            @media (min-width: ${`${MediaBreakpoints.upMd1}px`}) {
+                                width: 12px;
+                            }
                         }
                     }
                 }
@@ -415,7 +408,6 @@ export const FooterCmp = styled.footer`
                 transform: translateX(-50%);
             }
             @media (min-width: ${`${MediaBreakpoints.upLg}px`}) {
-                /* font-size: 0.625vw; */
                 font-size: 12px;
             }
         }

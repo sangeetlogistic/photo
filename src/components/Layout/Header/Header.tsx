@@ -1,10 +1,9 @@
 /* eslint-disable max-lines-per-function */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Menu, MenuProps } from 'antd';
-import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import TagManager from 'react-gtm-module';
-import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 import { Images } from '../../../theme';
 import { MainHeader } from './Header.component';
@@ -16,46 +15,37 @@ import { Routes } from '../../../navigation/Routes';
 import MobileMegaMenu from './Header.MobileMegaMenu';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { selectIsAfterBeforeSliderMoving, selectMobileOpenMenu, setMobileOpenMenu } from '../Layout.slice';
-import { selectedLoading, setLoginPopup } from '../../../features/Login/Login.slice';
-import LoadingCover from '../../LoadingCover';
+import { setLoginPopup } from '../../../features/Login/Login.slice';
 import LoginPopup from '../../../features/Login/Login.Popup';
 import { LocalStorageKeys } from '../../../constants/keys';
-import { useRouter } from 'next/router';
+import FAQ from './Header.FAQ';
+import GalleryMenu from './Header.GalleryMenu';
+import PriceAndTimingMenu from './Header.PriceAndTimingMenu';
 
 const Header = () => {
-    const history = useRouter();
+    const route = useRouter();
     const dispatch = useAppDispatch();
-    const pathname = usePathname();
+    const localStorage = useLocalStorage();
 
     const mobileOpenMenu = useAppSelector(selectMobileOpenMenu);
-    const loading = useAppSelector(selectedLoading);
     const isAfterBeforeSliderMoving = useAppSelector(selectIsAfterBeforeSliderMoving);
 
     const { isMobile } = useDeviceDetect();
 
-    const [openMenu, setOpenMenu] = useState<string[] | []>(['']);
     const [showFixedBtn, setShowFixedBtn] = useState(false);
     const [showGallery, setShowGallery] = useState(false);
     const [showPricing, setShowPricing] = useState(false);
     const [showHowItWorks, setShowHowItWorks] = useState(false);
-
-    const subMenuRef = useRef<any>(null);
-    const menuRef = useRef<any>(null);
+    const [showSubMenu, setShowSubMenu] = useState<MenuType | null>(null);
 
     const mobileMenu = useMemo(() => mobileOpenMenu.includes('mobileMegaMenu'), [mobileOpenMenu]);
 
-    useHover(subMenuRef, () => {
-        if (!menuRef?.current) {
-            setOpenMenu(['']);
-        }
-    });
-
     useEffect(() => {
-        if (pathname) {
-            setOpenMenu(['']);
+        if (route.asPath) {
             dispatch(setMobileOpenMenu(['']));
+            setShowSubMenu(null);
         }
-    }, [pathname]);
+    }, [route.asPath]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -82,7 +72,7 @@ const Header = () => {
             window.removeEventListener('scroll', handleScroll);
             clearTimeout(tagFun);
         };
-    }, [pathname]);
+    }, [route.asPath]);
 
     useEffect(() => {
         if (isMobile) {
@@ -95,94 +85,20 @@ const Header = () => {
     }, [mobileMenu, isAfterBeforeSliderMoving]);
 
     const handleUser = () => {
-        if (localStorage.getItem(LocalStorageKeys.authUser)) {
-            history.push(Routes.account);
+        if (localStorage?.getItem(LocalStorageKeys.authUser)) {
+            route.push(Routes.account);
         } else {
             dispatch(setLoginPopup(true));
         }
     };
 
-    const items: MenuProps['items'] = [
-        {
-            label: 'Home',
-            key: MenuType.Home,
-            className: `${pathname === Routes.home ? 'p2p-menu-item-selected' : ''}`,
-            onClick: (info) => history.push(Routes.home),
-            onMouseEnter: (info) => setOpenMenu([info.key]),
-        },
-        {
-            label: 'Gallery',
-            key: MenuType.Gallery,
-            popupClassName: 'gallery-mega-menu mega-menu',
-            children: [
-                {
-                    label: <MegaMenu openMenu={openMenu} setOpenMenu={setOpenMenu} ref={subMenuRef} />,
-                    key: 'galleryMenu',
-                    style: { height: 'fit-content' },
-                    className: 'gallery-mega-menu-li mega-menu-li',
-                },
-            ],
-            onMouseEnter: (info) => setOpenMenu([info.key]),
-        },
-        {
-            label: 'Pricing & Timing',
-            key: MenuType.PricingAndTiming,
-            popupClassName: 'price-timing-meage-menu mega-menu',
-            children: [
-                {
-                    label: <MegaMenu openMenu={openMenu} setOpenMenu={setOpenMenu} ref={subMenuRef} />,
-                    key: 'price&TimingMenu',
-                    style: { height: 'fit-content' },
-                    className: 'price-and-timing-mega-menu-li mega-menu-li',
-                },
-            ],
-            onMouseEnter: (info) => setOpenMenu([info.key]),
-            onTitleClick: () => history.push(Routes.pricingTiming),
-        },
-        {
-            label: 'HOW IT WORKS',
-            key: MenuType.FAQ,
-            className: `${pathname === Routes.ourFaq ? 'p2p-menu-item-selected' : ''}`,
-            popupClassName: 'how-it-work-meage-menu mega-menu',
-            children: [
-                {
-                    label: <MegaMenu openMenu={openMenu} setOpenMenu={setOpenMenu} ref={subMenuRef} />,
-                    key: 'faqMenu',
-                    style: { height: 'fit-content' },
-                    className: 'how-it-work-meage-menu-li mega-menu-li',
-                },
-            ],
-            onMouseEnter: (info) => setOpenMenu([info.key]),
-            onTitleClick: () => history.push(Routes.ourFaq),
-        },
-        {
-            className: 'user-icon',
-            label: (
-                <span tabIndex={0} role="button" onClick={handleUser} className="lazy-load-image-background">
-                    <img alt="" src={Images.UserIconSvg?.src} width="14" height="21" />
-                </span>
-            ),
-            key: 'user',
-        },
-        {
-            className: 'get-started-btn-li',
-            label: (
-                <FilledButton color="secondaryGRD" onClick={() => history.push(Routes.orderStep.replace(':id', '1'))}>
-                    GET STARTED
-                </FilledButton>
-            ),
-            key: 'getStarted',
-        },
-        {
-            className: `get-started-btn-li header-cta ${!showFixedBtn ? 'hide-getStartedCTA' : ''}`,
-            label: (
-                <FilledButton color="secondaryGRD" onClick={() => history.push(Routes.orderStep.replace(':id', '1'))}>
-                    GET STARTED
-                </FilledButton>
-            ),
-            key: 'getStartedCTA',
-        },
-    ];
+    const handleLink = (e: any) => {
+        e.preventDefault();
+    };
+
+    const handleSubmenu = (submenu: MenuType) => {
+        setShowSubMenu(submenu);
+    };
 
     const mobileItems: MenuProps['items'] = [
         {
@@ -228,6 +144,7 @@ const Header = () => {
                 className={`header-top ${isMobile && mobileMenu ? 'mobile-menu-open' : ''} ${
                     showGallery || showPricing || showHowItWorks ? 'mobile-detail-menu' : ''
                 }`}
+                onMouseLeave={() => setShowSubMenu?.(null)}
             >
                 <div className="header-container">
                     <button
@@ -239,17 +156,77 @@ const Header = () => {
                             setShowHowItWorks(false);
                         }}
                     >
-                        <FontAwesomeIcon icon={faAngleLeft} />
+                        <img src={Images.IconBackArrowBlack.src} alt="" className="" />
                     </button>
-                    <div className="site-logo" onClick={() => history.push(Routes.home)} tabIndex={0} role="button">
+                    <div className="site-logo" onClick={() => route.push(Routes.home)} tabIndex={0} role="button">
                         <span className="lazy-load-image-loaded">
                             <img src={Images.LogoImg?.src} alt="" className="" width="172" height="42" />
                         </span>
                     </div>
                     {!isMobile ? (
                         <div className="p2p-menu">
-                            <div className="p2p-menu-wrap" ref={menuRef} onMouseLeave={() => setOpenMenu([''])}>
-                                <Menu selectedKeys={['home']} mode="horizontal" items={items} className="top-menu" openKeys={openMenu} />
+                            <div className="p2p-menu-wrap">
+                                <ul className="top-menu">
+                                    <li className="top-nav-item" onMouseEnter={() => setShowSubMenu(null)}>
+                                        <Link className={route.asPath === '/' ? 'active' : ''} href={Routes.home}>
+                                            Home
+                                        </Link>
+                                    </li>
+                                    <li className="top-nav-item dropdown-gallery" onMouseEnter={() => handleSubmenu(MenuType.Gallery)}>
+                                        <Link
+                                            className={`top-nav-link ${showSubMenu === MenuType.Gallery ? 'active' : ''}`}
+                                            href={{ href: undefined }}
+                                            onClick={handleLink}
+                                        >
+                                            Gallery
+                                        </Link>
+                                    </li>
+                                    <li
+                                        className="top-nav-item dropdown-pricetime"
+                                        onMouseEnter={() => handleSubmenu(MenuType.PricingAndTiming)}
+                                        onClick={() => route.push(Routes.pricingTiming)}
+                                    >
+                                        <Link
+                                            className={`top-nav-link ${
+                                                showSubMenu === MenuType.PricingAndTiming || route.asPath === '/pricing-timing' ? 'active' : ''
+                                            }`}
+                                            href={{ href: undefined }}
+                                            onClick={handleLink}
+                                        >
+                                            Pricing &amp; Timing
+                                        </Link>
+                                    </li>
+                                    <li
+                                        className="top-nav-item dropdown-faq"
+                                        onMouseEnter={() => handleSubmenu(MenuType.FAQ)}
+                                        onClick={() => route.push(Routes.ourFaq)}
+                                    >
+                                        <Link
+                                            className={`top-nav-link ${showSubMenu === MenuType.FAQ || route.asPath === '/our-faq' ? 'active' : ''}`}
+                                            href={{ href: undefined }}
+                                            onClick={handleLink}
+                                        >
+                                            HOW IT WORKS
+                                        </Link>
+                                    </li>
+                                    <li className="top-nav-item">
+                                        <Link className="user-icon" href={{ href: undefined }}>
+                                            <span tabIndex={0} role="button" onClick={handleUser} className="lazy-load-image-background">
+                                                <img alt="" src={Images.UserIconSvg?.src} width="14" height="21" />
+                                            </span>
+                                        </Link>
+                                    </li>
+                                    <li className="top-nav-item get-started-btn-li">
+                                        <FilledButton color="secondaryGRD" onClick={() => route.push(Routes.orderStep.replace(':id', '1'))}>
+                                            GET STARTED
+                                        </FilledButton>
+                                    </li>
+                                    <li className={`top-nav-item get-started-btn-li header-cta ${!showFixedBtn ? 'hide-getStartedCTA' : ''}`}>
+                                        <FilledButton color="secondaryGRD" onClick={() => route.push(Routes.orderStep.replace(':id', '1'))}>
+                                            GET STARTED
+                                        </FilledButton>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     ) : (
@@ -260,9 +237,12 @@ const Header = () => {
                         </div>
                     )}
                 </div>
+
+                <GalleryMenu showSubMenu={showSubMenu} setShowSubMenu={setShowSubMenu} />
+                <PriceAndTimingMenu showSubMenu={showSubMenu} setShowSubMenu={setShowSubMenu} />
+                <FAQ showSubMenu={showSubMenu} setShowSubMenu={setShowSubMenu} />
             </MainHeader>
             <LoginPopup />
-            <LoadingCover show={loading} />
         </>
     );
 };

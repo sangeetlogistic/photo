@@ -21,13 +21,9 @@ const slideOut = keyframes`
 `;
 export const MobileOrderPageMainCmp = styled.div`
     min-height: calc(100vh - 115px);
-    /* min-height: 100%; */
     margin-top: 15px;
-    /* padding-bottom: 66px; */
-    /* min-height: 100%; */
     border-radius: 32px 32px 0 0;
     background-color: ${Colors.white};
-    /* padding: 20px; */
     padding-bottom: 70px;
     .mobile-order-inner-block {
         padding: 16px;
@@ -302,13 +298,37 @@ export const MobileOrderPageMainCmp = styled.div`
             .info-step-customer-review {
                 margin-top: 12px;
                 .customer-single-review-block {
-                    max-width: 310px;
+                    width: 100%;
+                    max-width: 375px;
                     .ant-card-body {
-                        padding-top: 10px !important;
-                        padding-bottom: 10px !important;
+                        padding-top: 24px !important;
+                        padding-bottom: 20px !important;
                         text-align: center;
                         margin-bottom: 0;
                         border-radius: 16px !important;
+                        border: 1px solid ${rgba(Colors.reviewCardbrd, 0.5)};
+                        background-color: ${Colors.white} !important;
+                        .review-and-rate-wrap {
+                            .customer-rating {
+                                line-height: 33px;
+                                margin-right: 12px;
+                            }
+                            .ant-rate-star {
+                                &:not(:last-child) {
+                                    margin-right: 6px;
+                                }
+                            }
+                        }
+
+                        .single-review-wrapper {
+                            margin-bottom: 14px;
+                            .customer-review-and-rate {
+                                margin: 0;
+                            }
+                        }
+                        .single-review-btm-logo {
+                            margin: 0;
+                        }
                     }
                 }
             }
@@ -504,7 +524,6 @@ export const MobileOrderPageMainCmp = styled.div`
                     }
                 }
                 .painting-size {
-                    /* text-align: center; */
                     font-weight: 600;
                     font-size: 16px;
                     color: #1a1b1d;
@@ -599,7 +618,6 @@ export const MobileOrderPageMainCmp = styled.div`
                     width: 100%;
                     min-width: unset;
                     padding: 0 8px;
-                    /* margin: 0; */
                     .select-size-input-radio:checked + .select-size-block-outer {
                         background-color: transparent;
                     }
@@ -1015,7 +1033,6 @@ export const MobileOrderHeaderCmp = styled.nav`
                 .icon {
                     width: 24px;
                     height: 24px;
-                    /* display: none; */
                 }
                 .number {
                     width: 24px;
@@ -1055,12 +1072,6 @@ export const MobileOrderHeaderCmp = styled.nav`
             }
             &.selected {
                 color: ${Colors.gray80};
-                /* .icon {
-          display: block;
-        }
-        .number {
-          display: none;
-        } */
             }
         }
     }

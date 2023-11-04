@@ -13,7 +13,7 @@ const TourPaintings = (props: ITourPaintings) => {
 
     return (
         <TourPaintingsBlock>
-            <h3 className="title">{title}</h3>
+            <h2 className="title">{title}</h2>
             <Row gutter={{ xs: 30, lg: 32, xl: 50, xxl: 80 }}>
                 <Col className="gutter-row" xs={24} md={16}>
                     {bannerVideo && <BannerVideo className="responsive-video" bannerVideo={bannerVideo} poster={poster} />}

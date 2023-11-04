@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
+
 import { Images } from '../../theme';
+
 const LoadingFadedDiv = styled.div<{ show: boolean; isfull?: boolean }>`
     position: ${(props) => (props.isfull ? 'fixed' : 'absolute')};
     width: 100%;
@@ -36,7 +38,7 @@ const LoadingCover = ({ show, isFullScreen = true }: { show: boolean; isFullScre
     }, [show]);
     return (
         <LoadingFadedDiv show={show} isfull={isFullScreen}>
-            <img src={Images.LoaderIcon} alt="loader" />
+            <img src={Images.LoaderIcon?.src} alt="loader" />
         </LoadingFadedDiv>
     );
 };

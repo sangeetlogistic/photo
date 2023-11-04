@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { convertPxToVw } from '../../utils/func';
 import { Colors, Fonts, Images, MediaBreakpoints } from '../../theme';
 
@@ -132,18 +133,18 @@ export const BlogThemeCmp = styled.div`
                                     font-size: ${convertPxToVw('14')}vw;
                                 }
                             }
-                            .icon-right {
-                                position: absolute;
-                                color: ${Colors.black};
-                                top: 8px;
-                                font-size: 20px;
-                                right: 12px;
-                                cursor: pointer;
-                                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
-                                    font-size: ${convertPxToVw('36')}vw;
-                                    top: ${convertPxToVw('5')}vw;
-                                    right: ${convertPxToVw('14')}vw;
-                                }
+                        }
+                        .icon-right {
+                            position: absolute;
+                            color: ${Colors.black};
+                            top: 8px;
+                            font-size: 20px;
+                            right: 12px;
+                            cursor: pointer;
+                            @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                                font-size: ${convertPxToVw('36')}vw;
+                                top: ${convertPxToVw('5')}vw;
+                                right: ${convertPxToVw('26')}vw;
                             }
                         }
                     }
@@ -177,6 +178,31 @@ export const BlogThemeCmp = styled.div`
                             }
                         }
                     }
+                }
+            }
+            .blog_list-title {
+                color: ${Colors.black};
+                text-transform: uppercase;
+                font-family: ${Fonts.titleFont};
+                font-weight: bold;
+                font-size: 24px;
+                line-height: 31px;
+                padding: 14px 16px;
+                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                    padding: 0;
+                    font-size: ${convertPxToVw('40')}vw;
+                    line-height: 2.4vw;
+                    margin-bottom: 1.2vw;
+                }
+            }
+            .blog-img {
+                width: 100%;
+                height: 400px;
+                @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
+                    height: ${convertPxToVw('428')}vw;
+                }
+                img {
+                    position: relative !important;
                 }
             }
             .button-bottom {
@@ -270,7 +296,7 @@ export const BlogThemeCmp = styled.div`
 `;
 
 export const BlogDetailPageCmp = styled.div`
-    background-image: url(${Images.BlogDetailImage});
+    background-image: url(${Images.BlogDetailImage.src});
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -432,7 +458,8 @@ export const BlogDetailPageCmp = styled.div`
                     }
                     img {
                         width: 100%;
-                        height: auto;
+                        height: auto !important;
+                        position: relative !important;
                     }
                 }
                 .editor-content {
@@ -833,13 +860,14 @@ export const BlogDetailPageCmp = styled.div`
                                         padding-left: 2.4vw;
                                     }
                                     .countdown-title {
-                                        h2 {
+                                        .count-ttile {
                                             color: ${Colors.gray100};
                                             text-transform: uppercase;
                                             font-family: ${Fonts.titleFont};
                                             font-weight: 700;
                                             font-size: 14px;
                                             text-align: center;
+                                            margin: 0;
                                             @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                                                 font-size: 1vw;
                                                 text-align: left;
@@ -1118,9 +1146,10 @@ export const BlogDetailPageCmp = styled.div`
                     max-height: calc(100vh - 10px);
                 }
                 .table-portion {
-                    h2 {
+                    .table-portion-title {
                         color: ${Colors.black};
                         font-family: ${Fonts.titleFont};
+                        font-weight: 700;
                         @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                             margin-bottom: 0.8vw;
                             line-height: 1.75vw;
@@ -1200,7 +1229,7 @@ export const BlogDetailPageCmp = styled.div`
                     @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                         margin-top: 0.4vw;
                     }
-                    h2 {
+                    .subs-portion-title {
                         color: ${Colors.gray100};
                         text-transform: uppercase;
                         font-family: ${Fonts.titleFont};
@@ -1208,6 +1237,7 @@ export const BlogDetailPageCmp = styled.div`
                         @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
                             margin-bottom: 0.4vw;
                             font-size: 0.8vw;
+                            line-height: 1.823vw;
                         }
                     }
                     .ant-form-item {

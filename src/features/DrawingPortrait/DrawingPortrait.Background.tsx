@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { DrawingPageBackground } from './DrawingPortrait.component';
 
 const Background = ({ backgroundRepeatImage }: { backgroundRepeatImage: string }) => (

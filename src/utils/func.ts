@@ -43,7 +43,7 @@ export const calculateFun = (
 };
 
 export const isLocalStorageValid = (key: string) => {
-    const item = localStorage.getItem(key);
+    const item = localStorage?.getItem(key);
     if (!item) return false;
 
     const data = JSON.parse(item);
@@ -127,3 +127,11 @@ export const priceCalculatorMenu = (size_price: any, num_persons: any, num_pets:
 };
 
 export const roundOff = (data: any) => Math.round(Number(data || 0) * 10) / 10;
+
+export const getReadContentTime = (text: any) => {
+    const wpm = 225;
+    const words = text.trim().split(/\s+/).length;
+
+    const readLength = Math.ceil(words / wpm);
+    return readLength;
+};

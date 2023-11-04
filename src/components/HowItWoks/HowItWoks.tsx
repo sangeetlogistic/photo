@@ -1,13 +1,12 @@
 import React, { useRef, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 import { HowItWorkBlockCmp } from './HowItWoks.component';
 import { Images } from '../../theme';
 import SliderCarousel from '../SliderCarousel';
 import BannerVideo from '../BannerVideo';
+import Image from 'next/image';
 
-const HowItWoks = ({ detail, info }: any) => {
+const HowItWoks = ({ detail, info, howItWorkTitle, howItWorkShortDiscription }: any) => {
     const sliderRef = useRef<any>(null);
 
     const [activeSlide, setActiveSlide] = useState(0);
@@ -36,11 +35,13 @@ const HowItWoks = ({ detail, info }: any) => {
     return (
         <HowItWorkBlockCmp>
             <div className="section-title-block text-center">
-                <h2 className="text-uppercase"> HOW IT WORKS?</h2>
-                <p className="mb-0 text-light">Follow simple, three steps to order your precious custom painting from a photo...</p>
+                <h2 className="text-uppercase">{howItWorkTitle || 'HOW IT WORKS?'} </h2>
+                <p className="mb-0 text-light">
+                    {howItWorkShortDiscription || 'Follow simple, three steps to order your precious custom painting from a photo...'}
+                </p>
             </div>
             <div className="how-it-work-icon">
-                <img src={Images.HowItWorkIcon?.src} alt="" className="" width="100" height="100" />
+                <Image src={Images.HowItWorkIcon?.src} alt="how-it-work" className="" fill loading="lazy" />
             </div>
             {detail?.length > 0 && (
                 <SliderCarousel settings={settings} ref={sliderRef}>
@@ -55,8 +56,8 @@ const HowItWoks = ({ detail, info }: any) => {
             <p className="how-it-work-info">{info}</p>
             <div className="how-it-work-slider-pagination">
                 <button type="button" className="button how-btn-prev" onClick={handlePrevious}>
-                    <FontAwesomeIcon icon={faAngleLeft} />
-                    <img src={Images.HowItWorkArrowLeft?.src} alt="" className="" />
+                    <img src={Images.SliderPrevIconWhite.src} alt="slider-prev-icon" className="mob-arrow-icon" />
+                    <Image src={Images.HowItWorkArrowLeft?.src} alt="how-it-work-arrow-left" fill className="desktop-arrow-icon prev" loading="lazy" />
                 </button>
                 <div className="step-btn-wrap">
                     {detail &&
@@ -72,8 +73,8 @@ const HowItWoks = ({ detail, info }: any) => {
                         ))}
                 </div>
                 <button type="button" className="button how-btn-next" onClick={handleNext}>
-                    <FontAwesomeIcon icon={faAngleRight} />
-                    <img src={Images.HowItWorkArrowRight?.src} alt="" className="" />
+                    <img src={Images.SliderNextIconWhite.src} alt="slider-next-icon" className="mob-arrow-icon" />
+                    <Image src={Images.HowItWorkArrowRight?.src} alt="how-it-work-arrow-right" fill className="desktop-arrow-icon next" loading="lazy" />
                 </button>
             </div>
         </HowItWorkBlockCmp>

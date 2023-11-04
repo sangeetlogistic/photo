@@ -26,6 +26,24 @@ export const sketchGallery = [
     Routes.customPencilDrawingsPaintings,
 ];
 
+export const separateNotToGoNoFound = [
+    Routes.customIndividualPortraits,
+    Routes.customChildrenPortraits,
+    Routes.customCouplePortraits,
+    Routes.customFamilyPortraits,
+    Routes.customCatPortraits,
+    Routes.customDogPortraits,
+    Routes.customPetPortraits,
+    Routes.customLandscapePortraits,
+    Routes.drawingPortrait,
+    Routes.customOilPaintings,
+    Routes.customAcrylicPaintings,
+    Routes.customColorPencilPaintings,
+    Routes.customCharcoalPaintings,
+    Routes.customWatercolorPaintings,
+    Routes.customPencilDrawingsPaintings,
+];
+
 export const MobileHeaderHeight = '70px';
 export const PagePdngTopEqualHeaderHeight = '5.521vw';
 export const parallaxTranslateY: [string, string] = ['30px', '-30px'];
@@ -48,3 +66,5 @@ export enum CountryCodeName {
     AU = 'AU',
     GB = 'GB',
 }
+
+export const siteName = 'https://image2painting.com';

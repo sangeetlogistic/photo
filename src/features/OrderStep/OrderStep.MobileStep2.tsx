@@ -5,9 +5,7 @@ import { Checkbox, Input, Popover, Progress } from 'antd';
 
 import { ImgStepUplaodCmp, OrderStep2Cmp } from './OrderPage.component';
 import { maxLengthForComments, multipleCombinePhotosPrice } from './OrderStep.constants';
-
 import { ModalCloseIcon } from '../../assets/customSVG';
-
 import { Images } from '../../theme';
 import SavedCardPopup from './OrderPage.SavedCardPopup';
 import { convertBrToN } from '../../utils/func';
@@ -88,7 +86,7 @@ const MobileStep2 = ({
                                 <input className="step-upload-input" id="step2UploadPic" {...getInputProps()} />
                                 <span className="">
                                     <i className="">
-                                        <img src={Images.IconOrderStepImgUpload} alt="" className="" />
+                                        <img src={Images.IconOrderStepImgUpload?.src} alt="" className="" />
                                     </i>
                                     {preview.length > 0 ? 'upload more' : 'Upload image'}
                                 </span>

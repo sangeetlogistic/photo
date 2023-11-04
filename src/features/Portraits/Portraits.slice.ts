@@ -64,6 +64,11 @@ export const portraitSlice = createSlice({
             state.themeDetail = undefined;
             state.error = null;
         },
+        setThemeDetail: (state, action) => {
+            state.themeDetail = action.payload?.detail.Theme;
+            state.recentBlog = action.payload?.detail.recentBlog;
+            state.error = action.payload?.error;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -88,7 +93,7 @@ export const portraitSlice = createSlice({
     },
 });
 
-export const { clearThemeDetail } = portraitSlice.actions;
+export const { clearThemeDetail, setThemeDetail } = portraitSlice.actions;
 
 export const selectLoading = (state: RootState) => state.portraits.loading;
 export const selectError = (state: RootState) => state.portraits.error;

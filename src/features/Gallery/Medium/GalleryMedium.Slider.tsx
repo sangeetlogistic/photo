@@ -1,18 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useParams } from 'next/navigation';
+import Image from 'next/image';
 
 import SliderCarousel from '../../../components/SliderCarousel';
 import { NextBtn, PrevBtn } from '../../../components/PrevNextBtn/PrevNextBtn';
 import { PhotosPaintingMediumSliderBlock } from '../Gallery.component';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { clearGalleryData, selectSliderData } from '../Gallery.slice';
-import Image from 'next/image';
+import { useAppDispatch } from '../../../app/hooks';
+import { clearGalleryData } from '../Gallery.slice';
 
-const GalleryMediumSlider = ({ storeSelectedData, setStoreSelectedData }: any) => {
-    // const param: { mediumId?: string; themeId?: string } = useParams();
-    const param: any = {};
+const GalleryMediumSlider = ({ storeSelectedData, setStoreSelectedData, sliderData, isInitial }: any) => {
+    const param: { mediumId?: string; themeId?: string } | null = useParams();
     const sliderRef = useRef<any>(null);
     const dispatch = useAppDispatch();
-    const sliderData = useAppSelector(selectSliderData);
     const [initial, setInitial] = useState(false);
 
     const settings = {
@@ -45,15 +44,10 @@ const GalleryMediumSlider = ({ storeSelectedData, setStoreSelectedData }: any) =
                 currentSlide: next,
                 selectedData: { obj: selectedData, index: next },
             }));
-            dispatch(clearGalleryData());
+            if (!isInitial) {
+                dispatch(clearGalleryData());
+            }
         },
-    };
-
-    const handlePrevious = () => {
-        sliderRef?.current?.slickPrev();
-    };
-    const handleNext = () => {
-        sliderRef?.current?.slickNext();
     };
 
     useEffect(() => {
@@ -67,7 +61,12 @@ const GalleryMediumSlider = ({ storeSelectedData, setStoreSelectedData }: any) =
         }, 1000);
     }, []);
 
-    // const handleSlideClick = (obj: any, index: any) => setStoreSelectedData((prev: any) => ({ ...prev, selectedData: { obj, index } }));
+    const handlePrevious = () => {
+        sliderRef?.current?.slickPrev();
+    };
+    const handleNext = () => {
+        sliderRef?.current?.slickNext();
+    };
 
     return (
         <PhotosPaintingMediumSliderBlock>
@@ -81,18 +80,15 @@ const GalleryMediumSlider = ({ storeSelectedData, setStoreSelectedData }: any) =
                             className={`slider-item-box ${storeSelectedData.currentSlide === index ? 'active-item' : ''}`}
                             role="button"
                             tabIndex={0}
-                            // onClick={() => handleSlideClick(obj, index)}
                         >
                             <figure className="image_bg_white ">
                                 <Image
-                                    fill
                                     src={obj.sliderHoverImageUrl}
-                                    alt=""
-                                    className={`p2p-carousel-image-active  ${
-                                        storeSelectedData.currentSlide === index ? '' : 'image_visible'
-                                    }`}
+                                    alt={obj.sliderHoverImageAlt || ''}
+                                    fill
+                                    className={`p2p-carousel-image-active  ${storeSelectedData.currentSlide === index ? '' : 'image_visible'}`}
                                 />
-                                <Image fill src={obj.sliderImageUrl} alt="" className="p2p-carousel-image" />
+                                <Image src={obj.sliderImageUrl} alt={obj.sliderImageAlt || ''} fill className="p2p-carousel-image" />
                             </figure>
                             <div className="slider-text-wrap">
                                 <p className="title-font title-color">{obj.name}</p>

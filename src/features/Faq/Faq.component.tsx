@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { PagePdngTopEqualHeaderHeight } from '../../constants/general';
 import { Colors, Fonts, MediaBreakpoints } from '../../theme';
 import { convertPxToVw } from '../../utils/func';
@@ -7,7 +8,6 @@ export const FaqPageMain = styled.section`
     padding-top: ${PagePdngTopEqualHeaderHeight};
     min-height: 100vh;
     .faq-content {
-        /* display: flex; */
         padding: 50px 10px 25px 10px;
         @media (min-width: ${`${MediaBreakpoints.upMd}px`}) {
             padding: 2.479vw 1.25vw 4vw 2.25vw;

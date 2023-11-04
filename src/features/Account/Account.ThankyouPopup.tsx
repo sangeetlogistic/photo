@@ -1,15 +1,22 @@
 import React from 'react';
+
 import FilledButton from '../../components/FilledButton';
 import { Images } from '../../theme';
 import { ThankYouPopupCmp } from './Account.component';
+import { useAppSelector } from '../../app/hooks';
+import { selectedUserData } from './Account.slice';
 
 const ThankyouPopup = ({ setThankyouPopup, thankyouPopup }: any) => {
+    const userData = useAppSelector(selectedUserData);
+
     const ThankyouPopupContent = (
         <div className="thank-you-popup-wrapper">
             <img src={Images.LoginPopupImg?.src} alt="" />
             <div className="thankyou-title-block">
                 <h3>Thank you!</h3>
-                <p>Hi George, Congratulations your order will be shipped soon!</p>
+                <p>
+                    Hi {userData?.name || ''} {userData?.surname || ''}, Congratulations your order will be shipped soon!
+                </p>
             </div>
             <div className="thankyou-next-block">
                 <h5>next step</h5>

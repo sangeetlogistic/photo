@@ -102,7 +102,7 @@ const Step4 = ({
                                 </Row>
                                 <Row gutter={{ md: 24 }}>
                                     <Col className="gutter-row" md={10} xxl={12}>
-                                        <img src={Images.SelectAttributesImg} alt="" width="444" height="182" className="attr-img" />
+                                        <img src={Images.SelectAttributesImg?.src} alt="" width="444" height="182" className="attr-img" />
                                     </Col>
                                     <Col className="gutter-row" md={14} xxl={12}>
                                         <div className="select-attrs--info">

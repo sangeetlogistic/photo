@@ -11,8 +11,8 @@ export const axiosInterceptor = axios.create({
 // Add a request interceptor
 axiosInterceptor.interceptors.request.use(
     (config: any) => {
-        if (localStorage.getItem(LocalStorageKeys.authUser)) {
-            config.headers.Authorization = `Bearer ${localStorage.getItem(LocalStorageKeys.authUser)}`;
+        if (typeof window !== 'undefined' && localStorage?.getItem(LocalStorageKeys.authUser)) {
+            config.headers.Authorization = `Bearer ${localStorage?.getItem(LocalStorageKeys.authUser)}`;
         }
         return config;
     },

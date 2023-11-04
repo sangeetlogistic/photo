@@ -101,16 +101,16 @@ const Checkout = ({
 }: ICheckout) => {
     const [formIns] = Form.useForm();
 
-    const history = useRouter();
+    const route = useRouter();
     const dispatch = useAppDispatch();
     const localStorage = useLocalStorage();
     const { isMobile } = useDeviceDetect();
 
-    const orderPageDetailStorage = localStorage.getItem(LocalStorageKeys.orderPageDetail)
-        ? JSON.parse(localStorage.getItem(LocalStorageKeys.orderPageDetail) || '')
+    const orderPageDetailStorage = localStorage?.getItem(LocalStorageKeys.orderPageDetail)
+        ? JSON.parse(localStorage?.getItem(LocalStorageKeys.orderPageDetail) || '')
         : '';
-    const contectDetail: any = localStorage.getItem(LocalStorageKeys.contectDetail)
-        ? JSON.parse(localStorage.getItem(LocalStorageKeys.contectDetail) || '')
+    const contectDetail: any = localStorage?.getItem(LocalStorageKeys.contectDetail)
+        ? JSON.parse(localStorage?.getItem(LocalStorageKeys.contectDetail) || '')
         : '';
 
     const themesItems = useAppSelector(selectThemesItems);
@@ -140,7 +140,7 @@ const Checkout = ({
     useEffect(() => {
         const dateRange = dateSeparation(expressService ? estimatedDaysWithExpress : estimatedDays, sperationDays);
         setEstimatedDeliveryDays(dateRange);
-        localStorage.setItem(LocalStorageKeys.estimatedDeliveryDays, JSON.stringify(dateRange));
+        localStorage?.setItem(LocalStorageKeys.estimatedDeliveryDays, JSON.stringify(dateRange));
     }, [expressService]);
 
     useEffect(() => {
@@ -268,10 +268,10 @@ const Checkout = ({
         const result: any = await dispatch(saveOrderAction(payload));
 
         if (result.type === saveOrderAction.fulfilled.toString()) {
-            localStorage.setItem(LocalStorageKeys.authUser, result.payload.token);
+            localStorage?.setItem(LocalStorageKeys.authUser, result.payload.token);
             clearOrderData();
-            await history.push(Routes.thankYou);
-            await localStorage.removeItem(LocalStorageKeys.orderPageDetail);
+            await route.push(Routes.thankYou);
+            await localStorage?.removeItem(LocalStorageKeys.orderPageDetail);
             const contectPayload = {
                 firstName: result?.payload?.user?.user?.name || '',
                 surName: result?.payload?.user?.user?.surname || '',
@@ -279,7 +279,7 @@ const Checkout = ({
                 phoneNumber: result?.payload?.user?.user?.phoneNumber || '',
                 email: result?.payload?.user?.user?.email || '',
             };
-            localStorage.setItem(LocalStorageKeys.contectDetail, JSON.stringify(contectPayload));
+            localStorage?.setItem(LocalStorageKeys.contectDetail, JSON.stringify(contectPayload));
         }
     };
 
@@ -333,7 +333,7 @@ const Checkout = ({
                                                 <h5 className="title">Theme & medium</h5>
                                                 <span
                                                     className="edit-link"
-                                                    onClick={() => history.push(Routes.orderStep.replace(':id', '1'))}
+                                                    onClick={() => route.push(Routes.orderStep.replace(':id', '1'))}
                                                     role="button"
                                                     tabIndex={0}
                                                 >
@@ -368,7 +368,7 @@ const Checkout = ({
                                                 <h5 className="title">Photos Uploaded</h5>
                                                 <span
                                                     className="edit-link"
-                                                    onClick={() => history.push(Routes.orderStep.replace(':id', '2'))}
+                                                    onClick={() => route.push(Routes.orderStep.replace(':id', '2'))}
                                                     role="button"
                                                     tabIndex={0}
                                                 >
@@ -385,13 +385,13 @@ const Checkout = ({
                                             ) : (
                                                 <div
                                                     className="checkout-selection-block attachments-block"
-                                                    onClick={() => history.push(Routes.orderStep.replace(':id', '2'))}
+                                                    onClick={() => route.push(Routes.orderStep.replace(':id', '2'))}
                                                     role="button"
                                                     tabIndex={0}
                                                 >
                                                     <div className="attachment-placeholder">
                                                         <div className="attachment-upload-icon-block">
-                                                            <img src={Images.IconUploadFiles} alt="" width="33" height="33" className="" />
+                                                            <img src={Images.IconUploadFiles?.src} alt="" width="33" height="33" className="" />
                                                             <span className="text">Upload Photos</span>
                                                         </div>
                                                         <div className="attachment-upload-text">
@@ -409,7 +409,7 @@ const Checkout = ({
                                                 <h5 className="title">Size & Frame</h5>
                                                 <span
                                                     className="edit-link"
-                                                    onClick={() => history.push(Routes.orderStep.replace(':id', '3'))}
+                                                    onClick={() => route.push(Routes.orderStep.replace(':id', '3'))}
                                                     role="button"
                                                     tabIndex={0}
                                                 >
@@ -591,7 +591,7 @@ const Checkout = ({
                                                         <>
                                                             Apply{' '}
                                                             {!couponLoading ? (
-                                                                <img src={Images.AddPluseIcon} alt="add-icon-plus" />
+                                                                <img src={Images.AddPluseIcon?.src} alt="add-icon-plus" />
                                                             ) : (
                                                                 <LoadingOutlined spin />
                                                             )}
@@ -660,6 +660,18 @@ const Checkout = ({
                                             }
                                             email={
                                                 email || fillingForm?.email || contectDetail?.email || orderPageDetailStorage?.data?.fillingForm.email
+                                            }
+                                            phoneNumber={
+                                                phoneNumber ||
+                                                fillingForm?.phoneNumber ||
+                                                contectDetail?.phoneNumber ||
+                                                orderPageDetailStorage?.data?.fillingForm.phoneNumber
+                                            }
+                                            countryCode={
+                                                countryCode ||
+                                                fillingForm?.countryCode ||
+                                                contectDetail?.countryCode ||
+                                                orderPageDetailStorage?.data?.fillingForm.countryCode
                                             }
                                             validPhoneNumber={validPhoneNumber}
                                         />

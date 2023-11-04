@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import type { RadioChangeEvent } from 'antd';
 import { Col, Form, Input, Radio, Row } from 'antd';
 import { Elements } from '@stripe/react-stripe-js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { loadStripe } from '@stripe/stripe-js/pure';
+import { useRouter } from 'next/router';
 
 import { GiftCardPopUpCmp } from './PricingTiming.component';
 import Payment from '../OrderStep/OrderStep.Payment';
@@ -17,7 +18,6 @@ import { selectGiftCardDetail, sendGiftCardAction } from './PricingTiming.slice'
 import { useLocalStorage } from '../../hooks';
 import { LocalStorageKeys } from '../../constants/keys';
 import { Routes } from '../../navigation/Routes';
-import { useRouter } from 'next/router';
 
 loadStripe.setLoadParameters({ advancedFraudSignals: false });
 const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
@@ -25,8 +25,8 @@ const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
 const PricingTimingGiftCardPopup = ({ giftCardPopup, setGiftCardPopup }: any) => {
     const localStorage = useLocalStorage();
     const dispatch = useAppDispatch();
-    const history = useRouter();
-    const { state }: any = {};
+    const route: any = useRouter();
+    const giftCardSuccessRef = useRef<any>(null);
 
     const giftCardDetail = useAppSelector(selectGiftCardDetail);
 
@@ -53,13 +53,17 @@ const PricingTimingGiftCardPopup = ({ giftCardPopup, setGiftCardPopup }: any) =>
 
     useEffect(() => {
         (async () => {
-            if (state?.giftPaymentDone) {
+            if (route?.query?.giftPaymentDone && route?.query?.giftPaymentDone === 'true') {
                 await setGiftCardPopup(true);
                 await setShowGiftContent((prev) => ({ ...prev, form: false, payment: false, thankYou: true }));
-                // history.push({ pathname: Routes.pricingTiming, state: { giftPaymentDone: false, data: state?.data } });
+                route.push({ pathname: Routes.pricingTiming, query: { giftPaymentDone: false, data: undefined } });
             }
         })();
-    }, [state?.giftPaymentDone, state?.data]);
+    }, [route?.query?.giftPaymentDone]);
+
+    useEffect(() => {
+        giftCardSuccessRef.current = route?.query?.data ? JSON.parse(route?.query?.data) : '';
+    }, [route?.query?.data]);
 
     const onChange = (e: RadioChangeEvent) => setGiftCardAmount(e.target.value);
 
@@ -71,7 +75,7 @@ const PricingTimingGiftCardPopup = ({ giftCardPopup, setGiftCardPopup }: any) =>
             receiverEmail: values.recipientsEmail,
             amount: giftCardAmount,
         };
-        localStorage.setItem(LocalStorageKeys.giftCardPayload, JSON.stringify(payload));
+        localStorage?.setItem(LocalStorageKeys.giftCardPayload, JSON.stringify(payload));
         setShowGiftContent((prev) => ({ ...prev, form: false, payment: true, payload }));
     };
 
@@ -172,7 +176,7 @@ const PricingTimingGiftCardPopup = ({ giftCardPopup, setGiftCardPopup }: any) =>
             {showGiftContent.payment && (
                 <div className="gift_card_block2">
                     <div className="gift_card_payment">
-                        <img src={Images.GiftBoxImg} alt="gift-box" />
+                        <img src={Images.GiftBoxImg?.src} alt="gift-box" />
                         <div className="selected_payment">
                             <h6>Card</h6>
                             <Radio value={giftCardAmount} checked>
@@ -195,10 +199,10 @@ const PricingTimingGiftCardPopup = ({ giftCardPopup, setGiftCardPopup }: any) =>
             {showGiftContent.thankYou && (
                 <div className="gift_card_block3">
                     <div className="gift_card_payment">
-                        <img src={Images.GiftBoxImg} alt="gift-box" />
+                        <img src={Images.GiftBoxImg?.src} alt="gift-box" />
                         <div className="selected_payment">
                             <h6>Card</h6>
-                            <h5>{state?.data?.amount || giftCardDetail?.amount || giftCardAmount} $ </h5>
+                            <h5>{giftCardSuccessRef.current?.amount || giftCardDetail?.amount || giftCardAmount} $ </h5>
                         </div>
                         <div className="icon_top">
                             <FontAwesomeIcon icon={faCircleCheck} size="2xl" color="#83CF59" />
@@ -206,7 +210,9 @@ const PricingTimingGiftCardPopup = ({ giftCardPopup, setGiftCardPopup }: any) =>
                     </div>
                     <div className="thankyou_content text-center">
                         <h3 className="thank">Thank you!</h3>
-                        <p className="hedline">Hi {state?.data?.senderName || giftCardDetail?.senderName}, your purchase was successful</p>
+                        <p className="hedline">
+                            Hi {giftCardSuccessRef.current?.senderName || giftCardDetail?.senderName}, your purchase was successful
+                        </p>
                         <p className="desc">the gift card has been sent to your recipient</p>
                         <Row justify="center">
                             <Col xs={24} md={8}>

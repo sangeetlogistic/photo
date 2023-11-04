@@ -1,4 +1,5 @@
 const withLess = require('next-with-less');
+const nextVideos = require('next-videos');
 
 const nextConfig = {
     compiler: {
@@ -13,4 +14,4 @@ const nextConfig = {
     },
 };
 
-module.exports = withLess(nextConfig);
+module.exports = withLess(nextVideos(nextConfig));
